@@ -1,27 +1,30 @@
 # DeskUI CLI
 
-CLI para copiar los componentes de **DeskUI** a tu proyecto. Sigue el
-modelo *copy & own*: los archivos quedan en tu repositorio y puedes editarlos.
+[![npm version](https://img.shields.io/npm/v/deskui.svg)](https://www.npmjs.com/package/deskui)
+[![license](https://img.shields.io/npm/l/deskui.svg)](https://github.com/dev-plague/desk-ui/blob/master/LICENSE)
+[![docs](https://img.shields.io/badge/docs-deskui.codehive.com.co-008080)](https://deskui.codehive.com.co)
 
-## Uso
+CLI oficial de **DeskUI**, una librería de componentes React con estética de
+escritorio clásico. Sigue el modelo *copy & own*: los componentes se copian a tu
+proyecto y el código pasa a ser tuyo.
 
-> La versión **0.2.0** está empaquetada y preparada para npm, pero todavía no
-> está publicada. Para probarla desde el monorepo: `pnpm build:cli` y después
-> `node packages/cli/dist/index.js init`, o empaquétala con `pnpm release:pack`
-> e instala el tarball.
+- **Sitio y documentación**: <https://deskui.codehive.com.co>
+- **Repositorio**: <https://github.com/dev-plague/desk-ui>
+- **Catálogo**: <https://deskui.codehive.com.co/#/componentes>
+- **Registry**: <https://deskui.codehive.com.co/r>
+
+## Inicio rápido
 
 ```bash
 npx deskui init
-npx deskui add button input label group-box checkbox textarea radio-group select switch slider form tabs scroll-area window dialog
-npx deskui add alert toast progress-bar tooltip badge menu-bar dropdown-menu context-menu breadcrumb tree-view pagination
-npx deskui add table list-box status-bar icon title-bar taskbar
-npx deskui add panel card separator toolbar
-npx deskui add desktop start-menu window-manager
-npx deskui add file-explorer wizard properties-dialog notepad terminal blue-screen screensaver minesweeper
+npx deskui add button input label group-box checkbox textarea
+npx deskui add dialog window status-bar title-bar utils
 npx deskui list
 ```
 
-`init`:
+Requisitos: **Node.js 20.19+**, **React 18+** y **Tailwind CSS 4**.
+
+## Qué hace `init`
 
 - Detecta `src/`, el alias de imports y el CSS de entrada.
 - Copia `styles/deskui.css`, las fuentes W95FA y `lib/utils.ts`.
@@ -31,9 +34,10 @@ npx deskui list
   una sección a `AGENTS.md` para que los agentes del proyecto conozcan la
   librería. Usa `--no-agents` para omitirlo.
 
-`add`:
+## Qué hace `add`
 
-- Resuelve `registryDependencies` en profundidad.
+- Resuelve `registryDependencies` en profundidad (`dialog` copia antes `window`,
+  `title-bar`, `status-bar` y `utils`).
 - Copia los archivos a `components/ui` y `lib`.
 - Instala las dependencias npm con el gestor detectado.
 - No sobrescribe archivos con contenido distinto sin `--overwrite`.
@@ -59,7 +63,7 @@ npx deskui list
 ## Registry
 
 El paquete incluye una copia del registry (`registry/*.json`) para funcionar sin
-conexión. Puedes apuntar a otro registry con `--registry` o con la variable
+conexión. Puedes apuntar a otro registry con `--registry` o con
 `DESKUI_REGISTRY`.
 
 Prioridad:
@@ -71,19 +75,48 @@ Prioridad:
 5. Registry incluido en el paquete
 6. `https://deskui.codehive.com.co/r`
 
-## Requisitos
+## Imports en el consumidor
 
-- Node.js 20.19+
-- React 18+
-- Tailwind CSS 4
+```tsx
+import { Button } from "@/components/ui/button";
+import { Dialog } from "@/components/ui/dialog";
+import { DeskUILocaleProvider } from "@/lib/i18n";
+import { cn } from "@/lib/utils";
+```
 
-## Publicación
+Para traducir los textos internos al inglés:
 
-El paquete declara `publishConfig.access = "public"`, incluye `dist`,
-`templates`, `registry` y la licencia MIT. El flujo de release está en
-`docs/releasing.md`: `pnpm release:verify`, `pnpm release:pack` y
-`npm publish artifacts/deskui-x.y.z.tgz`.
+```tsx
+import { DeskUILocaleProvider } from "@/lib/i18n";
+
+export function Root({ children }: { children: React.ReactNode }) {
+  return <DeskUILocaleProvider locale="en">{children}</DeskUILocaleProvider>;
+}
+```
+
+## Page Builder
+
+El [constructor visual](https://deskui.codehive.com.co/#/constructor) exporta
+JSX, JSON y los comandos `add` necesarios para reproducir una página:
+
+```bash
+npx deskui add alert badge button card status-bar
+```
+
+## Actualizar un componente copiado
+
+El código es tuyo; el CLI no hace merge. Para recuperar una versión nueva:
+
+```bash
+npx deskui add button --dry-run
+npx deskui add button --overwrite
+```
+
+Consulta la [guía de migración](https://deskui.codehive.com.co/#/migracion).
 
 ## Licencia
 
-MIT. La tipografía W95FA se distribuye bajo SIL OFL 1.1.
+MIT. La tipografía W95FA se distribuye bajo SIL OFL 1.1 y los iconos son pixel
+art original del proyecto. No se usan assets propietarios de terceros.
+
+Hecho con React, TypeScript, Tailwind CSS 4 y Radix.

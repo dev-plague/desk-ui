@@ -3,6 +3,13 @@
   "version": "0.2.0",
   "description": "CLI de DeskUI: copia tokens y componentes a tu proyecto (copy & own).",
   "homepage": "https://deskui.codehive.com.co",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dev-plague/desk-ui.git"
+  },
+  "bugs": {
+    "url": "https://github.com/dev-plague/desk-ui/issues"
+  },
   "keywords": [
     "deskui",
     "react",
