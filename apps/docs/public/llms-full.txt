@@ -1,0 +1,2668 @@
+# DeskUI — referencia consolidada para agentes
+
+> Generado desde `skills/` por `pnpm llms:build`. No editar a mano.
+
+# DeskUI — uso general
+
+# DeskUI
+
+DeskUI es una librería de componentes React con estética clásica, tokens CSS,
+accesibilidad y distribución **copy & own**: el CLI copia el código a
+`components/ui`, no se importa una librería opaca desde `node_modules`.
+
+## Cuándo usar esta skill
+
+- Instalar DeskUI en un proyecto React + Tailwind 4.
+- Elegir el componente adecuado para una pantalla.
+- Componer ventanas, formularios, tablas, menús o una aplicación de escritorio.
+- Revisar densidad, jerarquía visual, foco, teclado o contraste.
+- Usar el Page Builder y exportar JSX/JSON.
+- Traducir los textos internos de los componentes con `DeskUILocaleProvider`.
+
+Si el trabajo es principalmente visual o de composición, carga también
+`deskui-composition`. Si es del constructor, carga `deskui-page-builder`. Si es
+de idioma, carga `deskui-i18n`.
+
+## Primeros pasos
+
+```bash
+npx deskui init
+npx deskui add button input label group-box checkbox textarea radio-group select switch slider form tabs scroll-area window dialog
+npx deskui list
+```
+
+`init` copia tokens, fuentes W95FA, `lib/utils.ts`, escribe `components.json` y,
+si no se pasa `--no-agents`, instala las skills de DeskUI y una sección en
+`AGENTS.md` para que los agentes del proyecto conozcan la librería.
+
+Requisitos: Node.js 20.19+, React 18+ y Tailwind CSS 4. El paquete todavía no
+está publicado en npm; en el monorepo usa `node packages/cli/dist/index.js init`.
+
+## Reglas duras
+
+1. **No inventes imports de paquete** en un consumidor. Tras `init`, los
+   componentes viven en `@/components/ui/<nombre>` y `cn` en `@/lib/utils`.
+   En el monorepo, `@deskui/ui` es la fuente.
+2. **No añadas colores, sombras ni radios a mano.** Usa tokens semánticos
+   (`bg-surface`, `text-ink`, `bevel-raised`, `focus-dotted`, etc.).
+3. **Una sola ventana principal por pantalla.** Los diálogos se reservan para
+   decisiones que bloquean el flujo.
+4. **Un solo `Button variant="primary"` por formulario.** Cancelar va a la
+   izquierda del botón principal.
+5. **Todo control necesita nombre accesible.** `Label` + `htmlFor/id`; si es
+   solo icono, `aria-label`.
+6. **Mantén la densidad clásica.** 21–23 px en escritorio y mínimo 24 px de
+   área táctil en móvil. No metas padding extra.
+7. **El teclado no es opcional.** Tab, Enter/Espacio, Escape, flechas, Home/End
+   y foco visible en todos los temas.
+8. **No uses `blur`, `rounded-*` ni animaciones modernas.** La estética es
+   instantánea y de bordes rectos.
+
+## Catálogo rápido
+
+| Necesidad | Componentes |
+| --- | --- |
+| Acciones | `Button`, `Toolbar`, `ToolbarButton` |
+| Formularios | `Input`, `Label`, `GroupBox`, `Checkbox`, `Textarea`, `RadioGroup`, `Select`, `Switch`, `Slider`, `Form` |
+| Contenedores | `Window`, `Panel`, `Card`, `GroupBox`, `Tabs`, `ScrollArea`, `Separator`, `Toolbar` |
+| Navegación | `MenuBar`, `DropdownMenu`, `ContextMenu`, `Breadcrumb`, `TreeView`, `Pagination`, `Tabs` |
+| Feedback | `Alert`, `Toast`, `ProgressBar`, `Tooltip`, `Badge` |
+| Datos | `Table`, `ListBox`, `StatusBar`, `TreeView` |
+| Utilidades | `Icon`, `TitleBar`, `Taskbar`, `Separator`, `Toolbar` |
+| Escritorio | `Desktop`, `StartMenu`, `WindowManager`, `FileExplorer`, `Wizard`, `PropertiesDialog`, `Notepad`, `Terminal`, `BlueScreen`, `Screensaver`, `Minesweeper` |
+
+Detalle de props, variantes y notas de accesibilidad:
+[references/components.md](references/components.md).
+
+## Patrón mínimo de pantalla
+
+```tsx
+import { Button, GroupBox, Input, Label, Window } from "@deskui/ui";
+
+export function SettingsScreen() {
+  return (
+    <Window aria-label="Preferencias">
+      <Window.TitleBar title="Preferencias" />
+      <Window.Body className="grid gap-3">
+        <GroupBox legend="Red">
+          <div className="grid gap-1">
+            <Label htmlFor="host">Nombre del equipo</Label>
+            <Input id="host" defaultValue="PC-01" />
+          </div>
+        </GroupBox>
+        <div className="flex justify-end gap-2">
+          <Button>Cancelar</Button>
+          <Button variant="primary">Aceptar</Button>
+        </div>
+      </Window.Body>
+      <Window.StatusBar>
+        <Window.StatusField>Listo</Window.StatusField>
+      </Window.StatusBar>
+    </Window>
+  );
+}
+```
+
+En un consumidor, cambia el import por
+`import { ... } from "@/components/ui/..."` para cada archivo copiado.
+
+## Formularios
+
+- `Form` integra React Hook Form + Zod. Usa `FormField`, `FormItem`,
+  `FormLabel`, `FormControl`, `FormDescription` y `FormMessage`.
+- Agrupa más de cuatro controles relacionados con `GroupBox`.
+- El texto de ayuda va en `FormDescription`; los errores en `FormMessage`.
+- `Checkbox`, `RadioGroup`, `Select`, `Switch` y `Slider` conservan el
+  comportamiento nativo y el teclado.
+
+## Escritorio y ventanas
+
+- `Window` es presentacional: `TitleBar`, `Body` y `StatusBar` se componen.
+- Para una aplicación con varias ventanas usa `WindowManager` y sincroniza la
+  `Taskbar` con su snapshot/ref imperativo.
+- `Desktop` coloca iconos seleccionables; la apertura por doble clic/Enter la
+  decide el consumidor.
+- `FileExplorer`, `Wizard`, `PropertiesDialog`, `Notepad`, `Terminal`,
+  `BlueScreen`, `Screensaver` y `Minesweeper` son aplicaciones completas de
+  ejemplo, no piezas obligatorias del layout.
+
+## i18n
+
+Los textos internos de los componentes se traducen con el proveedor:
+
+```tsx
+import { DeskUILocaleProvider } from "@deskui/ui";
+
+<DeskUILocaleProvider locale="en">
+  <App />
+</DeskUILocaleProvider>
+```
+
+En un consumidor el archivo copiado es `@/lib/i18n`. El idioma por defecto es
+`es`; `messages` permite sobrescribir secciones concretas. Más detalle:
+[references/i18n.md](references/i18n.md).
+
+## Page Builder
+
+El constructor vive en la documentación (`#/constructor`) y no es un item del
+registry. Modelo JSON versionado, 20 bloques, 6 plantillas, exportación JSX/JSON
+y comandos `add`. Si vas a tocar el modelo, el renderer o el exportador, carga
+`deskui-page-builder` y lee
+[references/page-builder.md](references/page-builder.md).
+
+## Referencias
+
+- [components.md](references/components.md): API de los 47 componentes.
+- [composition.md](references/composition.md): jerarquía, densidad, formularios,
+  toolbars y do & don't.
+- [patterns.md](references/patterns.md): recetas de pantalla completa.
+- [i18n.md](references/i18n.md): proveedor, diccionarios y textos internos.
+- [cli.md](references/cli.md): `init`, `add`, `list`, registry y copy & own.
+- [checklist.md](references/checklist.md): revisión antes de dar una pantalla por
+  terminada.
+- [design-tokens.md](references/design-tokens.md): contrato visual y temas.
+
+## Verificación
+
+En el monorepo:
+
+```bash
+pnpm typecheck
+pnpm test
+pnpm test:e2e
+pnpm build
+```
+
+En un consumidor, como mínimo: `tsc --noEmit` y una prueba de teclado/axe de la
+pantalla tocada.
+
+# DeskUI — composición visual
+
+# Composición con DeskUI
+
+Usa esta skill cuando la pregunta sea **cómo debe verse y organizarse** una
+pantalla, no qué props tiene un componente concreto.
+
+## Regla principal
+
+Una pantalla clásica se lee de arriba abajo: barra de título, menú, contenido y
+barra de estado. El bisel no sustituye a la jerarquía.
+
+- Una sola ventana principal por pantalla.
+- Diálogos solo para decisiones que bloquean el flujo.
+- Paneles y `GroupBox` para regiones internas, no para decorar.
+- `Card` para repetir elementos de un catálogo, no como layout principal.
+
+## Densidad
+
+| Contexto | Altura | Nota |
+| --- | --- | --- |
+| Escritorio | 21–23 px | No añadas padding extra |
+| Móvil | 24 px mínimo | Mantén el área táctil |
+| Separación | 4–8 px | Escalas de Tailwind |
+| Ventana | 3 px de marco | El bisel ya da profundidad |
+
+## Formularios
+
+- `Label` + `htmlFor`/`id` en cada control.
+- `GroupBox` para más de cuatro controles relacionados.
+- Un solo `Button variant="primary"` por formulario.
+- Cancelar a la izquierda del primario.
+- Ayuda en `FormDescription`; errores en `FormMessage`.
+
+## Barras de herramientas
+
+`Toolbar` + `ToolbarGroup` + `ToolbarSeparator`. Usa `pressed` para negrita,
+cursiva o alternancias. Un botón solo icono necesita `aria-label`.
+
+## Color y foco
+
+- Tokens semánticos: `bg-surface`, `bg-surface-sunken`, `text-ink`,
+  `text-ink-muted`, `bg-accent`, `text-ink-inverse`.
+- `bevel-raised` / `bevel-sunken`; nunca radios, blur ni sombras difusas.
+- `focus-dotted` visible en todos los temas.
+- El azul de selección solo para foco o selección real.
+
+## Accesibilidad
+
+- Roles nativos antes que ARIA manual.
+- Nombra regiones, ventanas y diálogos.
+- Prueba solo con teclado antes de terminar.
+- Comprueba `classic`, `gradient` y `high-contrast`.
+- Respeta `prefers-reduced-motion`.
+
+## Referencias
+
+- [composition.md](../deskui/references/composition.md): guía completa.
+- [patterns.md](../deskui/references/patterns.md): recetas de pantalla.
+- [checklist.md](../deskui/references/checklist.md): revisión final.
+- [design-tokens.md](../deskui/references/design-tokens.md): contrato visual.
+
+## Cierre
+
+Antes de entregar, verifica jerarquía, un solo primario, foco visible, densidad,
+contraste y que no haya valores visuales fuera de tokens.
+
+# DeskUI — Page Builder
+
+# Page Builder de DeskUI
+
+El Page Builder es una herramienta de la documentación (`#/constructor`), no un
+item del registry. Vive en `apps/docs/src/lib/builder` (modelo puro) y
+`apps/docs/src/components/builder` (UI).
+
+## Modelo
+
+```ts
+interface BuilderDocument {
+  version: 1;
+  title: string;
+  theme: ThemeId;
+  background: "surface" | "sunken" | "desktop";
+  blocks: BuilderBlock[];
+}
+
+interface BuilderBlock {
+  id: string;
+  type: BuilderBlockType;
+  props: Record<string, string | number | boolean>;
+  children?: BuilderBlock[];
+}
+```
+
+- El documento es JSON puro: no contiene React ni DOM.
+- `normalizeDocument` valida versión, tipos, props, profundidad (8), número de
+  bloques (200) y longitudes de texto.
+- Las props desconocidas se descartan y los ids duplicados se regeneran.
+- El tema y el fondo forman parte del documento exportado.
+
+## Capas
+
+| Capa | Ubicación | Responsabilidad |
+| --- | --- | --- |
+| Modelo | `lib/builder/model.ts` | Operaciones inmutables del árbol |
+| Catálogo | `lib/builder/catalog.ts` | 20 bloques, defaults y campos |
+| Plantillas | `lib/builder/templates.ts` | 6 documentos de ejemplo |
+| Exportador | `lib/builder/export.ts` | JSX, JSON y comandos `add` |
+| Renderer | `components/builder/blocks.tsx` | Árbol → componentes reales |
+| Editor | `components/builder/` | Paleta, lienzo, capas, propiedades, diálogos |
+| Página | `pages/builder.tsx` | Estado, atajos, autoguardado y exportación |
+
+## Reglas
+
+- No importes React en el modelo ni toques el DOM.
+- Un bloque nuevo exige catálogo, renderer, exportador y tests de exportación.
+- Mantén la validación de JSON, los límites y las alternativas de teclado al DnD.
+- El DnD es HTML5 nativo con `application/x-deskui-builder`.
+- El teclado es la alternativa principal: Subir/Bajar, `Alt + ↑/↓` y el árbol
+  de capas con flechas.
+- La persistencia es `localStorage`; compartir es exportar/importar JSON.
+
+## Exportación
+
+- JSX con imports por archivo (`@/components/ui/...`).
+- JSON del documento completo.
+- Comandos `npx deskui add ...` a partir de los tipos usados.
+- El tema se aplica con `data-theme` en el preview y se reproduce al exportar.
+
+## Pruebas
+
+```bash
+pnpm --filter @deskui/docs test
+pnpm test:e2e
+```
+
+Los tests cubren modelo, plantillas, exportación, persistencia, DnD y axe.
+
+## Referencias
+
+- [page-builder.md](../deskui/references/page-builder.md): guía técnica completa.
+- [components.md](../deskui/references/components.md): API de los componentes
+  que renderiza el constructor.
+
+# DeskUI — i18n
+
+# i18n en DeskUI
+
+Hay dos capas independientes:
+
+1. **Librería**: textos internos de los componentes con
+   `DeskUILocaleProvider` (`packages/ui/src/lib/i18n.tsx`).
+2. **Sitio**: diccionarios `es`/`en`, `?lang=en`, selector ES/EN y contenido
+   traducido en `apps/docs/src/i18n/`.
+
+## Librería
+
+```tsx
+import { DeskUILocaleProvider } from "@deskui/ui";
+
+<DeskUILocaleProvider locale="en">
+  <App />
+</DeskUILocaleProvider>
+```
+
+En un consumidor con el CLI, el archivo copiado es `@/lib/i18n`.
+
+- Español por defecto; sin proveedor no hay cambios.
+- `messages` permite sobrescribir secciones concretas.
+- Las props explícitas (`okLabel`, `backLabel`, `restartLabel`, etc.) tienen
+  prioridad.
+- Componentes con textos internos: `Pagination`, `Wizard`,
+  `PropertiesDialog`, `Notepad`, `FileExplorer`, `Minesweeper`, `Terminal`,
+  `BlueScreen`, `Screensaver`, `TitleBar`, `Toast`, `ScrollArea` y `Desktop`.
+
+## Sitio
+
+- `messages.ts` es la fuente de verdad de la forma; `en` se tipa contra
+  `typeof es`.
+- `provider.tsx` resuelve `?lang=en` o `localStorage`, actualiza `<html lang>`,
+  la URL y los metadatos.
+- Las fichas de componentes tienen overlay inglés en
+  `component-docs.en.ts`; las previews en `component-copy.ts`.
+- Las guías tienen versiones `*.en.mdx`.
+- Un test verifica que el overlay conserva props y notas.
+
+## Reglas
+
+- Traduce también `aria-label`, `title`, `placeholder` y `sr-only`.
+- Mantén la paridad de claves; TypeScript debe fallar si falta una.
+- No traduzcas nombres de props, tipos, valores técnicos ni comandos.
+- El contenido de demo del Page Builder y los showcases es contenido de ejemplo.
+- `<html lang>` es responsabilidad de la aplicación, no de DeskUI.
+
+## Referencias
+
+- [i18n.md](../deskui/references/i18n.md): guía completa y cómo añadir idiomas.
+- [checklist.md](../deskui/references/checklist.md): revisión de accesibilidad e
+  i18n.
+
+# Referencias
+
+## components.md
+
+# API de componentes DeskUI
+
+> Referencia completa de props, variantes y notas de accesibilidad. En el
+> monorepo importa desde `@deskui/ui`; en un consumidor, desde
+> `@/components/ui/<archivo>`. Los ejemplos usan la API de la librería.
+
+# Componentes de DeskUI
+
+
+Los componentes comparten:
+
+- `ref` hacia el elemento raíz.
+- `className` fusionado con `cn` (Tailwind Merge).
+- `data-slot` para inspección.
+- Tokens para todo el estilo.
+- Foco visible con `focus-visible`, no con el foco del ratón.
+
+## Button
+
+```tsx
+import { Button } from "@deskui/ui";
+
+<Button>Cancelar</Button>
+<Button variant="primary">Aceptar</Button>
+<Button variant="icon" size="icon" aria-label="Abrir carpeta">
+  <FolderIcon />
+</Button>
+```
+
+| Prop | Tipo | Default | Descripción |
+| --- | --- | --- | --- |
+| `variant` | `"default" \| "primary" \| "icon"` | `"default"` | Bisel estándar, anillo grueso de botón predeterminado o botón cuadrado |
+| `size` | `"sm" \| "md" \| "lg" \| "icon"` | `"md"` | Alturas 21/23/27 px en escritorio; 24 px en móvil |
+| `asChild` | `boolean` | `false` | Renderiza el hijo (por ejemplo un `<a>`) con el estilo del botón |
+| `aria-pressed` | `boolean` | — | Activa el estado hundido de toggle |
+| `disabled` | `boolean` | `false` | Texto grabado con relieve y sin interacción |
+
+Notas:
+
+- `type` es `"button"` por defecto para evitar envíos accidentales de formularios.
+- En un botón solo icono, el nombre accesible es obligatorio (`aria-label`).
+- El estado `active` se resuelve con CSS nativo; no hay estado React adicional.
+- `asChild` usa `@radix-ui/react-slot`.
+
+## Window
+
+```tsx
+import { Window } from "@deskui/ui";
+
+<Window active aria-label="Documento">
+  <Window.TitleBar
+    title="Sin título - Bloc de notas"
+    icon={<NoteIcon />}
+    onMinimize={minimize}
+    onMaximize={toggleMaximize}
+    onClose={close}
+  />
+  <Window.Body>
+    <p>Hola, mundo.</p>
+  </Window.Body>
+  <Window.StatusBar>
+    <Window.StatusField>Listo</Window.StatusField>
+  </Window.StatusBar>
+</Window>
+```
+
+### Window
+
+| Prop | Tipo | Default | Descripción |
+| --- | --- | --- | --- |
+| `active` | `boolean` | `true` | Barra de título azul o gris |
+| `role` | nativo | — | Usa `dialog` para diálogos, `region` implícito al nombrar una `section` |
+| `aria-label` / `aria-labelledby` | nativo | — | Nombre accesible de la ventana |
+
+El elemento raíz es `<section>`. Añade `role="dialog"` y `aria-modal` cuando
+corresponda.
+
+### Window.TitleBar
+
+| Prop | Tipo | Default | Descripción |
+| --- | --- | --- | --- |
+| `title` | `ReactNode` | — | Texto del título; `children` tiene prioridad |
+| `icon` | `ReactNode` | — | Icono de 16×16 |
+| `active` | `boolean` | heredado | Sobrescribe el estado de la ventana |
+| `showControls` | `boolean` | `true` | Muestra u oculta el grupo de controles |
+| `showMinimize` / `showMaximize` / `showClose` | `boolean` | `true` | Control individual |
+| `maximized` | `boolean` | `false` | Cambia el glifo de maximizar por restaurar |
+| `onMinimize` / `onMaximize` / `onClose` | `() => void` | — | Si falta el manejador, el control se dibuja inerte |
+
+Los controles sin manejador son `span` decorativos, no botones sin acción. Esto
+evita prometer interacción que no existe.
+
+### Window.Body
+
+| Prop | Tipo | Default | Descripción |
+| --- | --- | --- | --- |
+| `padded` | `boolean` | `true` | Aplica el margen clásico de 8 px |
+
+### Window.StatusBar / Window.StatusField
+
+La barra usa `display:flex` y `gap:1px`. Cada campo tiene el bisel de estado y
+`flex:1`; puedes limitar su ancho con `className`.
+
+Accesibilidad:
+
+- El título no es un encabezado por defecto; si la ventana es una región
+  principal, añade un `<h2>` o usa `aria-labelledby`.
+- Los controles tienen `aria-label` en español por defecto; usa
+  `DeskUILocaleProvider` para cambiarlos a inglés.
+- La ventana inactiva solo cambia el color; no cambia el orden de tabulación.
+
+## GroupBox
+
+```tsx
+<GroupBox legend="Opciones de instalación">
+  <Checkbox defaultChecked>Crear acceso directo</Checkbox>
+  <Checkbox>Iniciar sesión</Checkbox>
+</GroupBox>
+```
+
+| Prop | Tipo | Default | Descripción |
+| --- | --- | --- | --- |
+| `legend` | `ReactNode` | — | Título y nombre accesible del fieldset |
+| `className` | `string` | — | Clases adicionales para el fieldset |
+
+La leyenda se apoya sobre la línea superior y su fondo enmascara el borde,
+creando la muesca clásica. Mantiene `fieldset`/`legend` para que el grupo tenga
+nombre accesible y semántica de formulario.
+
+## Input
+
+```tsx
+import { Input } from "@deskui/ui";
+
+<label htmlFor="usuario">Nombre de usuario</label>
+<Input id="usuario" placeholder="usuario95" />
+```
+
+| Prop | Tipo | Default | Descripción |
+| --- | --- | --- | --- |
+| `type` | nativo | `"text"` | Cualquier tipo de input |
+| `value` / `defaultValue` / `onChange` | nativo | — | Controlado o no controlado |
+| `readOnly` | `boolean` | `false` | Fondo gris, texto normal |
+| `disabled` | `boolean` | `false` | Fondo gris y texto grabado |
+| `aria-invalid` | nativo | — | Reservado para la variante de error de Fase 1 |
+
+Notas:
+
+- Altura 21 px en escritorio y 24 px en móvil.
+- El campo usa `bevel-field`: borde oscuro arriba/izquierda y claro abajo/derecha.
+- El foco es un rectángulo punteado interior, no un anillo.
+- Asocia siempre una etiqueta con `htmlFor`/`id` o `aria-label`.
+
+## Label
+
+```tsx
+<Label htmlFor="usuario">Nombre de usuario</Label>
+<Input id="usuario" />
+```
+
+| Prop | Tipo | Default | Descripción |
+| --- | --- | --- | --- |
+| `htmlFor` | `string` | — | Id del control asociado |
+| `className` | `string` | — | Clases adicionales |
+
+No envuelve al control por defecto; usa `htmlFor`/`id`. Puede envolver un
+`Checkbox` cuando el texto forma parte del control.
+
+## Checkbox
+
+```tsx
+<Checkbox defaultChecked>Recordar contraseña</Checkbox>
+<Checkbox disabled>No disponible</Checkbox>
+```
+
+| Prop | Tipo | Default | Descripción |
+| --- | --- | --- | --- |
+| `checked` / `defaultChecked` | `boolean` | — | Estado controlado o no controlado |
+| `onChange` | `ChangeEventHandler` | — | Manejador nativo |
+| `disabled` | `boolean` | `false` | Caja gris y texto grabado |
+| `children` | `ReactNode` | — | Texto visible y nombre accesible |
+
+El `<input type="checkbox">` nativo está superpuesto y conserva teclado,
+formularios, `indeterminate` y lectores de pantalla. La caja de 13×13 px y el
+check pixelado son solo la representación visual. El área táctil mínima es de
+24 px en móvil.
+
+## Textarea
+
+```tsx
+<Label htmlFor="notas">Notas</Label>
+<Textarea id="notas" rows={4} placeholder="Escribe aquí..." />
+```
+
+| Prop | Tipo | Default | Descripción |
+| --- | --- | --- | --- |
+| `rows` | `number` | — | Número inicial de filas |
+| `readOnly` | `boolean` | `false` | Fondo gris, sin edición |
+| `disabled` | `boolean` | `false` | Fondo gris y texto grabado |
+
+Altura mínima de 60 px y redimensionado vertical. Comparte bisel, foco y
+selección con `Input`.
+
+## RadioGroup
+
+```tsx
+<RadioGroup defaultValue="basico" aria-label="Plan">
+  <RadioGroupItem value="basico">Básico</RadioGroupItem>
+  <RadioGroupItem value="pro">Pro</RadioGroupItem>
+</RadioGroup>
+```
+
+| Prop | Tipo | Default | Descripción |
+| --- | --- | --- | --- |
+| `value` / `defaultValue` | `string` | — | Valor controlado o no controlado |
+| `onValueChange` | `(value: string) => void` | — | Cambio de selección |
+| `name` | `string` | `useId()` | Nombre nativo de los radios |
+| `disabled` | `boolean` | `false` | Deshabilita el grupo |
+
+Usa radios nativos: flechas, foco y formularios funcionan sin lógica extra.
+`RadioGroupItem` recibe `value` y su etiqueta como `children`.
+
+## Select
+
+```tsx
+<Select defaultValue="trabajo" aria-label="Dominio">
+  <option value="trabajo">TRABAJO</option>
+  <option value="casa">CASA</option>
+</Select>
+```
+
+Select nativo con campo hundido y un botón de flecha visual a la derecha. Al
+ser un `<select>`, conserva teclado, lectores de pantalla y envío de
+formularios. No está pensado para `multiple`.
+
+## Switch
+
+```tsx
+<Switch defaultChecked>Modo seguro</Switch>
+```
+
+| Prop | Tipo | Default | Descripción |
+| --- | --- | --- | --- |
+| `checked` / `defaultChecked` | `boolean` | `false` | Estado |
+| `onCheckedChange` | `(checked: boolean) => void` | — | Cambio |
+| `disabled` | `boolean` | `false` | Deshabilita |
+
+Es un `<button role="switch">` con pista hundida y perilla elevada. Space y
+Enter funcionan de forma nativa.
+
+## Slider
+
+```tsx
+<Slider aria-label="Volumen" min={0} max={100} defaultValue={60} />
+```
+
+`input[type=range]` nativo. La pista de 4 px y el thumb rectangular de 11×21 px
+se estilizan en `tokens.css` para WebKit y Firefox. Las flechas del teclado
+funcionan de forma nativa.
+
+## Form
+
+```tsx
+const form = useForm({
+  resolver: zodResolver(schema),
+  defaultValues: { usuario: "" },
+});
+
+<Form {...form}>
+  <form onSubmit={form.handleSubmit(onSubmit)}>
+    <FormField
+      control={form.control}
+      name="usuario"
+      render={({ field }) => (
+        <FormItem>
+          <FormLabel>Usuario</FormLabel>
+          <FormControl><Input {...field} /></FormControl>
+          <FormMessage />
+        </FormItem>
+      )}
+    />
+  </form>
+</Form>
+```
+
+| Pieza | Uso |
+| --- | --- |
+| `Form` | Provider de React Hook Form |
+| `FormField` | Conecta `control`, `name` y `render` |
+| `FormItem` | Agrupa label, control, descripción y error |
+| `FormLabel` | Etiqueta asociada por id |
+| `FormControl` | Propaga id, `aria-invalid` y `aria-describedby` con Slot |
+| `FormDescription` | Texto de ayuda |
+| `FormMessage` | Error de Zod con `role="alert"` |
+
+## Tabs
+
+```tsx
+<Tabs defaultValue="general">
+  <TabsList aria-label="Propiedades">
+    <TabsTrigger value="general">General</TabsTrigger>
+    <TabsTrigger value="avanzado">Avanzado</TabsTrigger>
+  </TabsList>
+  <TabsContent value="general">Contenido</TabsContent>
+  <TabsContent value="avanzado">Opciones</TabsContent>
+</Tabs>
+```
+
+Basado en Radix Tabs. Aporta roles, `aria-selected`, flechas, Home y End. La
+pestaña activa elimina su borde inferior y se fusiona con el panel.
+
+## ScrollArea
+
+```tsx
+<ScrollArea className="bevel-field h-32 bg-surface-sunken">
+  <ul className="p-2">...</ul>
+</ScrollArea>
+```
+
+| Prop | Tipo | Default | Descripción |
+| --- | --- | --- | --- |
+| `orientation` | `"vertical" \| "horizontal" \| "both"` | `"vertical"` | Ejes con scroll |
+| `viewportClassName` | `string` | — | Clases del viewport |
+| `children` | `ReactNode` | — | Contenido |
+
+Scroll nativo con una barra clásica de 16 px dibujada por el componente:
+flechas elevadas en los extremos, pista con trama de 50 % y thumb cuadrado.
+El viewport conserva `tabIndex=0` para que el teclado pueda desplazar el
+contenido; las flechas y la pista también responden al puntero y el thumb se
+arrastra. Al usar controles propios, la geometría es idéntica en Chrome y
+Firefox, que no permiten botones de flecha en las scrollbars nativas.
+
+## Dialog
+
+```tsx
+const [open, setOpen] = useState(false);
+
+<Button onClick={() => setOpen(true)}>Abrir mensaje</Button>
+
+<Dialog
+  open={open}
+  onOpenChange={setOpen}
+  title="Mensaje"
+  footer={
+    <>
+      <Button size="sm" onClick={() => setOpen(false)}>Cancelar</Button>
+      <Button size="sm" variant="primary" onClick={() => setOpen(false)}>
+        Aceptar
+      </Button>
+    </>
+  }
+>
+  <p>¿Desea continuar?</p>
+</Dialog>
+```
+
+| Prop | Tipo | Default | Descripción |
+| --- | --- | --- | --- |
+| `open` | `boolean` | — | Controla la apertura |
+| `onOpenChange` | `(open: boolean) => void` | — | Se llama al cerrar |
+| `title` | `ReactNode` | — | Título y nombre accesible |
+| `icon` | `ReactNode` | — | Icono de 16×16 |
+| `footer` | `ReactNode` | — | Acciones alineadas a la derecha |
+| `showClose` | `boolean` | `true` | Muestra el control de cierre |
+| `dismissOnBackdrop` | `boolean` | `false` | Cierra al pulsar el fondo |
+
+Usa `<dialog>` nativo: foco atrapado, Escape y retorno de foco sin dependencias
+externas. El backdrop no cierra por defecto, como en la época.
+
+## Alert
+
+```tsx
+<Alert variant="warning" icon={<WarningIcon />}>
+  <AlertTitle>Advertencia</AlertTitle>
+  <AlertDescription>El archivo ya existe.</AlertDescription>
+</Alert>
+```
+
+Marco de ventana con una franja semántica (`info`, `success`, `warning`,
+`danger`) y `role="alert"`. El texto permanece sobre la superficie.
+
+## Badge
+
+```tsx
+<Badge>Nuevo</Badge>
+<Badge variant="success">Activo</Badge>
+<Badge variant="danger">Error</Badge>
+```
+
+Etiqueta biselada de 17 px. El texto usa el color de tinta y el estado se
+representa con un punto semántico.
+
+## Toast
+
+```tsx
+const { toast } = useToast();
+
+toast({ title: "Guardado", description: "Cambios aplicados." });
+```
+
+`ToastProvider` envuelve la aplicación y renderiza un viewport con
+`aria-live="polite"`. Cada toast es `role="status"`, se puede cerrar y admite
+`duration` (0 lo deja abierto).
+
+## ProgressBar
+
+```tsx
+<ProgressBar aria-label="Copia" value={35} />
+```
+
+Barra hundida con bloques azules segmentados. Expone `role="progressbar"` y
+`aria-valuenow/min/max`. `segmented={false}` muestra una barra sólida.
+
+## Tooltip
+
+```tsx
+<Tooltip>
+  <TooltipTrigger asChild><Button>Guardar</Button></TooltipTrigger>
+  <TooltipContent>Guardar cambios (Ctrl+S)</TooltipContent>
+</Tooltip>
+```
+
+Radix Tooltip con fondo amarillo clásico, apertura por hover/foco y cierre con
+Escape.
+
+## MenuBar
+
+```tsx
+<MenuBar aria-label="Aplicación">
+  <MenuBarMenu label="Archivo">
+    <MenuBarItem onSelect={nuevo}>Nuevo</MenuBarItem>
+    <MenuBarSeparator />
+    <MenuBarItem onSelect={salir}>Salir</MenuBarItem>
+  </MenuBarMenu>
+</MenuBar>
+```
+
+Barra de menús sobre Radix Menubar. Incluye `MenuBarShortcut` y etiquetas. La
+navegación por teclado y los submenús son nativos de Radix.
+
+## DropdownMenu
+
+```tsx
+<DropdownMenu>
+  <DropdownMenuTrigger asChild><Button>Opciones</Button></DropdownMenuTrigger>
+  <DropdownMenuContent>
+    <DropdownMenuItem>Renombrar</DropdownMenuItem>
+    <DropdownMenuSeparator />
+    <DropdownMenuItem>Eliminar</DropdownMenuItem>
+  </DropdownMenuContent>
+</DropdownMenu>
+```
+
+Menú desplegable clásico con items, etiquetas y separadores.
+
+## ContextMenu
+
+```tsx
+<ContextMenu>
+  <ContextMenuTrigger asChild><div>Haz clic derecho</div></ContextMenuTrigger>
+  <ContextMenuContent>
+    <ContextMenuItem>Copiar</ContextMenuItem>
+  </ContextMenuContent>
+</ContextMenu>
+```
+
+Menú contextual sobre Radix; se abre con clic derecho y comparte el estilo de
+los otros menús.
+
+## Breadcrumb
+
+```tsx
+<Breadcrumb>
+  <BreadcrumbList>
+    <BreadcrumbItem><BreadcrumbLink href="/">Inicio</BreadcrumbLink></BreadcrumbItem>
+    <BreadcrumbSeparator />
+    <BreadcrumbItem><BreadcrumbPage>Button</BreadcrumbPage></BreadcrumbItem>
+  </BreadcrumbList>
+</Breadcrumb>
+```
+
+Migas de pan con separadores decorativos y `aria-current="page"` en el nivel
+actual.
+
+## TreeView
+
+```tsx
+<TreeView aria-label="Archivos" defaultExpanded={["c"]} defaultValue="docs">
+  <TreeItem value="c" label="C:" icon={<FolderIcon />}>
+    <TreeItem value="docs" label="Documentos" icon={<FolderIcon />} />
+  </TreeItem>
+</TreeView>
+```
+
+Árbol de explorador con `role="tree"`, selección, expansión y navegación por
+flechas. `aria-level`, `aria-selected` y `aria-expanded` se generan solos.
+
+## Pagination
+
+```tsx
+<Pagination page={page} pageCount={12} onPageChange={setPage} />
+```
+
+Botones Anterior/Siguiente, páginas y elipsis. La página actual queda hundida
+y usa `aria-current="page"`.
+
+## Table
+
+```tsx
+<Table aria-label="Archivos">
+  <TableHeader>
+    <TableRow>
+      <TableHead>Nombre</TableHead>
+      <TableHead>Tamaño</TableHead>
+    </TableRow>
+  </TableHeader>
+  <TableBody>
+    <TableRow selected>
+      <TableCell>carta.txt</TableCell>
+      <TableCell>2 KB</TableCell>
+    </TableRow>
+  </TableBody>
+</Table>
+```
+
+Tabla con contenedor biselado, cabecera elevada y sticky, cuerpo blanco y filas
+seleccionables en azul. Composición: `TableHeader`, `TableBody`, `TableFooter`,
+`TableRow`, `TableHead`, `TableCell` y `TableCaption`.
+
+## ListBox
+
+```tsx
+<ListBox aria-label="Archivos" size={5} defaultValue="carta">
+  <option value="carta">carta.txt</option>
+  <option value="notas">notas.txt</option>
+</ListBox>
+```
+
+Select nativo con varias filas visibles, bisel hundido y selección simple o
+múltiple. Conserva teclado, Ctrl/Shift y semántica de formulario.
+
+## StatusBar
+
+```tsx
+<StatusBar aria-label="Estado">
+  <StatusBarField>Listo</StatusBarField>
+  <StatusBarField>3 objetos</StatusBarField>
+</StatusBar>
+```
+
+Barra de estado con campos segmentados y `bevel-status`. `Window.StatusBar`
+reutiliza estos primitives.
+
+## Icon
+
+```tsx
+<Icon name="folder" label="Carpeta" />
+<Icon name="warning" size={32} label="Advertencia" />
+<Icon name="info" />
+```
+
+Set original de iconos pixel-art: `window`, `folder`, `palette`, `info`,
+`warning`, `note` y `speaker`. Tamaños 16/32; sin `label` son decorativos.
+
+## TitleBar
+
+```tsx
+<TitleBar
+  title="Sin título - Bloc de notas"
+  icon={<NoteIcon />}
+  onClose={cerrar}
+/>
+```
+
+Barra de título reutilizable fuera de `Window`, con icono, controles de
+minimizar/maximizar/restaurar/cerrar y estados activo/inactivo. Los controles
+sin handler son inertes.
+
+## Taskbar
+
+```tsx
+<Taskbar aria-label="Barra de tareas">
+  <TaskbarStart icon={<BrandMark />}>Inicio</TaskbarStart>
+  <TaskbarDivider />
+  <TaskbarItem active icon={<NoteIcon />}>Documento</TaskbarItem>
+  <TaskbarTray>12:00</TaskbarTray>
+</Taskbar>
+```
+
+Barra base con `TaskbarStart`, `TaskbarItem`, `TaskbarDivider` y `TaskbarTray`.
+El menú Inicio y el Window Manager se construyen encima; la barra no impone
+estado global.
+
+## Panel
+
+```tsx
+<Panel>
+  <PanelHeader>
+    <PanelTitle>Estado del sistema</PanelTitle>
+  </PanelHeader>
+  <PanelBody>Todos los controladores están cargados.</PanelBody>
+  <PanelFooter>
+    <Button size="sm">Detalles</Button>
+  </PanelFooter>
+</Panel>
+```
+
+| Prop | Tipo | Default | Descripción |
+| --- | --- | --- | --- |
+| `variant` | `"raised" \| "sunken" \| "window" \| "flat"` | `"raised"` | Receta de bisel |
+| `padding` | `"none" \| "sm" \| "md" \| "lg"` | `"md"` | Relleno interior |
+
+`Panel` es presentacional; elige el elemento semántico exterior o añade
+`role`/`aria-label`. `PanelHeader`, `PanelTitle`, `PanelBody` y `PanelFooter`
+son opcionales y solo aportan estructura visual.
+
+## Card
+
+```tsx
+<Card>
+  <CardHeader>
+    <CardTitle>Disquete 3,5</CardTitle>
+    <CardDescription>Almacenamiento extraíble</CardDescription>
+  </CardHeader>
+  <CardContent>1,44 MB · Alta densidad</CardContent>
+  <CardFooter>
+    <Badge variant="success">En stock</Badge>
+    <Button size="sm" variant="primary">Añadir</Button>
+  </CardFooter>
+</Card>
+```
+
+`Card` renderiza un `article` con bisel elevado. El título es un `h3` por
+defecto: mantén la jerarquía de encabezados de la página. Si la tarjeta es
+interactiva, envuelve el título en un enlace o botón en lugar de añadir un
+`onClick` al artículo.
+
+## Separator
+
+```tsx
+<Separator />
+<Separator orientation="vertical" />
+```
+
+| Prop | Tipo | Default | Descripción |
+| --- | --- | --- | --- |
+| `orientation` | `"horizontal" \| "vertical"` | `"horizontal"` | Dirección |
+| `decorative` | `boolean` | `false` | Oculta el separador a lectores |
+
+Expone `role="separator"` y `aria-orientation`. Marca `decorative` cuando la
+separación sea solo visual. En vertical necesita una altura definida por el
+contenedor (`self-stretch`).
+
+## Toolbar
+
+```tsx
+<Toolbar aria-label="Formato de texto">
+  <ToolbarGroup aria-label="Estilo">
+    <ToolbarButton pressed={bold} onClick={toggleBold}>N</ToolbarButton>
+    <ToolbarButton pressed={italic} onClick={toggleItalic}>K</ToolbarButton>
+  </ToolbarGroup>
+  <ToolbarSeparator />
+  <ToolbarButton variant="icon" size="icon" aria-label="Abrir carpeta">
+    <FolderIcon />
+  </ToolbarButton>
+</Toolbar>
+```
+
+`Toolbar` usa `role="toolbar"` y navegación con flechas, Home y End además de
+Tab. `ToolbarButton` añade `aria-pressed` mediante `pressed`. Añade siempre un
+`aria-label` a la barra y a los botones que solo muestran un icono.
+
+## Desktop
+
+```tsx
+<Desktop aria-label="Escritorio">
+  <DesktopIcons>
+    <DesktopIcon
+      label="Mi PC"
+      icon={<Icon name="window" size={32} />}
+      selected={selected === "mi-pc"}
+      onSelect={() => setSelected("mi-pc")}
+      onOpen={() => abrir("mi-pc")}
+    />
+    <DesktopIcon
+      label="Notas"
+      icon={<Icon name="note" size={32} />}
+      draggable
+      defaultPosition={{ x: 180, y: 16 }}
+      onOpen={() => abrir("notas")}
+    />
+  </DesktopIcons>
+</Desktop>
+```
+
+| Prop | Tipo | Default | Descripción |
+| --- | --- | --- | --- |
+| `label` / `icon` | `string` / `ReactNode` | — | Nombre accesible e icono |
+| `selected` | `boolean` | `false` | Marca el icono con `aria-current` |
+| `onSelect` / `onOpen` | `() => void` | — | Selección y apertura (doble clic o Enter) |
+| `draggable` / `defaultPosition` | `boolean` / `{ x, y }` | `false` / — | Activa el arrastre absoluto |
+| `onPositionChange` | `(position) => void` | — | Posición tras arrastre o Ctrl+flechas |
+
+`Desktop` expone `role="region"`; pásale un `aria-label` descriptivo. El
+arrastre se limita a los bordes del escritorio y no abre el icono si hubo
+movimiento. Con `draggable`, `Ctrl+flechas` mueve el icono 8 px.
+
+## StartMenu
+
+```tsx
+<StartMenu>
+  <StartMenuTrigger asChild>
+    <TaskbarStart icon={<BrandMark />}>Inicio</TaskbarStart>
+  </StartMenuTrigger>
+  <StartMenuContent>
+    <div className="flex">
+      <StartMenuSidebar>DeskUI</StartMenuSidebar>
+      <div className="min-w-[210px] py-1">
+        <StartMenuSub>
+          <StartMenuSubTrigger>Accesorios</StartMenuSubTrigger>
+          <StartMenuSubContent>
+            <StartMenuItem onSelect={abrirBloc}>Bloc de notas</StartMenuItem>
+          </StartMenuSubContent>
+        </StartMenuSub>
+        <StartMenuSeparator />
+        <StartMenuItem onSelect={apagar}>Apagar el sistema...</StartMenuItem>
+      </div>
+    </div>
+  </StartMenuContent>
+</StartMenu>
+```
+
+Basado en Radix DropdownMenu: aporta `role="menu"`, flechas, typeahead, Escape,
+cierre al hacer clic fuera y submenús en cascada. `StartMenuSidebar` es
+decorativa y queda oculta a lectores de pantalla. Usa `asChild` en el trigger
+para reutilizar el botón Inicio de `Taskbar`.
+
+## WindowManager
+
+```tsx
+const manager = useRef<WindowManagerHandle>(null);
+
+<WindowManager
+  ref={manager}
+  aria-label="Escritorio"
+  windows={[
+    {
+      id: "notas",
+      title: "Bloc de notas",
+      icon: <NoteIcon />,
+      content: <Editor />,
+      defaultPosition: { x: 16, y: 16 },
+      defaultSize: { width: 280, height: 180 },
+    },
+  ]}
+  onStateChange={setSnapshot}
+/>
+```
+
+| Prop | Tipo | Default | Descripción |
+| --- | --- | --- | --- |
+| `windows` | `WindowManagerWindow[]` | — | Ventanas, contenido y geometría inicial |
+| `onStateChange` | `(snapshot) => void` | — | Estado para taskbar |
+| `onWindowClose` | `(id) => void` | — | Notificación de cierre |
+| `ref` | `WindowManagerHandle` | — | `focus`, `minimize`, `restore`, `close`, `open`, `toggleMaximize` |
+
+Arrastra desde la barra de título y redimensiona desde los ocho bordes. Doble
+clic en la barra maximiza/restaura. Con la barra enfocada, las flechas mueven
+8 px y `Shift+flechas` redimensionan. Las ventanas minimizadas usan `hidden`,
+salen del layout y del árbol accesible. El z-index se deriva del orden de foco.
+
+## FileExplorer
+
+```tsx
+const root = {
+  id: "root",
+  name: "C:",
+  kind: "folder",
+  children: [
+    { id: "docs", name: "DOCUMENTOS", kind: "folder", children: [...] },
+    { id: "readme", name: "LEEME.TXT", kind: "file", size: "2 KB" },
+  ],
+};
+
+<FileExplorer root={root} className="h-80" />
+```
+
+| Prop | Tipo | Default | Descripción |
+| --- | --- | --- | --- |
+| `root` | `FileExplorerItem` | — | Árbol de carpetas y archivos |
+| `view` / `defaultView` | `"icons" \| "list" \| "details"` | `"icons"` | Vista actual |
+| `onSelect` / `onOpen` | `(item) => void` | — | Selección y apertura |
+| `onFolderChange` | `(folder) => void` | — | Navegación entre carpetas |
+
+El árbol usa `TreeView`; doble clic o Enter abre carpetas y los archivos
+disparan `onOpen`. El historial Atrás/Adelante y el botón Arriba son internos.
+
+## Wizard
+
+```tsx
+<Wizard
+  steps={[
+    { id: "welcome", title: "Bienvenida", content: <p>Empieza aquí.</p> },
+    { id: "name", title: "Nombre", content: <Input ... /> },
+    { id: "finish", title: "Finalizar", content: <p>Listo.</p> },
+  ]}
+  canGoNext={(step) => step.id !== "name" || name.length > 0}
+  onComplete={() => guardar()}
+  onCancel={() => cerrar()}
+/>
+```
+
+| Prop | Tipo | Default | Descripción |
+| --- | --- | --- | --- |
+| `steps` | `WizardStep[]` | — | Pasos con contenido |
+| `step` / `defaultStep` | `number` | `0` | Paso controlado o inicial |
+| `canGoNext` | `(step, index) => boolean` | `true` | Valida el paso actual |
+| `onComplete` / `onCancel` | `() => void` | — | Acciones finales |
+
+El paso activo usa `aria-current="step"` y el contenido se anuncia con
+`aria-live`. Atrás se deshabilita en el primer paso; Finalizar sustituye a
+Siguiente en el último.
+
+## PropertiesDialog
+
+```tsx
+<PropertiesDialog
+  open={open}
+  onOpenChange={setOpen}
+  title="Propiedades de Mi PC"
+  tabs={[
+    { id: "general", label: "General", content: <General /> },
+    { id: "system", label: "Sistema", content: <Sistema /> },
+  ]}
+  onApply={() => aplicar()}
+/>
+```
+
+Compone `Dialog` (modal nativo) y `Tabs`. Aplicar se deshabilita si no hay
+handler; Aceptar aplica, confirma y cierra; Cancelar cierra sin aplicar.
+
+## Notepad
+
+```tsx
+<Notepad
+  fileName="carta.txt"
+  defaultValue="Hola, mundo."
+  onSave={(value) => guardar(value)}
+  onNew={() => nuevo()}
+/>
+```
+
+| Prop | Tipo | Default | Descripción |
+| --- | --- | --- | --- |
+| `value` / `defaultValue` | `string` | `""` | Contenido |
+| `fileName` | `string` | `"Sin título"` | Nombre en la barra de estado |
+| `onSave` / `onNew` / `onOpen` | `(value?) => void` | — | Acciones y atajos |
+| `showMenuBar` | `boolean` | `true` | Menú Archivo/Edición/Formato |
+
+Es contenido de ventana: no incluye barra de título. `Ctrl+S`, `Ctrl+N` y
+`Ctrl+O` ejecutan Guardar, Nuevo y Abrir.
+
+## Terminal
+
+```tsx
+<Terminal
+  prompt="C:\>"
+  commands={{ saludo: () => "Hola desde la terminal" }}
+  onCommand={(command) => registrar(command)}
+/>
+```
+
+Incluye `help`, `ver`, `cls`, `dir` y `echo`; los comandos personalizados
+tienen prioridad. La salida usa `role="log"` y `aria-live="polite"`. Los colores
+salen de tokens de terminal con overrides para alto contraste.
+
+## BlueScreen
+
+```tsx
+<BlueScreen
+  title="DeskUI"
+  message="Se ha producido un error fatal..."
+  code="ERROR 0E : 016F : BFF9B3D4"
+  onRestart={() => reiniciar()}
+/>
+```
+
+Expone `role="alert"`; sin `onRestart` no dibuja un botón inerte. Usa tokens de
+acento e inverso para conservar el contraste en todos los temas.
+
+## Screensaver
+
+```tsx
+<Screensaver
+  title="DeskUI"
+  hint="Mueve el ratón o pulsa una tecla"
+  onDismiss={() => cerrar()}
+/>
+```
+
+Campo de estrellas animado con `prefers-reduced-motion`. El bloque es focusable
+y se cierra con clic, Escape, Enter o Space.
+
+## Minesweeper
+
+```tsx
+<Minesweeper rows={9} cols={9} mines={10} seed={1} />
+<Minesweeper layout={["..*", "...", "..."]} />
+```
+
+| Prop | Tipo | Default | Descripción |
+| --- | --- | --- | --- |
+| `rows` / `cols` / `mines` | `number` | `9 / 9 / 10` | Tablero generado |
+| `layout` | `string[]` | — | Mapa determinista con `*` y `.` |
+| `seed` | `number` | `1` | Semilla reproducible |
+| `onWin` / `onLose` | `(...) => void` | — | Resultado de la partida |
+
+Clic descubre, clic derecho o `F` marca bandera. Cada celda expone fila, columna
+y estado en su nombre accesible. El temporizador arranca con la primera celda.
+
+## i18n
+
+`DeskUILocaleProvider` traduce los textos internos de los componentes. Sin
+proveedor se usa español; `locale="en"` activa inglés. Las props explícitas
+siguen teniendo prioridad.
+
+```tsx
+import { DeskUILocaleProvider } from "@deskui/ui";
+
+<DeskUILocaleProvider locale="en">
+  <App />
+</DeskUILocaleProvider>
+```
+
+Puedes sobrescribir etiquetas concretas por sección:
+
+```tsx
+<DeskUILocaleProvider
+  locale="en"
+  messages={{ pagination: { next: "Forward" } }}
+>
+```
+
+Con el CLI, importa el proveedor desde `@/lib/i18n`; el registry copia ese
+archivo como dependencia. Componentes con textos internos: `Pagination`, `Wizard`, `PropertiesDialog`,
+`Notepad`, `FileExplorer`, `Minesweeper`, `Terminal`, `BlueScreen`,
+`Screensaver`, `TitleBar`, `Toast`, `ScrollArea` y `Desktop`. El helper vive en
+`lib/i18n.tsx` y se copia con el componente.
+
+## Registry
+
+Cada componente se publica como un item independiente:
+
+```text
+utils → —
+i18n → —
+alert → utils
+badge → utils
+blue-screen → utils, button, i18n
+breadcrumb → utils
+button → utils
+card → utils
+checkbox → utils
+context-menu → utils
+desktop → utils, i18n
+dialog → utils, window
+dropdown-menu → utils
+file-explorer → utils, icon, input, table, toolbar, tree-view, status-bar, i18n
+form → utils, label
+group-box → utils
+icon → utils
+input → utils
+label → utils
+list-box → utils
+menu-bar → utils
+minesweeper → utils, i18n
+notepad → utils, menu-bar, status-bar, textarea, i18n
+pagination → utils, i18n
+panel → utils
+progress-bar → utils
+properties-dialog → utils, button, dialog, tabs, i18n
+radio-group → utils
+screensaver → utils, i18n
+scroll-area → utils, i18n
+select → utils
+separator → utils
+slider → utils
+start-menu → utils
+status-bar → utils
+switch → utils
+table → utils
+tabs → utils
+taskbar → utils, button
+terminal → utils, i18n
+textarea → utils
+title-bar → utils, i18n
+toast → utils, i18n
+toolbar → utils, button, separator
+tooltip → utils
+tree-view → utils
+window → utils, title-bar, status-bar
+window-manager → utils, window
+wizard → utils, button, i18n
+```
+
+El registry tiene 49 items (utils + i18n + 47 componentes). Los targets son
+`components/ui/*.tsx`, `lib/utils.ts` y `lib/i18n.tsx`. El generador reescribe los imports
+relativos a `@/lib/utils` y produce JSON en `packages/ui/dist/registry`. El CLI
+incluye una copia del registry para funcionar sin conexión.
+
+## composition.md
+
+# Guía de composición de DeskUI
+
+Reglas prácticas para combinar ventanas, paneles, formularios y barras de
+herramientas sin romper la densidad ni la accesibilidad.
+
+## Jerarquía antes que decoración
+
+Una pantalla clásica se lee de arriba abajo: barra de título, menú, contenido y
+barra de estado. El bisel no sustituye a la jerarquía.
+
+- Usa **una sola ventana principal** por pantalla.
+- Reserva los diálogos para decisiones que bloquean el flujo.
+- Si necesitas tres niveles de marcos para explicar una sección, el problema es
+  la estructura, no el CSS.
+
+## Ventanas y paneles
+
+| Pieza | Uso |
+| --- | --- |
+| `Window` | Ventana de la aplicación, con `TitleBar` y `StatusBar` |
+| `Panel` | Región interna con bisel propio |
+| `GroupBox` | Agrupar controles de formulario con una leyenda |
+| `Card` | Repetir elementos de un catálogo; no es un layout principal |
+| `Tabs` | Alternar vistas de propiedades sin apilar ventanas |
+| `ScrollArea` | Contenido largo con barra clásica de 16 px |
+
+```tsx
+<Window aria-label="Preferencias de red">
+  <Window.TitleBar title="Preferencias de red" />
+  <Window.Body className="grid gap-2">
+    <GroupBox legend="Equipo">
+      <Label htmlFor="host">Nombre del equipo</Label>
+      <Input id="host" defaultValue="PC-01" />
+    </GroupBox>
+  </Window.Body>
+</Window>
+```
+
+## Formularios
+
+1. Etiqueta cada control con `Label` y `htmlFor`/`id`.
+2. Agrupa con `GroupBox` cuando haya más de cuatro controles relacionados.
+3. Usa `Button variant="primary"` una sola vez por formulario.
+4. Deja el botón Cancelar a la izquierda del botón principal.
+5. El texto de ayuda va en `FormDescription`; los errores en `FormMessage`.
+6. Mantén el orden de tabulación natural; no uses `tabIndex` positivos.
+
+```tsx
+<div className="flex justify-end gap-2">
+  <Button>Cancelar</Button>
+  <Button variant="primary">Aceptar</Button>
+</div>
+```
+
+## Barras de herramientas
+
+`Toolbar` mantiene los botones agrupados y accesibles por teclado. Usa
+`ToolbarSeparator` para separar grupos y `pressed` para alternancias como
+negrita o cursiva. Un botón que solo muestra un icono necesita `aria-label`.
+
+```tsx
+<Toolbar aria-label="Formato de texto">
+  <ToolbarGroup aria-label="Estilo">
+    <ToolbarButton pressed>N</ToolbarButton>
+    <ToolbarButton>K</ToolbarButton>
+  </ToolbarGroup>
+  <ToolbarSeparator />
+  <ToolbarGroup aria-label="Archivo">
+    <ToolbarButton>Abrir</ToolbarButton>
+    <ToolbarButton>Guardar</ToolbarButton>
+  </ToolbarGroup>
+</Toolbar>
+```
+
+## Densidad y espacio
+
+| Contexto | Altura cómoda | Notas |
+| --- | --- | --- |
+| Escritorio | 21–23 px | Densidad clásica; no añadas padding extra |
+| Móvil | 24 px mínimo | Mantén el área táctil aunque el texto siga a 11 px |
+| Separación | 4–8 px | Usa las escalas de Tailwind, no valores sueltos |
+| Ventana | 3 px de marco | El bisel ya aporta profundidad |
+
+## Color y biseles
+
+- Usa tokens semánticos: `bg-surface`, `bg-surface-sunken`, `text-ink`,
+  `text-ink-muted`, `bg-accent`, `text-ink-inverse`.
+- `bevel-raised` para elementos elevados; `bevel-sunken` para campos y estados
+  pulsados.
+- `focus-dotted` para el foco de teclado. Nunca elimines el foco sin sustituto.
+- El azul de selección solo para foco o selección real.
+- Sin `border-radius`, `blur` ni sombras difusas.
+
+## Accesibilidad
+
+- Usa roles nativos antes que ARIA manual.
+- Nombra regiones, ventanas y diálogos con `aria-label`/`aria-labelledby`.
+- Los diálogos usan `<dialog>` nativo: Escape, foco atrapado y retorno de foco.
+- Prueba la pantalla solo con teclado antes de darla por terminada.
+- Respeta `prefers-reduced-motion` en animaciones decorativas.
+- Comprueba contraste en `classic`, `gradient` y `high-contrast`.
+
+## Do & Don't
+
+**Do**
+
+- Usa `Window` para agrupar contenido y un solo botón primario.
+- Etiqueta cada control con `Label` y `htmlFor/id`.
+- Mantén el foco punteado visible en todos los temas.
+- Prefiere controles nativos cuando el patrón ya existe.
+- Reutiliza `Icon` para el set pixel-art original.
+
+**Don't**
+
+- No mezcles radios modernos, blur o sombras difusas.
+- No uses más de un botón primario por formulario.
+- No anides ventanas dentro de ventanas sin necesidad.
+- No sustituyas texto por iconos sin nombre accesible.
+- No uses el azul de selección como color decorativo.
+
+## Checklist rápido
+
+Antes de cerrar una pantalla:
+
+- [ ] ¿Hay una jerarquía clara y una sola ventana principal?
+- [ ] ¿Todos los controles tienen etiqueta y nombre accesible?
+- [ ] ¿El foco es visible y el recorrido con Tab tiene sentido?
+- [ ] ¿Se puede cerrar un diálogo con Escape y el foco vuelve?
+- [ ] ¿La densidad es 21–23 px en escritorio y 24 px en móvil?
+- [ ] ¿Solo hay un botón primario por formulario?
+- [ ] ¿Funciona en `classic`, `gradient` y `high-contrast`?
+- [ ] ¿No hay colores, radios ni sombras fuera de tokens?
+
+## patterns.md
+
+# Patrones de composición con DeskUI
+
+Recetas listas para adaptar. En el monorepo importa desde `@deskui/ui`; en un
+consumidor, desde `@/components/ui/<archivo>`.
+
+## 1. Pantalla de ajustes
+
+```tsx
+import {
+  Button,
+  Checkbox,
+  GroupBox,
+  Input,
+  Label,
+  Select,
+  Window,
+} from "@deskui/ui";
+
+export function SettingsScreen() {
+  return (
+    <Window aria-label="Ajustes">
+      <Window.TitleBar title="Ajustes" />
+      <Window.Body className="grid gap-3">
+        <GroupBox legend="Sistema">
+          <div className="grid gap-2">
+            <div className="grid gap-1">
+              <Label htmlFor="computer">Nombre del equipo</Label>
+              <Input id="computer" defaultValue="PC-01" />
+            </div>
+            <div className="grid gap-1">
+              <Label htmlFor="theme">Tema</Label>
+              <Select id="theme" defaultValue="classic">
+                <option value="classic">Clásico</option>
+                <option value="gradient">Gradiente</option>
+              </Select>
+            </div>
+            <Checkbox defaultChecked>Mostrar iconos del escritorio</Checkbox>
+          </div>
+        </GroupBox>
+        <div className="flex justify-end gap-2">
+          <Button>Cancelar</Button>
+          <Button variant="primary">Aplicar</Button>
+        </div>
+      </Window.Body>
+      <Window.StatusBar>
+        <Window.StatusField>Listo</Window.StatusField>
+      </Window.StatusBar>
+    </Window>
+  );
+}
+```
+
+## 2. Formulario con validación
+
+```tsx
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import {
+  Button,
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+  Input,
+} from "@deskui/ui";
+
+const schema = z.object({
+  user: z.string().min(3, "Mínimo 3 caracteres"),
+});
+
+export function SignInForm() {
+  const form = useForm({
+    resolver: zodResolver(schema),
+    defaultValues: { user: "" },
+  });
+
+  return (
+    <Form {...form}>
+      <form
+        noValidate
+        className="grid max-w-sm gap-3"
+        onSubmit={form.handleSubmit(console.log)}
+      >
+        <FormField
+          control={form.control}
+          name="user"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Usuario</FormLabel>
+              <FormControl>
+                <Input placeholder="usuario95" {...field} />
+              </FormControl>
+              <FormDescription>Mínimo 3 caracteres.</FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <Button type="submit" variant="primary">
+          Entrar
+        </Button>
+      </form>
+    </Form>
+  );
+}
+```
+
+## 3. Diálogo modal
+
+```tsx
+import { Button, Dialog } from "@deskui/ui";
+
+<Dialog
+  open={open}
+  onOpenChange={setOpen}
+  title="Confirmar"
+  footer={
+    <>
+      <Button size="sm" onClick={() => setOpen(false)}>
+        Cancelar
+      </Button>
+      <Button size="sm" variant="primary" onClick={confirm}>
+        Aceptar
+      </Button>
+    </>
+  }
+>
+  <p>¿Deseas continuar con la instalación?</p>
+</Dialog>
+```
+
+`Dialog` usa `<dialog>` nativo: Escape, foco atrapado y retorno de foco.
+
+## 4. Aplicación de escritorio
+
+```tsx
+import {
+  Desktop,
+  DesktopIcon,
+  DesktopIcons,
+  Icon,
+  Notepad,
+  Taskbar,
+  TaskbarItem,
+  TaskbarStart,
+  TaskbarTray,
+  WindowManager,
+  type WindowManagerHandle,
+} from "@deskui/ui";
+import { useRef } from "react";
+
+const windows = [
+  {
+    id: "notes",
+    title: "Bloc de notas",
+    icon: <Icon name="note" />,
+    content: <Notepad />,
+    defaultPosition: { x: 16, y: 16 },
+    defaultSize: { width: 320, height: 220 },
+  },
+];
+
+export function DesktopApp() {
+  const manager = useRef<WindowManagerHandle>(null);
+
+  return (
+    <div className="grid min-h-dvh grid-rows-[1fr_auto]">
+      <Desktop aria-label="Escritorio">
+        <DesktopIcons>
+          <DesktopIcon
+            label="Mi PC"
+            icon={<Icon name="window" size={32} />}
+            onOpen={() => manager.current?.open("notes")}
+          />
+        </DesktopIcons>
+        <WindowManager ref={manager} windows={windows} />
+      </Desktop>
+      <Taskbar aria-label="Barra de tareas">
+        <TaskbarStart>Inicio</TaskbarStart>
+        <TaskbarItem active>Bloc de notas</TaskbarItem>
+        <TaskbarTray>12:00</TaskbarTray>
+      </Taskbar>
+    </div>
+  );
+}
+```
+
+## 5. Tabla con selección
+
+```tsx
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@deskui/ui";
+
+<Table aria-label="Archivos">
+  <TableHeader>
+    <TableRow>
+      <TableHead>Nombre</TableHead>
+      <TableHead>Tamaño</TableHead>
+      <TableHead>Tipo</TableHead>
+    </TableRow>
+  </TableHeader>
+  <TableBody>
+    {files.map((file) => (
+      <TableRow
+        key={file.name}
+        selected={selected === file.name}
+        onClick={() => setSelected(file.name)}
+      >
+        <TableCell>{file.name}</TableCell>
+        <TableCell>{file.size}</TableCell>
+        <TableCell>{file.type}</TableCell>
+      </TableRow>
+    ))}
+  </TableBody>
+</Table>
+```
+
+## 6. Barra de herramientas + panel
+
+```tsx
+<Panel>
+  <PanelHeader>
+    <PanelTitle>Documento</PanelTitle>
+  </PanelHeader>
+  <Toolbar aria-label="Formato">
+    <ToolbarButton pressed>N</ToolbarButton>
+    <ToolbarButton>K</ToolbarButton>
+    <ToolbarSeparator />
+    <ToolbarButton>Abrir</ToolbarButton>
+  </Toolbar>
+  <PanelBody>
+    <Textarea rows={8} aria-label="Contenido" />
+  </PanelBody>
+</Panel>
+```
+
+## 7. Feedback
+
+```tsx
+<Alert variant="warning" icon={<Icon name="warning" />}>
+  <AlertTitle>Advertencia</AlertTitle>
+  <AlertDescription>El archivo ya existe.</AlertDescription>
+</Alert>
+
+<ProgressBar aria-label="Instalación" value={70} />
+```
+
+Para notificaciones usa `ToastProvider` una vez en la raíz y `useToast()`.
+
+## 8. i18n
+
+```tsx
+import { DeskUILocaleProvider } from "@deskui/ui";
+
+<DeskUILocaleProvider locale="en">
+  <App />
+</DeskUILocaleProvider>
+```
+
+En un consumidor: `import { DeskUILocaleProvider } from "@/lib/i18n";`.
+
+## 9. Errores de composición frecuentes
+
+| Síntoma | Causa | Solución |
+| --- | --- | --- |
+| La pantalla parece moderna | `rounded`, `blur`, sombras difusas | Usa `bevel-*` y tokens |
+| Demasiado aire | Padding extra | Respeta 21–23 px / 24 px |
+| Dos acciones compiten | Dos botones primarios | Deja uno solo |
+| No se puede usar con teclado | Falta foco o control no nativo | `focus-dotted`, controles nativos |
+| El diálogo no cierra | No se usa `Dialog` o falta `onOpenChange` | Usa el componente nativo |
+| Textos en otro idioma | Falta el proveedor o la traducción | `DeskUILocaleProvider` |
+
+## i18n.md
+
+# i18n en DeskUI
+
+DeskUI tiene dos capas de internacionalización:
+
+1. **Textos internos de los componentes** (`DeskUILocaleProvider`).
+2. **Documentación del proyecto**, con diccionarios `es`/`en` y `?lang=en`.
+
+Esta referencia cubre la primera. Para la segunda, mira
+`apps/docs/src/i18n/` en el monorepo.
+
+## Proveedor
+
+```tsx
+import { DeskUILocaleProvider } from "@deskui/ui";
+
+export function Root() {
+  return (
+    <DeskUILocaleProvider locale="en">
+      <App />
+    </DeskUILocaleProvider>
+  );
+}
+```
+
+En un consumidor con el CLI, el archivo copiado es `@/lib/i18n`:
+
+```tsx
+import { DeskUILocaleProvider } from "@/lib/i18n";
+```
+
+Sin proveedor, el idioma por defecto es **español**. Esto conserva el
+comportamiento de versiones anteriores.
+
+## Sobrescrituras parciales
+
+```tsx
+<DeskUILocaleProvider
+  locale="en"
+  messages={{
+    pagination: { next: "Forward" },
+    notepad: { untitled: "New document" },
+  }}
+>
+  <App />
+</DeskUILocaleProvider>
+```
+
+Las secciones son planas: `common`, `desktop`, `pagination`, `wizard`,
+`properties`, `notepad`, `fileExplorer`, `minesweeper`, `blueScreen`,
+`screensaver`, `terminal`, `toast` y `scrollArea`.
+
+## Componentes con textos internos
+
+- `Pagination`
+- `Wizard`
+- `PropertiesDialog`
+- `Notepad`
+- `FileExplorer`
+- `Minesweeper`
+- `Terminal`
+- `BlueScreen`
+- `Screensaver`
+- `TitleBar`
+- `Toast`
+- `ScrollArea`
+- `Desktop`
+
+Las props explícitas (`okLabel`, `backLabel`, `restartLabel`, etc.) siguen
+teniendo prioridad sobre el diccionario.
+
+## Añadir un idioma nuevo
+
+1. Copia la interfaz `DeskUIMessages` y el diccionario de
+   `packages/ui/src/lib/i18n.tsx`.
+2. Añade el idioma a `DeskUILocale` y a `DESKUI_LOCALE_MESSAGES`.
+3. Traduce todas las secciones; TypeScript obliga a mantener la forma.
+4. Añade un test que renderice `Pagination` o `TitleBar` con el nuevo locale.
+5. Actualiza el registry si el archivo `lib/i18n.tsx` cambia de forma.
+
+## Textos de demo
+
+Los textos de ejemplo del Page Builder y de los showcases son contenido de
+demostración. El chrome, las etiquetas de bloque y los textos de accesibilidad
+sí se traducen. Si un proyecto necesita otro idioma, debe traducir su propio
+contenido además de usar el proveedor.
+
+## Accesibilidad
+
+Traduce también:
+
+- `aria-label` y `aria-labelledby`.
+- `title` y `placeholder`.
+- Textos `sr-only`.
+- Nombres accesibles de botones que solo muestran un icono.
+- Mensajes de estado y errores.
+
+El idioma del documento (`<html lang>`) es responsabilidad de la aplicación;
+DeskUI no lo modifica.
+
+## cli.md
+
+# CLI de DeskUI
+
+El CLI `deskui` copia componentes y tokens al proyecto. No hay una librería
+opaca en `node_modules`: el código pasa a ser tuyo.
+
+## Requisitos
+
+- Node.js 20.19+
+- React 18+
+- Tailwind CSS 4
+
+## init
+
+```bash
+npx deskui init
+```
+
+Detecta `src/`, el alias de imports y el CSS de entrada. Copia:
+
+- `src/styles/deskui.css` (tokens y utilidades).
+- `src/styles/fonts/` (W95FA + licencia OFL).
+- `src/lib/utils.ts` (`cn`).
+- `components.json`.
+- Skills de DeskUI y una sección en `AGENTS.md` (salvo `--no-agents`).
+
+Opciones:
+
+```bash
+npx deskui init --alias "~/" --css src/app.css
+npx deskui init --no-install
+npx deskui init --no-agents
+npx deskui init --overwrite
+```
+
+## add
+
+```bash
+npx deskui add button input label group-box
+npx deskui add dialog --dry-run
+npx deskui add pagination --overwrite
+```
+
+`add` resuelve dependencias del registry. Por ejemplo, `dialog` copia antes
+`window` y `utils`; `pagination` copia también `i18n`.
+
+Opciones:
+
+| Opción | Efecto |
+| --- | --- |
+| `--dry-run` | Muestra archivos sin escribir |
+| `--overwrite` | Reemplaza archivos con contenido distinto |
+| `--force` | Igual que `--overwrite`, también para `components.json` |
+| `--no-install` | No ejecuta el gestor de paquetes |
+| `--registry <url-o-ruta>` | Usa otro registry |
+| `--cwd <dir>` | Directorio del proyecto |
+
+## list
+
+```bash
+npx deskui list
+```
+
+Lista los 49 items del registry (47 componentes + `utils` + `i18n`).
+
+## Imports en el consumidor
+
+```tsx
+import { Button } from "@/components/ui/button";
+import { Dialog } from "@/components/ui/dialog";
+import { DeskUILocaleProvider } from "@/lib/i18n";
+import { cn } from "@/lib/utils";
+```
+
+## Registry
+
+- Formato compatible con shadcn (`registry-item.json`).
+- Generado desde `packages/ui/src/components` con
+  `pnpm registry:build`.
+- Incluido en el paquete para funcionar sin conexión.
+- `registryDependencies` resuelve las dependencias locales; `dependencies`
+  declara las de npm.
+
+## Actualizar un componente copiado
+
+El código es tuyo. Si quieres recuperar una versión nueva:
+
+```bash
+npx deskui add button --overwrite
+```
+
+Revisa el diff: puedes haber personalizado el componente. Para cambios
+pequeños, copia solo el archivo del registry y vuelve a aplicar tus ajustes.
+
+## Problemas frecuentes
+
+| Problema | Solución |
+| --- | --- |
+| No detecta Tailwind 4 | Instala `tailwindcss@4` y usa `@import "tailwindcss"` |
+| No detecta el alias | Configura `paths` en `tsconfig.json` o usa `--alias` |
+| El CSS no carga | Añade `@import "./styles/deskui.css";` tras Tailwind |
+| Falta `cn` | Ejecuta `init` o `add utils` |
+| Conflicto de archivo | Usa `--overwrite` después de revisar el diff |
+| Los textos no cambian de idioma | Envuelve la app con `DeskUILocaleProvider` |
+
+## checklist.md
+
+# Checklist de revisión DeskUI
+
+## API y estructura
+
+- [ ] Se usa el componente correcto, no un `div` con clases que lo imitan.
+- [ ] Los imports apuntan a `@/components/ui/<archivo>` en un consumidor o a
+  `@deskui/ui` en el monorepo.
+- [ ] Se pasan `aria-label`/`aria-labelledby` a regiones, ventanas y diálogos.
+- [ ] Las props explícitas de texto tienen prioridad sobre i18n.
+- [ ] No se añaden dependencias nuevas sin justificar peso y licencia.
+
+## Visual
+
+- [ ] Solo tokens semánticos; sin colores hex sueltos.
+- [ ] `bevel-raised` / `bevel-sunken` en lugar de sombras modernas.
+- [ ] Sin `border-radius`, `blur` ni animaciones largas.
+- [ ] Densidad 21–23 px en escritorio; 24 px de área táctil en móvil.
+- [ ] Un solo botón primario por formulario.
+- [ ] Jerarquía: una ventana principal, paneles internos y diálogos solo cuando
+  bloquean el flujo.
+
+## Accesibilidad
+
+- [ ] Todo control tiene etiqueta visible o nombre accesible.
+- [ ] El foco es visible con `focus-dotted` y no se elimina.
+- [ ] El recorrido con Tab sigue el orden visual.
+- [ ] Enter/Espacio activan botones, checkboxes, switches y radios.
+- [ ] Escape cierra diálogos, menús y el buscador.
+- [ ] Las flechas funcionan en `Tabs`, `MenuBar`, `Toolbar`, `TreeView` y
+  `Pagination` cuando aplica.
+- [ ] El diálogo atrapa el foco y lo devuelve al cerrar.
+- [ ] Contraste correcto en `classic`, `gradient` y `high-contrast`.
+- [ ] `prefers-reduced-motion` respetado en `Screensaver` y animaciones.
+
+## Formularios
+
+- [ ] `Label` + `htmlFor`/`id` en cada campo.
+- [ ] `FormDescription` para ayuda y `FormMessage` para errores.
+- [ ] Los campos obligatorios se validan en el navegador.
+- [ ] El botón Cancelar está a la izquierda del primario.
+- [ ] El formulario se puede enviar con Enter cuando corresponde.
+
+## Datos
+
+- [ ] `Table` tiene cabecera y nombres accesibles.
+- [ ] La selección usa `selected` y no solo color.
+- [ ] `Pagination` tiene `aria-current="page"` en la página actual.
+- [ ] `ListBox` conserva el tamaño y la selección nativa.
+- [ ] `StatusBar` no es el único lugar donde se comunica un error.
+
+## i18n
+
+- [ ] La app está envuelta con `DeskUILocaleProvider` si necesita inglés.
+- [ ] Los textos propios de la app también se traducen.
+- [ ] `<html lang>` coincide con el idioma activo.
+- [ ] Los `aria-label` y placeholders están traducidos.
+- [ ] El cambio de idioma no requiere recargar.
+
+## Pruebas
+
+- [ ] `pnpm typecheck` pasa.
+- [ ] `pnpm test` pasa.
+- [ ] `pnpm test:e2e` pasa si se tocó el sitio o un flujo crítico.
+- [ ] `pnpm build` pasa si se tocó el registry o el CLI.
+- [ ] La pantalla se probó con teclado y con axe.
+
+## design-tokens.md
+
+# Design tokens de DeskUI
+
+> Contrato visual: color, biseles, tipografía, geometría, temas y contraste.
+> No introduzcas valores fuera de estos tokens.
+
+# Design tokens
+
+Los tokens viven en `packages/ui/src/styles/tokens.css`. Esta página documenta
+el contrato; si un valor no está aquí, no debería aparecer en un componente.
+
+## 1. Paleta cruda
+
+| Token | Valor | Uso |
+| --- | --- | --- |
+| `--w95-white` | `#FFFFFF` | Caras iluminadas, texto sobre azul |
+| `--w95-gray-100` | `#DFDFDF` | Bisel interior claro, superficie elevada |
+| `--w95-gray-200` | `#C0C0C0` | Superficie clásica |
+| `--w95-gray-300` | `#808080` | Sombra de bisel, texto deshabilitado |
+| `--w95-gray-400` | `#404040` | Texto secundario accesible |
+| `--w95-black` | `#000000` | Marco de ventana y bordes profundos |
+| `--w95-navy` | `#000080` | Barra de título activa, selección |
+| `--w95-blue` | `#1084D0` | Degradado del tema Gradiente |
+| `--w95-teal` | `#008080` | Escritorio |
+| `--w95-green` | `#008000` | Éxito |
+| `--w95-olive` | `#808000` | Advertencia |
+| `--w95-maroon` | `#800000` | Error |
+| `--w95-red` | `#FF0000` | Acento de error puntual |
+| `--w95-yellow` | `#FFFF00` | Iconografía y alto contraste |
+
+## 2. Tokens semánticos
+
+### Superficies
+
+| Token | Clásico | Uso |
+| --- | --- | --- |
+| `--w95-surface` | `#C0C0C0` | Fondo de ventanas, botones y barras |
+| `--w95-surface-raised` | `#DFDFDF` | Toolbars y elementos elevados |
+| `--w95-surface-sunken` | `#FFFFFF` | Inputs, listas y documentos |
+| `--w95-surface-pressed` | `#DFDFDF` | Botones toggle activos |
+| `--w95-desktop` | `#008080` | Fondo de página/escritorio |
+
+### Texto
+
+| Token | Clásico | Uso |
+| --- | --- | --- |
+| `--w95-text` | `#000000` | Texto principal |
+| `--w95-text-muted` | `#404040` | Ayudas y texto secundario (AA) |
+| `--w95-text-disabled` | `#808080` | Texto deshabilitado con relieve |
+| `--w95-text-inverse` | `#FFFFFF` | Texto sobre azul |
+| `--w95-link` | `#0000FF` | Enlaces |
+
+### Acento y selección
+
+| Token | Clásico | Uso |
+| --- | --- | --- |
+| `--w95-accent` | `#000080` | Barra activa, selección, hover de menú |
+| `--w95-accent-soft` | `#1084D0` | Fin del degradado Gradiente |
+| `--w95-selection` | `#000080` | Fondo de selección |
+| `--w95-selection-text` | `#FFFFFF` | Texto seleccionado |
+| `--w95-focus` | `#000000` | Punto del foco punteado |
+
+### Barra de título
+
+| Token | Clásico | Gradiente |
+| --- | --- | --- |
+| `--w95-titlebar-from` | `#000080` | `#000080` |
+| `--w95-titlebar-to` | `#000080` | `#1084D0` |
+| `--w95-titlebar-text` | `#FFFFFF` | `#FFFFFF` |
+| `--w95-titlebar-inactive-from` | `#606060` | `#606060` |
+| `--w95-titlebar-inactive-to` | `#707070` | `#707070` |
+| `--w95-titlebar-inactive-text` | `#FFFFFF` | `#FFFFFF` |
+
+La base es clásica y plana. El degradado se activa con
+`<html data-theme="gradient">`. La barra inactiva se oscureció respecto al gris
+original para que el texto blanco mantenga contraste AA (4.95:1 en el extremo
+más claro).
+
+### Semánticos de estado
+
+| Token | Clásico |
+| --- | --- |
+| `--w95-success` | `#008000` |
+| `--w95-warning` | `#808000` |
+| `--w95-danger` | `#800000` |
+| `--w95-info` | `#000080` |
+| `--w95-tooltip` | `#FFFFE1` |
+
+## 3. Biseles
+
+El bisel se construye con cuatro capas de `box-shadow` inset. No usa
+`border`, por lo que no altera el modelo de caja ni el tamaño del componente.
+
+```css
+/* Elevado */
+inset -1px -1px var(--w95-dark),      /* borde exterior inferior derecho */
+inset  1px  1px var(--w95-highlight), /* borde exterior superior izquierdo */
+inset -2px -2px var(--w95-shadow),    /* borde interior inferior derecho */
+inset  2px  2px var(--w95-light);     /* borde interior superior izquierdo */
+
+/* Hundido: se invierten los cuatro valores */
+```
+
+| Utilidad | Token | Uso |
+| --- | --- | --- |
+| `bevel-raised` | `--w95-bevel-raised` | Botones, barras, controles |
+| `bevel-sunken` | `--w95-bevel-sunken` | Botón pulsado, toggle activo |
+| `bevel-window` | `--w95-bevel-window` | Marco exterior de ventana |
+| `bevel-field` | `--w95-bevel-field` | Inputs, documentos, listas |
+| `bevel-status` | `--w95-bevel-status` | Campos de barra de estado |
+| `bevel-group` | `--w95-bevel-group` | Fieldset/group box |
+| `bevel-tab` | `--w95-bevel-tab` | Pestaña activa de Tabs |
+| `bevel-default` | `--w95-bevel-default` | Botón predeterminado (anillo grueso) |
+
+Reglas:
+
+- Radio de borde siempre `0`.
+- Sin sombras con blur. La única sombra de elevación prevista es dura
+  (`--w95-shadow-hard: 2px 2px 0`), y no se usa actualmente.
+- El foco es `1px dotted` con offset negativo; nunca un anillo moderno.
+
+## 4. Tipografía
+
+| Token | Valor |
+| --- | --- |
+| `--w95-font-ui` | `"W95FA", "Tahoma", "MS Sans Serif", "Segoe UI", sans-serif` |
+| `--w95-font-mono` | `"Lucida Console", "Courier New", monospace` |
+| `--w95-text-ui` / `--w95-leading-ui` | `11px` / `13px` |
+| `--w95-text-body` / `--w95-leading-body` | `12px` / `16px` |
+
+- W95FA es una recreación libre de la fuente de interfaz clásica,
+  distribuida bajo **SIL Open Font License 1.1**. El archivo de licencia está
+  en `packages/ui/src/styles/fonts/W95FA-OFL.txt`.
+- `-webkit-font-smoothing: none` y `-moz-osx-font-smoothing: grayscale` para
+  preservar el aspecto de mapa de bits.
+- El peso bold es sintético porque W95FA solo distribuye un peso. Es una
+  concesión consciente; se revisará si aparece una bold libre compatible.
+- No se usan fuentes ni iconos originales de terceros.
+
+## 5. Geometría y espaciado
+
+| Elemento | Escritorio | Móvil |
+| --- | --- | --- |
+| Barra de título | `18px` | `28px` |
+| Botones de título | `16×14px` | `24×24px` |
+| Ventana, padding interior | `3px` | `3px` |
+| Window body, margen | `8px` | `8px` |
+| Botón `sm` | `21px` alto | `24px` |
+| Botón `md` | `23px` alto | `24px` |
+| Botón `lg` | `27px` alto | `27px` |
+| Input | `21px` alto | `24px` |
+| Menú | `20px` alto | `26px` |
+| Barra de tareas | `28px` | `32px` |
+| Ítem de menú Inicio | `24px` | `24px` |
+
+El sistema macro usa múltiplos de **4px** (Tailwind). La interfaz clásica
+necesita medios pasos de **1–2px** para biseles, alturas de control y
+separadores. Esa excepción es parte del lenguaje visual, no una inconsistencia.
+
+## 6. Temas
+
+Temas disponibles en tokens:
+
+- `classic` (implícito, sin atributo): clásico plano.
+- `gradient`: degradado azul en la barra activa y gris claro en la inactiva.
+- `high-contrast`: fondo negro, texto blanco, acentos amarillos, `color-scheme: dark`.
+- `desert`, `rose`, `storm`: paletas originales inspiradas en esquemas de la época.
+
+Para crear un tema:
+
+```css
+[data-theme="mi-tema"] {
+  --w95-surface: #d8d0c0;
+  --w95-surface-sunken: #fffdf5;
+  --w95-text: #181410;
+  --w95-text-muted: #4a4030;
+  --w95-highlight: #fffdf5;
+  --w95-light: #eee6d8;
+  --w95-shadow: #8a806c;
+  --w95-dark: #2a241a;
+  --w95-window-frame: #2a241a;
+  --w95-accent: #5c3a00;
+  --w95-selection: #5c3a00;
+  --w95-desktop: #6b5a3c;
+  --w95-titlebar-from: #5c3a00;
+  --w95-titlebar-to: #5c3a00;
+}
+```
+
+Aplícalo en cualquier ancestro:
+
+```html
+<html data-theme="mi-tema">
+```
+
+Los tokens de bisel se recalculan solos porque referencian las variables
+semánticas. No hay que redefinir `box-shadow`.
+
+<img src="assets/docs-home.png" alt="Tema clásico en la documentación" width="720">
+<img src="assets/theme-gradient.png" alt="Tema Gradiente" width="720">
+<img src="assets/theme-high-contrast.png" alt="Tema de alto contraste" width="720">
+<img src="assets/docs-mobile.png" alt="Vista móvil a 390 px" width="320">
+
+## 7. Contraste y accesibilidad
+
+- Texto principal `#000` sobre `#C0C0C0`: **11.6:1** (AAA).
+- Texto secundario `#404040` sobre `#C0C0C0`: **~5.7:1** (AA).
+- Texto blanco sobre azul `#000080`: **~16:1** (AAA).
+- Texto deshabilitado `#808080` sobre `#C0C0C0` no cumple AA; es aceptable
+  porque está deshabilitado, pero no se usa para información necesaria.
+- La barra de título inactiva usa `#606060 → #707070` con texto blanco: el
+  extremo claro queda en 4.95:1. La referencia usaba un gris más claro, pero el
+  texto no habría cumplido AA.
+- El tema `high-contrast` lleva los pares principales a blanco/negro y
+  amarillo/negro.
+- El foco punteado se mantiene visible en todos los temas; el offset negativo
+  evita que se recorte en contenedores con `overflow: hidden`.
+- En móvil, los controles suben a 24px de alto. En escritorio se conserva la
+  densidad original.
+
+## page-builder.md
+
+# Page Builder de DeskUI
+
+> Modelo, bloques, plantillas, exportación y límites del constructor visual.
+> Es una herramienta de la documentación, no un item del registry.
+
+# Page Builder — guía técnica
+
+> **Estado:** MVP de la Fase 3 completado (2026-10-21). Editor visual dentro del
+> sitio de documentación, no un item del registry. Ruta: `#/constructor`.
+
+## 1. Qué resuelve
+
+El Page Builder permite componer una página con bloques de la librería,
+previsualizarla en tres tamaños, cambiar su tema y exportar el resultado como
+JSX, JSON y el comando del CLI. El objetivo es cerrar el círculo *copy & own*:
+lo que se compone en el navegador se puede reproducir en un proyecto nuevo sin
+escribir el markup a mano.
+
+Cubre los requisitos `RQ-050` a `RQ-056`:
+
+- Paleta, lienzo, propiedades y árbol de capas.
+- Añadir, seleccionar, mover, reordenar, duplicar y eliminar.
+- Plantillas iniciales.
+- Selector de tema en vivo.
+- Exportación JSX/JSON y comandos `add`.
+- Guardado local y compartición por JSON.
+- Preview responsive móvil, tablet y escritorio.
+
+## 2. Acceso y flujo
+
+- Ruta: `http://127.0.0.1:5173/#/constructor`.
+- También se llega desde el sidebar (Proyecto → Constructor), el menú Inicio, el
+  menú Archivo/Ver del shell y la portada.
+- La ruta se carga con `React.lazy`; el shell oculta el sidebar para dar más
+  espacio al lienzo.
+- En escritorio el editor ocupa toda la altura: la paleta usa dos columnas sin
+  scroll permanente, y el lienzo y el inspector aprovechan el alto disponible.
+
+Flujo recomendado:
+
+1. Elegir una plantilla o empezar en blanco.
+2. Añadir bloques desde la paleta. Si hay un contenedor seleccionado, el bloque
+   entra dentro; si no, se inserta después del bloque seleccionado o al final.
+3. Editar propiedades en la pestaña **Propiedades**.
+4. Reordenar en **Capas**, con Subir/Bajar o arrastrando.
+5. Cambiar el tema y el tamaño de previsualización.
+6. Exportar JSX, JSON o los comandos del CLI.
+7. Importar un JSON para compartir o recuperar una página.
+
+## 3. Bloques
+
+Hay 20 bloques en cinco categorías. Cinco son contenedores.
+
+| Categoría | Bloques |
+| --- | --- |
+| Texto y medios | `heading`, `text`, `list`, `badge`, `button`, `image`, `divider`, `spacer` |
+| Formularios | `input`, `textarea`, `checkbox`, `progress` |
+| Contenedores | `card`, `panel`, `window`, `group-box`, `columns` |
+| Feedback | `alert` |
+| Composición | `hero`, `status-bar` |
+
+Los contenedores (`card`, `panel`, `window`, `group-box`, `columns`) aceptan
+hijos y se pueden usar como destino de arrastre. Un contenedor vacío muestra una
+zona punteada con una pista, nunca un hueco invisible.
+
+Cada bloque declara en `catalog.ts`:
+
+- `label`, `description`, categoría e icono.
+- `defaults` y campos editables (`text`, `textarea`, `number`, `select`,
+  `checkbox`).
+- `summary`, el texto corto que aparece en Capas y en la etiqueta accesible.
+
+La paleta, el panel de propiedades, el renderer y el exportador consumen el mismo
+catálogo. Añadir un bloque exige tocar el catálogo, el renderer y el exportador;
+los tests de exportación ayudan a detectar olvidos.
+
+## 4. Modelo JSON
+
+El documento es JSON puro, sin referencias al DOM ni a React. Versión actual:
+`1`.
+
+```json
+{
+  "version": 1,
+  "title": "Página personal",
+  "theme": "classic",
+  "background": "surface",
+  "blocks": [
+    {
+      "id": "block-2",
+      "type": "hero",
+      "props": {
+        "eyebrow": "Portafolio",
+        "title": "Hola, soy Ada",
+        "description": "Diseño interfaces retro.",
+        "buttonLabel": "Contactar",
+        "buttonVariant": "primary",
+        "align": "left"
+      }
+    },
+    {
+      "id": "block-3",
+      "type": "card",
+      "props": { "title": "Sobre mí", "description": "Biografía breve." },
+      "children": [
+        {
+          "id": "block-4",
+          "type": "text",
+          "props": { "text": "Texto de ejemplo.", "align": "left", "muted": false }
+        }
+      ]
+    }
+  ]
+}
+```
+
+- `theme` acepta los seis temas (`classic`, `gradient`, `high-contrast`, `desert`,
+  `rose`, `storm`) y se aplica con `data-theme` en el contenedor de preview.
+- `background` acepta `surface`, `sunken` y `desktop`.
+- Los ids se conservan al guardar; si un JSON trae duplicados, se regeneran.
+- Los contenedores llevan `children`; los bloques hoja no.
+
+### Validación
+
+`parseBuilderDocument` y `normalizeDocument`:
+
+- Exigen `version: 1` y una lista de bloques.
+- Rechazan tipos de bloque desconocidos.
+- Copian solo las props declaradas por el catálogo; las claves arbitrarias se
+  descartan.
+- Validan los valores de `select`, los booleanos y los números.
+- Limitan el texto a 10 000 caracteres, el título a 120, la profundidad a 8
+  niveles y el total a 200 bloques.
+- Sustituyen ids vacíos o duplicados.
+
+Un JSON inválido en `localStorage` no bloquea el editor: se descarta y se empieza
+de cero. Un JSON inválido en el diálogo de importación muestra el error y deja el
+diálogo abierto para corregirlo.
+
+## 5. Operaciones del árbol
+
+`model.ts` implementa operaciones inmutables sobre `blocks`:
+
+| Función | Efecto |
+| --- | --- |
+| `insertBlock` | Inserta antes, después o dentro de un contenedor. |
+| `moveBlock` | Mueve un bloque y rechaza ciclos (dentro de sí mismo o de un descendiente). |
+| `moveBlockWithinParent` | Sube/baja entre hermanos. |
+| `moveBlockToRootEnd` | Mueve al final de la página. |
+| `duplicateBlock` | Clona el bloque y sus hijos con ids nuevos. |
+| `removeBlock` | Elimina un bloque y su subárbol. |
+| `updateBlockProps` | Fusiona y sanea props. |
+| `findBlock`, `getBlockPath` | Localizan el bloque, su padre y su ruta. |
+
+El estado del editor es el documento completo. No se guarda un historial de
+undo/redo en el MVP.
+
+## 6. Plantillas
+
+`templates.ts` incluye seis entradas:
+
+| Id | Nombre | Contenido |
+| --- | --- | --- |
+| `blank` | Página en blanco | Lienzo vacío. |
+| `escritorio` | Escritorio | Ventana, tarjetas, lista, progreso y aviso. |
+| `formulario` | Formulario | Group box, campos, botones, aviso y barra de estado. |
+| `tienda` | Tienda | Hero, tres productos, aviso y barra de estado. |
+| `red-social` | Red social | Ventana con composer, feed y aviso. |
+| `pagina-personal` | Página personal | Hero, biografía, proyectos, aviso y estado. |
+
+Las plantillas se crean con `createBlock`, así que pasan por el mismo saneado y
+por los mismos defaults que un bloque añadido a mano. Los tests serializan cada
+plantilla, la vuelven a parsear y comprueban que los ids son únicos.
+
+## 7. Tema y preview responsive
+
+- El tema del documento se aplica con `data-theme` en `[data-builder-page]`. Los
+  tokens CSS se resuelven en ese subárbol, así que el editor puede tener un tema
+  distinto al del sitio.
+- El tema forma parte del JSON y del JSX exportado.
+- Tamaños de preview: móvil 390 px, tablet 768 px y escritorio 100 %.
+- El lienzo tiene scroll horizontal si el tamaño elegido no cabe en el viewport.
+- El fondo de la página se elige entre gris clásico, blanco y escritorio teal.
+
+## 8. Exportación
+
+### JSX
+
+`generateJsx` recorre el árbol y genera un componente `PaginaGenerada` con
+imports por archivo, como en un proyecto que usa el CLI:
+
+```tsx
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { Card, CardContent, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+
+export function PaginaGenerada() {
+  return (
+    <main data-theme="classic" className="w95-ui min-h-dvh bg-surface p-4 text-ink sm:p-6">
+      <div className="mx-auto flex w-full max-w-4xl flex-col gap-3">
+        {/* bloques */}
+      </div>
+    </main>
+  );
+}
+```
+
+- Solo se importan los componentes que el árbol usa de verdad.
+- El texto y los atributos se escapan (`<`, `>`, `&`, `{`, `}`, `"`).
+- Las listas se convierten en `<ul>`/`<ol>` con un `<li>` por línea.
+- Los campos usan ids derivados del id del bloque para que `Label`/`Input`
+  sigan asociados.
+- `ProgressBar` incluye `aria-label` con la etiqueta visible.
+- Los contenedores conservan su estructura (`CardHeader`, `PanelBody`,
+  `Window.TitleBar`, etc.).
+
+### JSON
+
+Es el mismo documento, con indentación. Sirve para guardar, versionar, compartir
+o volver a importar.
+
+### Comandos
+
+`generateAddCommands` recoge los items del registry usados y genera:
+
+```bash
+npx deskui init
+npx deskui add alert badge button card status-bar
+```
+
+El CLI resuelve las dependencias (`label`, `title-bar`, `status-bar`, `utils`…).
+Una página que solo usa HTML y utilidades de Tailwind produce únicamente el
+comando `init`.
+
+## 9. Guardado y compartición
+
+- Clave de `localStorage`: `deskui-builder-document-v1`.
+- Autoguardado con debounce de 400 ms.
+- La barra de herramientas muestra `Guardando...`, `Guardado HH:MM` o
+  `No se pudo guardar` con `role="status"` y `aria-live="polite"`.
+- `Ctrl/Cmd + S` fuerza un guardado inmediato y muestra un toast.
+- **Compartir:** exportar el JSON y pegarlo en Importar en otro navegador. No hay
+  backend ni enlaces con el documento incrustado en el MVP.
+- **Nueva página** pide confirmación y limpia el documento; el autoguardado
+  escribe el lienzo vacío.
+
+## 10. Atajos de teclado
+
+| Atajo | Acción |
+| --- | --- |
+| `Ctrl/Cmd + D` | Duplicar el bloque seleccionado. |
+| `Supr` / `Backspace` | Eliminar el bloque seleccionado. |
+| `Alt + ↑` / `Alt + ↓` | Mover entre hermanos. |
+| `Ctrl/Cmd + S` | Guardar ahora. |
+| `Escape` | Quitar la selección. |
+
+Los atajos se ignoran cuando el foco está en un control editable o en un botón,
+para no interferir con formularios. En Capas, las flechas recorren el árbol,
+`←`/`→` contraen/expanden, `Home`/`End` saltan al extremo y `Enter`/`Espacio`
+seleccionan.
+
+## 11. Arrastrar y soltar
+
+- Paleta → lienzo: crea un bloque al final de la página.
+- Paleta → contenedor: el bloque entra dentro (el destino se decide en el árbol).
+- Capas: arrastrar una fila sobre otra inserta antes, después o dentro según la
+  posición vertical; el centro de un contenedor indica “dentro”.
+- Alternativas de teclado: Subir/Bajar en Propiedades y en la barra de
+  herramientas, más `Alt + ↑/↓`.
+- El arrastre usa HTML5 DnD nativo y un MIME propio
+  (`application/x-deskui-builder`). No hay dependencia externa.
+- En Playwright, el DnD nativo de Chromium sin interfaz no siempre emite `drop`;
+  el test E2E despacha `DragEvent` con un `DataTransfer` real para validar los
+  handlers.
+
+## 12. Accesibilidad
+
+- La paleta es un `aside` con secciones y botones con nombre accesible.
+- Cada bloque del lienzo es un `group` focusable con `aria-label`
+  (`Tipo: resumen`); Enter/Espacio lo seleccionan. El árbol de capas es la ruta
+  principal de teclado.
+- El árbol usa `role="tree"`, `treeitem`, `aria-level`, `aria-selected` y
+  `aria-expanded`; los contenedores exponen un botón `+`/`−` con nombre.
+- El panel de propiedades usa `Label` + `htmlFor` y `aria-describedby` para las
+  ayudas.
+- Los diálogos usan el `Dialog` nativo de la librería (foco atrapado, Escape y
+  retorno de foco).
+- `ProgressBar` recibe `aria-label`; las plantillas incluyen encabezados `h2`
+  antes de las tarjetas `h3` para no saltar niveles.
+- axe no detecta violaciones en el constructor vacío, con la plantilla
+  Escritorio y con la pestaña Capas.
+
+## 13. Estructura
+
+```text
+apps/docs/src/
+├── lib/builder/
+│   ├── types.ts        # Tipos, categorías, payload de DnD
+│   ├── catalog.ts      # Los 20 bloques, defaults, campos y resumen
+│   ├── model.ts        # Árbol inmutable, saneado, parseo y límites
+│   ├── templates.ts    # Seis plantillas
+│   ├── export.ts       # JSX, JSON y comandos del CLI
+│   ├── storage.ts      # localStorage seguro
+│   └── *.test.ts       # 39 tests unitarios
+├── components/builder/
+│   ├── palette.tsx     # Paleta de bloques
+│   ├── canvas.tsx      # Lienzo, preview y drop
+│   ├── blocks.tsx      # Renderer recursivo con selección
+│   ├── layers.tsx      # Árbol de capas accesible y DnD
+│   ├── properties.tsx  # Propiedades del bloque y de la página
+│   └── dialogs.tsx     # Plantillas, exportar, importar, ayuda, nueva página
+└── pages/builder.tsx   # Estado, acciones, atajos y composición
+```
+
+El Page Builder **no** forma parte de `packages/ui` ni del registry. Es una
+herramienta del sitio que consume la librería como cualquier consumidor. Si en el
+futuro se publica como paquete independiente, el modelo de `lib/builder` se puede
+extraer sin tocar el DOM.
+
+## 14. Tests
+
+- **39 tests unitarios** en `apps/docs/src/lib/builder`: modelo, plantillas,
+  exportación, almacenamiento y payload de DnD.
+- **6 tests E2E funcionales** nuevos: añadir/editar/duplicar/reordenar/eliminar,
+  plantillas y tema/preview, exportación, persistencia/importación, DnD y axe con
+  plantilla.
+- **Regresión visual:** `constructor-escritorio.png`.
+- axe: la ruta `/constructor` se suma a las rutas principales; además se prueba
+  el constructor con la plantilla Escritorio y la pestaña Capas.
+
+Comandos:
+
+```bash
+pnpm typecheck
+pnpm test            # UI + CLI + docs
+pnpm test:e2e
+pnpm build
+```
+
+## 15. Limitaciones y siguientes pasos
+
+- **Undo/redo y multiselección:** pendientes (post-MVP del roadmap).
+- **Persistencia remota y enlaces compartibles:** pendientes; hoy el intercambio
+  es JSON.
+- **Exportación a Next.js, Astro o HTML estático:** pendiente.
+- **Plugins o bloques de usuario:** pendiente.
+- **El modelo no versiona migraciones:** si cambia el esquema, hay que subir
+  `version` y añadir una migración en `normalizeDocument`.
+- **El renderer y el exportador son dos implementaciones:** el catálogo y los
+  tests de exportación reducen la deriva, pero un bloque nuevo exige tocar
+  ambos.
+
+## 16. Enlaces
+
+- [Roadmap](roadmap.md)
+- [Progreso](PROGRESS.md)
+- [Requisitos](REQUIREMENTS.md)
+- [Decisiones](DECISIONS.md)
+- [Arquitectura](architecture.md)
+- [Componentes](components.md)

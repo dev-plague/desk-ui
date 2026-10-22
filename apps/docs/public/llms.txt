@@ -1,0 +1,54 @@
+# DeskUI
+
+> DeskUI es una librería de componentes React con estética de escritorio
+> clásico, tokens, accesibilidad y distribución copy & own mediante CLI.
+> Esta documentación está en español e inglés; el código y las APIs en inglés.
+
+## Skills para agentes
+
+- **DeskUI — uso general**: Instalación, catálogo, API, patrones, i18n, CLI y checklist.
+- **DeskUI — composición visual**: Jerarquía, densidad, formularios, toolbars, color y accesibilidad.
+- **DeskUI — Page Builder**: Modelo JSON, bloques, plantillas, capas y exportación JSX/JSON.
+- **DeskUI — i18n**: DeskUILocaleProvider, diccionarios es/en y textos internos.
+
+## Documentación del sitio
+
+- [Inicio](/#/)
+- [Instalación](/#/instalacion)
+- [Componentes](/#/componentes)
+- [Theming](/#/temas)
+- [Guía de composición](/#/guia)
+- [Page Builder](/#/constructor)
+- [Changelog](/#/cambios)
+- [Migración](/#/migracion)
+- [Contribuir](/#/contribuir)
+- [Acerca de](/#/acerca)
+
+Las cuatro skills se incluyen completas en `llms-full.txt` y viven en
+`skills/` del repositorio.
+
+## Referencias completas
+
+- [llms-full.txt](./llms-full.txt): skill principal y referencias consolidadas.
+- [API de componentes](./#/componentes): props, variantes y notas de a11y.
+- [Guía de composición](./#/guia): cómo combinar ventanas, paneles y formularios.
+- [Page Builder](./#/constructor): modelo, bloques y exportación.
+
+## Instalación rápida
+
+```bash
+npx deskui init
+npx deskui add button input label group-box checkbox textarea
+npx deskui list
+```
+
+En un consumidor, los componentes viven en `@/components/ui/<nombre>` y
+`cn` en `@/lib/utils`. En el monorepo, la fuente es `@deskui/ui`.
+
+## Reglas de composición
+
+- Una sola ventana principal por pantalla; diálogos solo para bloqueos.
+- Un solo `Button variant="primary"` por formulario.
+- Tokens semánticos; sin radios, blur ni sombras difusas.
+- Densidad 21–23 px en escritorio y 24 px de área táctil en móvil.
+- Teclado, foco visible y nombres accesibles en todo control.
