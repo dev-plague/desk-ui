@@ -93,7 +93,7 @@ curl -fsS https://deskui.codehive.com.co/ | grep -q "DeskUI"
 curl -fsS https://deskui.codehive.com.co/r/registry.json \
   | node -e "let d='';process.stdin.on('data',c=>d+=c).on('end',()=>{const r=JSON.parse(d);console.log(r.items.length+' items')})"
 
-npx deskui@0.2.0 list --registry https://deskui.codehive.com.co/r
+npx @deskui/cli@0.2.0 list --registry https://deskui.codehive.com.co/r
 ```
 
 Comprueba también las cabeceras:

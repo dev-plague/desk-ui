@@ -12,7 +12,7 @@ opaca en `node_modules`: el código pasa a ser tuyo.
 ## init
 
 ```bash
-npx deskui init
+npx @deskui/cli init
 ```
 
 Detecta `src/`, el alias de imports y el CSS de entrada. Copia:
@@ -26,18 +26,18 @@ Detecta `src/`, el alias de imports y el CSS de entrada. Copia:
 Opciones:
 
 ```bash
-npx deskui init --alias "~/" --css src/app.css
-npx deskui init --no-install
-npx deskui init --no-agents
-npx deskui init --overwrite
+npx @deskui/cli init --alias "~/" --css src/app.css
+npx @deskui/cli init --no-install
+npx @deskui/cli init --no-agents
+npx @deskui/cli init --overwrite
 ```
 
 ## add
 
 ```bash
-npx deskui add button input label group-box
-npx deskui add dialog --dry-run
-npx deskui add pagination --overwrite
+npx @deskui/cli add button input label group-box
+npx @deskui/cli add dialog --dry-run
+npx @deskui/cli add pagination --overwrite
 ```
 
 `add` resuelve dependencias del registry. Por ejemplo, `dialog` copia antes
@@ -57,7 +57,7 @@ Opciones:
 ## list
 
 ```bash
-npx deskui list
+npx @deskui/cli list
 ```
 
 Lista los 49 items del registry (47 componentes + `utils` + `i18n`).
@@ -85,7 +85,7 @@ import { cn } from "@/lib/utils";
 El código es tuyo. Si quieres recuperar una versión nueva:
 
 ```bash
-npx deskui add button --overwrite
+npx @deskui/cli add button --overwrite
 ```
 
 Revisa el diff: puedes haber personalizado el componente. Para cambios

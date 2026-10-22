@@ -9,7 +9,7 @@ Todas las versiones relevantes se documentan aquí. El proyecto sigue
 
 - **Publicación y despliegue público**: sitio y registry en
   <https://deskui.codehive.com.co>, README orientado a consumidores y página
-  «Acerca de» con enlaces a GitHub y npm. El CLI `deskui@0.2.0` queda empaquetado
+  «Acerca de» con enlaces a GitHub y npm. El CLI `@deskui/cli@0.2.0` queda empaquetado
   para publicarse en npm.
 - **Pipeline de publicación**: registry estático servido por el sitio en `/r`,
   script `registry:site`, comprobación de release (`release:check`), auditoría de
@@ -48,7 +48,7 @@ Todas las versiones relevantes se documentan aquí. El proyecto sigue
   además de lienzo vacío.
 - Selector de tema en vivo y preview responsive móvil (390 px), tablet (768 px) y
   escritorio (100 %).
-- Exportación JSX con imports por archivo, JSON y comandos `npx deskui add`.
+- Exportación JSX con imports por archivo, JSON y comandos `npx @deskui/cli add`.
 - Guardado automático en `localStorage`, importación/exportación de JSON y
   atajos de teclado básicos.
 - 39 tests unitarios del Page Builder y 7 tests E2E nuevos (6 funcionales +

@@ -427,7 +427,7 @@ pero el proyecto aún está en desarrollo (Fase 3 cerrada, Fase 4 pendiente).
 **Decisión:** no publicar todavía. El tarball local permite validar el flujo. La
 publicación y el registry remoto se abordan en Fase 4.
 
-**Consecuencias:** `npx deskui` no funciona aún desde npm; la documentación lo
+**Consecuencias:** `npx @deskui/cli` no funciona aún desde npm; la documentación lo
 advierte. El nombre `deskui` y el scope `@deskui/*` están reservados como
 decisión de naming.
 

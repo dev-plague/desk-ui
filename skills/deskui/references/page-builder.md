@@ -224,8 +224,8 @@ o volver a importar.
 `generateAddCommands` recoge los items del registry usados y genera:
 
 ```bash
-npx deskui init
-npx deskui add alert badge button card status-bar
+npx @deskui/cli init
+npx @deskui/cli add alert badge button card status-bar
 ```
 
 El CLI resuelve las dependencias (`label`, `title-bar`, `status-bar`, `utils`…).

@@ -11,7 +11,7 @@
 
 | Indicador | Estado |
 | --- | --- |
-| Fase | **Fase 4 casi completada** — sitio desplegado, npm pendiente de 2FA |
+| Fase | **Fase 4 casi completada** — sitio desplegado; npm pendiente de organización y OTP |
 | Último corte | Publicación 0.2.0 |
 | Componentes | **47** |
 | Items del registry | **49** (47 componentes + `utils` + `i18n`) |
@@ -27,10 +27,10 @@
 
 **Estado general:** el sitio y el registry están desplegados en
 `deskui.codehive.com.co`, y el README y la página «Acerca de» ya presentan el
-proyecto para consumidores. El CLI `deskui@0.2.0` está empaquetado y listo; solo
-falta completar `npm publish`, que exige un OTP o un token con 2FA bypass. La
-siguiente prioridad es el post-MVP del Page Builder y, si se decide, la
-publicación de `@deskui/ui`.
+proyecto para consumidores. El CLI `@deskui/cli@0.2.0` está empaquetado y listo;
+solo falta crear la organización `@deskui` en npm y completar `npm publish`, que
+exige un OTP o un token con 2FA bypass. La siguiente prioridad es el post-MVP del
+Page Builder y, si se decide, la publicación de `@deskui/ui`.
 
 ## 2. Estado por fase
 
@@ -93,7 +93,7 @@ Segundo corte:
 - [x] Seis plantillas: lienzo vacío, escritorio, formulario, tienda, red social y
   página personal.
 - [x] Selector de tema en vivo; el tema forma parte del documento exportado.
-- [x] Exportación JSX con imports por archivo, JSON y comandos `npx deskui add`.
+- [x] Exportación JSX con imports por archivo, JSON y comandos `npx @deskui/cli add`.
 - [x] Autoguardado en `localStorage`, importación/exportación de JSON y
   confirmación de página nueva.
 - [x] Atajos básicos: duplicar, eliminar, mover, guardar y Escape.
@@ -124,7 +124,7 @@ exportación a Next/Astro/HTML y plugins.
   `deploy/nginx.conf`) con sitio y registry en el mismo contenedor.
 - [x] Desplegar el sitio y el registry en `deskui.codehive.com.co`.
 - [x] README público y página «Acerca de» con enlaces a GitHub y npm.
-- [ ] Publicar `deskui@0.2.0` en npm y verificar `npx deskui`.
+- [ ] Publicar `@deskui/cli@0.2.0` en npm y verificar `npx @deskui/cli`.
 - [ ] Decidir si `@deskui/ui` se publica o se mantiene privado.
 
 ### IA y agentes (completado)
@@ -294,7 +294,7 @@ pnpm licenses:check
 | Registry | 49 items generados; copia en CLI y en `dist/r` |
 | CLI empaquetado | 0.2.0; `file-explorer`, `wizard`, `properties-dialog`, `notepad`, `terminal`, `blue-screen`, `screensaver` y `minesweeper` resueltos |
 | Release | `release:check` en verde: versiones, changelog y registry alineados |
-| npm | `deskui@0.2.0` empaquetado; publicado pendiente de OTP |
+| npm | `@deskui/cli@0.2.0` empaquetado; publicado pendiente de OTP |
 | Sitio | `https://deskui.codehive.com.co` y `/r/registry.json` en producción |
 | Licencias | `licenses:check` en verde; MIT, Apache-2.0 y OFL revisadas |
 | Consumidor Vite | Build correcto con componentes copiados |
@@ -310,7 +310,7 @@ el constructor.
 
 | Riesgo | Impacto | Mitigación / siguiente paso |
 | --- | --- | --- |
-| Publicación npm bloqueada por 2FA | `npx deskui` aún no resuelve desde npm | Publicar el tarball con un OTP o un token granular con bypass 2FA |
+| Publicación npm pendiente de organización y 2FA | `npx @deskui/cli` aún no resuelve desde npm | Crear la organización `@deskui` en npm y publicar con OTP o un token granular con bypass 2FA |
 | Sitio y registry comparten despliegue | Una release rota afecta a ambos | Releases atómicas, smoke tests y rollback documentados |
 | URL del registry codificada en el CLI | Cambiar de dominio exige nueva versión | `DEFAULT_REGISTRY` es una constante; `--registry` y `DESKUI_REGISTRY` permiten override |
 | `@deskui/ui` sigue privado | No hay instalación npm de la librería completa | Decisión D-036: el artefacto público es CLI + registry |

@@ -43,8 +43,10 @@ if (!changelog.includes(`## [${version}]`)) {
 }
 
 const cli = manifests.cli;
-if (cli.name !== "deskui") {
-  errors.push(`El paquete del CLI debe llamarse "deskui" (es "${cli.name}").`);
+if (cli.name !== "@deskui/cli") {
+  errors.push(
+    `El paquete del CLI debe llamarse "@deskui/cli" (es "${cli.name}").`,
+  );
 }
 if (cli.license !== "MIT") {
   errors.push("El CLI debe declarar licencia MIT.");

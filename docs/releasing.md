@@ -8,12 +8,14 @@
 
 | Artefacto | Destino | Quién lo publica |
 | --- | --- | --- |
-| CLI `deskui` | npm (público) | persona con sesión de npm |
+| CLI `@deskui/cli` | npm (público) | persona con sesión de npm y acceso a la organización `@deskui` |
 | Sitio de documentación | `https://deskui.codehive.com.co` | despliegue del VPC |
 | Registry | `https://deskui.codehive.com.co/r` | el mismo despliegue del sitio |
 | `@deskui/ui` | no se publica (privado) | — |
 
 `@deskui/ui` sigue siendo privado: el producto copiable es el par CLI + registry.
+El paquete público se llama **`@deskui/cli`** y requiere que la organización
+`deskui` exista en npm; el binario que instala sigue llamándose `deskui`.
 Publicarlo obligaría a mantener dos fuentes de verdad y a empaquetar los `.tsx`.
 
 ## Política de versiones
@@ -57,7 +59,7 @@ Publicarlo obligaría a mantener dos fuentes de verdad y a empaquetar los `.tsx`
 
    ```bash
    pnpm release:pack
-   tar -tzf artifacts/deskui-x.y.z.tgz | head -40
+   tar -tzf artifacts/deskui-cli-x.y.z.tgz | head -40
    ```
 
    El tarball debe incluir `package/dist`, `package/registry`,
@@ -72,30 +74,30 @@ Publicarlo obligaría a mantener dos fuentes de verdad y a empaquetar los `.tsx`
    ```bash
    mkdir /tmp/deskui-consumer && cd /tmp/deskui-consumer
    npm init -y
-   npm install /ruta/al/artifacts/deskui-x.y.z.tgz
-   npx deskui init --no-install
-   npx deskui add button dialog --no-install
+   npm install /ruta/al/artifacts/deskui-cli-x.y.z.tgz
+   npx @deskui/cli init --no-install
+   npx @deskui/cli add button dialog --no-install
    ```
 
 7. **Publicar en npm**:
 
    ```bash
    npm login
-   npm publish artifacts/deskui-x.y.z.tgz
+   npm publish artifacts/deskui-cli-x.y.z.tgz
    ```
 
    `publishConfig.access = "public"` ya está en el paquete. Para una previa:
 
    ```bash
-   npm publish artifacts/deskui-x.y.z-beta.0.tgz --tag next
+   npm publish artifacts/deskui-cli-x.y.z-beta.0.tgz --tag next
    ```
 
 8. **Verificar la publicación**:
 
    ```bash
-   npm view deskui version dist-tags
-   npx deskui@x.y.z --version
-   npx deskui@x.y.z list
+   npm view @deskui/cli version dist-tags
+   npx @deskui/cli@x.y.z --version
+   npx @deskui/cli@x.y.z list
    ```
 
 9. **Desplegar el sitio y el registry** antes o a la vez que npm, para que la
@@ -118,7 +120,7 @@ Publicarlo obligaría a mantener dos fuentes de verdad y a empaquetar los `.tsx`
 3. `npm publish`.
 4. Anuncio y enlaces.
 
-Publicar primero el sitio evita que un `npx deskui` recién instalado caiga en un
+Publicar primero el sitio evita que un `npx @deskui/cli` recién instalado caiga en un
 registry que aún no existe.
 
 ## Qué comprueba `release:check`
@@ -138,7 +140,7 @@ registry que aún no existe.
 | --- | --- |
 | Tarball defectuoso antes de publicar | Borrar `artifacts/` y repetir el corte |
 | Versión publicada con un fallo | Publicar un parche; no reutilizar la versión |
-| Versión publicada insegura | `npm deprecate deskui@x.y.z "motivo"` y publicar el parche |
+| Versión publicada insegura | `npm deprecate @deskui/cli@x.y.z "motivo"` y publicar el parche |
 | Sitio roto | Redesplegar el artefacto anterior (ver `deployment.md`) |
 | Registry roto | Redesplegar `apps/docs/public/r` de la versión anterior |
 
@@ -155,7 +157,7 @@ consumidores; por defecto se prefiere `deprecate` + parche.
 - [ ] Bundle del sitio generado y SHA-256 verificado.
 - [ ] Registry desplegado y accesible por HTTPS.
 - [ ] `npm publish` con la etiqueta correcta.
-- [ ] `npx deskui@x.y.z --version` responde.
+- [ ] `npx @deskui/cli@x.y.z --version` responde.
 - [ ] `PROGRESS.md` y `roadmap.md` reflejan el corte.
 
 ## Enlaces

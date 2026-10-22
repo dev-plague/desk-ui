@@ -63,8 +63,8 @@ cada corte.
 
 ## Instantánea actual (2026-10-22)
 
-- Fase 4 casi completada: sitio y registry en producción; `deskui@0.2.0`
-  empaquetado, publicación npm pendiente de OTP.
+- Fase 4 casi completada: sitio y registry en producción; `@deskui/cli@0.2.0`
+  empaquetado; falta crear la organización `@deskui` y publicar con OTP.
 - 47 componentes, 49 items de registry, Page Builder e i18n es/en.
 - 171 tests unitarios (118 UI + 12 CLI + 41 docs) + 28 E2E; axe sin violaciones
   en 27 rutas.

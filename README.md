@@ -4,15 +4,15 @@
 TypeScript estricto y distribución *copy & own*: el CLI copia el código a tu
 proyecto y desde ese momento es tuyo.
 
-[![npm](https://img.shields.io/npm/v/deskui.svg)](https://www.npmjs.com/package/deskui)
-[![license](https://img.shields.io/npm/l/deskui.svg)](https://github.com/dev-plague/desk-ui/blob/master/LICENSE)
+[![npm](https://img.shields.io/npm/v/@deskui/cli.svg)](https://www.npmjs.com/package/@deskui/cli)
+[![license](https://img.shields.io/npm/l/@deskui/cli.svg)](https://github.com/dev-plague/desk-ui/blob/master/LICENSE)
 [![docs](https://img.shields.io/badge/docs-deskui.codehive.com.co-008080)](https://deskui.codehive.com.co)
 [![GitHub](https://img.shields.io/badge/GitHub-dev--plague%2Fdesk--ui-181717?logo=github)](https://github.com/dev-plague/desk-ui)
 
 - **Documentación:** <https://deskui.codehive.com.co>
 - **Catálogo de componentes:** <https://deskui.codehive.com.co/#/componentes>
 - **Page Builder:** <https://deskui.codehive.com.co/#/constructor>
-- **npm:** <https://www.npmjs.com/package/deskui>
+- **npm:** <https://www.npmjs.com/package/@deskui/cli>
 - **Registry:** <https://deskui.codehive.com.co/r>
 
 ![Documentación de DeskUI](docs/assets/docs-home.png)
@@ -36,10 +36,10 @@ proyecto y desde ese momento es tuyo.
 ## Inicio rápido
 
 ```bash
-npx deskui init
-npx deskui add button input label group-box checkbox textarea
-npx deskui add window dialog title-bar status-bar utils
-npx deskui list
+npx @deskui/cli init
+npx @deskui/cli add button input label group-box checkbox textarea
+npx @deskui/cli add window dialog title-bar status-bar utils
+npx @deskui/cli list
 ```
 
 Requisitos: **Node.js 20.19+**, **React 18+** y **Tailwind CSS 4**.
@@ -128,7 +128,7 @@ capas, previsualizarlos en móvil, tablet y escritorio y exportar JSX, JSON o lo
 comandos del CLI:
 
 ```bash
-npx deskui add alert badge button card status-bar
+npx @deskui/cli add alert badge button card status-bar
 ```
 
 El documento se guarda en `localStorage` y se comparte exportando e importando el
@@ -143,8 +143,8 @@ también incluye una copia offline dentro del paquete.
 Puedes apuntar a otro registry:
 
 ```bash
-npx deskui add button --registry https://deskui.codehive.com.co/r
-DESKUI_REGISTRY=https://deskui.codehive.com.co/r npx deskui list
+npx @deskui/cli add button --registry https://deskui.codehive.com.co/r
+DESKUI_REGISTRY=https://deskui.codehive.com.co/r npx @deskui/cli list
 ```
 
 El formato es compatible con `registry-item.json` de shadcn/ui.

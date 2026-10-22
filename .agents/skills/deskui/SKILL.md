@@ -25,9 +25,9 @@ de idioma, carga `deskui-i18n`.
 ## Primeros pasos
 
 ```bash
-npx deskui init
-npx deskui add button input label group-box checkbox textarea radio-group select switch slider form tabs scroll-area window dialog
-npx deskui list
+npx @deskui/cli init
+npx @deskui/cli add button input label group-box checkbox textarea radio-group select switch slider form tabs scroll-area window dialog
+npx @deskui/cli list
 ```
 
 `init` copia tokens, fuentes W95FA, `lib/utils.ts`, escribe `components.json` y,
@@ -35,7 +35,7 @@ si no se pasa `--no-agents`, instala las skills de DeskUI y una sección en
 `AGENTS.md` para que los agentes del proyecto conozcan la librería.
 
 Requisitos: Node.js 20.19+, React 18+ y Tailwind CSS 4. Instala con
-`npx deskui init`; en el monorepo también puedes usar
+`npx @deskui/cli init`; en el monorepo también puedes usar
 `node packages/cli/dist/index.js init` tras `pnpm build:cli`.
 
 ## Reglas duras

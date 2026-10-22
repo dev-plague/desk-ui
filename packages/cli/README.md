@@ -1,7 +1,7 @@
 # DeskUI CLI
 
-[![npm version](https://img.shields.io/npm/v/deskui.svg)](https://www.npmjs.com/package/deskui)
-[![license](https://img.shields.io/npm/l/deskui.svg)](https://github.com/dev-plague/desk-ui/blob/master/LICENSE)
+[![npm version](https://img.shields.io/npm/v/@deskui/cli.svg)](https://www.npmjs.com/package/@deskui/cli)
+[![license](https://img.shields.io/npm/l/@deskui/cli.svg)](https://github.com/dev-plague/desk-ui/blob/master/LICENSE)
 [![docs](https://img.shields.io/badge/docs-deskui.codehive.com.co-008080)](https://deskui.codehive.com.co)
 
 CLI oficial de **DeskUI**, una librería de componentes React con estética de
@@ -16,10 +16,10 @@ proyecto y el código pasa a ser tuyo.
 ## Inicio rápido
 
 ```bash
-npx deskui init
-npx deskui add button input label group-box checkbox textarea
-npx deskui add dialog window status-bar title-bar utils
-npx deskui list
+npx @deskui/cli init
+npx @deskui/cli add button input label group-box checkbox textarea
+npx @deskui/cli add dialog window status-bar title-bar utils
+npx @deskui/cli list
 ```
 
 Requisitos: **Node.js 20.19+**, **React 18+** y **Tailwind CSS 4**.
@@ -100,7 +100,7 @@ El [constructor visual](https://deskui.codehive.com.co/#/constructor) exporta
 JSX, JSON y los comandos `add` necesarios para reproducir una página:
 
 ```bash
-npx deskui add alert badge button card status-bar
+npx @deskui/cli add alert badge button card status-bar
 ```
 
 ## Actualizar un componente copiado
@@ -108,8 +108,8 @@ npx deskui add alert badge button card status-bar
 El código es tuyo; el CLI no hace merge. Para recuperar una versión nueva:
 
 ```bash
-npx deskui add button --dry-run
-npx deskui add button --overwrite
+npx @deskui/cli add button --dry-run
+npx @deskui/cli add button --overwrite
 ```
 
 Consulta la [guía de migración](https://deskui.codehive.com.co/#/migracion).

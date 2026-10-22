@@ -47,9 +47,9 @@ automático porque los archivos son del consumidor y pueden estar editados.
 1. **Fijar la versión y el registry**
 
    ```bash
-   npx deskui --version
+   npx @deskui/cli --version
    export DESKUI_REGISTRY="https://deskui.codehive.com.co/r"
-   npx deskui list
+   npx @deskui/cli list
    ```
 
    Para una migración reproducible, apunta a una copia concreta del registry o
@@ -58,7 +58,7 @@ automático porque los archivos son del consumidor y pueden estar editados.
 2. **Simular**
 
    ```bash
-   npx deskui add button input label --dry-run
+   npx @deskui/cli add button input label --dry-run
    ```
 
    El resultado muestra archivos destino y conflictos. No escribe nada.
@@ -68,7 +68,7 @@ automático porque los archivos son del consumidor y pueden estar editados.
    Descarga el item y compara con el archivo local:
 
    ```bash
-   npx deskui add button --dry-run
+   npx @deskui/cli add button --dry-run
    diff -u src/components/ui/button.tsx /ruta/temporal/button.tsx
    ```
 
@@ -78,7 +78,7 @@ automático porque los archivos son del consumidor y pueden estar editados.
 4. **Aplicar**
 
    ```bash
-   npx deskui add button --overwrite
+   npx @deskui/cli add button --overwrite
    ```
 
    Sin `--overwrite`, el CLI se detiene ante contenido distinto. `--force`
@@ -88,10 +88,10 @@ automático porque los archivos son del consumidor y pueden estar editados.
 5. **Añadir lo nuevo**
 
    ```bash
-   npx deskui add panel card separator toolbar
-   npx deskui add desktop start-menu window-manager
-   npx deskui add file-explorer wizard properties-dialog notepad terminal
-   npx deskui add blue-screen screensaver minesweeper
+   npx @deskui/cli add panel card separator toolbar
+   npx @deskui/cli add desktop start-menu window-manager
+   npx @deskui/cli add file-explorer wizard properties-dialog notepad terminal
+   npx @deskui/cli add blue-screen screensaver minesweeper
    ```
 
 6. **CSS, fuentes y tema**

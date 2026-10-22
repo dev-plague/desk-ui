@@ -36,10 +36,10 @@ ${color.bold("Opciones")}
   -v, --version          Muestra la versión
 
 ${color.bold("Ejemplos")}
-  npx deskui init
-  npx deskui add button input label group-box tabs
-  npx deskui add dialog --dry-run
-  npx deskui list
+  npx @deskui/cli init
+  npx @deskui/cli add button input label group-box tabs
+  npx @deskui/cli add dialog --dry-run
+  npx @deskui/cli list
 `;
 
 function stringValue(value: string | boolean | undefined) {
@@ -144,7 +144,7 @@ async function run() {
 
     line(color.dim("\nSiguiente paso:"));
     line(
-      "  npx deskui add button input label group-box checkbox textarea radio-group select switch slider form tabs scroll-area window dialog",
+      "  npx @deskui/cli add button input label group-box checkbox textarea radio-group select switch slider form tabs scroll-area window dialog",
     );
     return;
   }

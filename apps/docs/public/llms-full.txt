@@ -26,9 +26,9 @@ de idioma, carga `deskui-i18n`.
 ## Primeros pasos
 
 ```bash
-npx deskui init
-npx deskui add button input label group-box checkbox textarea radio-group select switch slider form tabs scroll-area window dialog
-npx deskui list
+npx @deskui/cli init
+npx @deskui/cli add button input label group-box checkbox textarea radio-group select switch slider form tabs scroll-area window dialog
+npx @deskui/cli list
 ```
 
 `init` copia tokens, fuentes W95FA, `lib/utils.ts`, escribe `components.json` y,
@@ -36,7 +36,7 @@ si no se pasa `--no-agents`, instala las skills de DeskUI y una sección en
 `AGENTS.md` para que los agentes del proyecto conozcan la librería.
 
 Requisitos: Node.js 20.19+, React 18+ y Tailwind CSS 4. Instala con
-`npx deskui init`; en el monorepo también puedes usar
+`npx @deskui/cli init`; en el monorepo también puedes usar
 `node packages/cli/dist/index.js init` tras `pnpm build:cli`.
 
 ## Reglas duras
@@ -303,7 +303,7 @@ interface BuilderBlock {
 
 - JSX con imports por archivo (`@/components/ui/...`).
 - JSON del documento completo.
-- Comandos `npx deskui add ...` a partir de los tipos usados.
+- Comandos `npx @deskui/cli add ...` a partir de los tipos usados.
 - El tema se aplica con `data-theme` en el preview y se reproduce al exportar.
 
 ## Pruebas
@@ -1926,7 +1926,7 @@ opaca en `node_modules`: el código pasa a ser tuyo.
 ## init
 
 ```bash
-npx deskui init
+npx @deskui/cli init
 ```
 
 Detecta `src/`, el alias de imports y el CSS de entrada. Copia:
@@ -1940,18 +1940,18 @@ Detecta `src/`, el alias de imports y el CSS de entrada. Copia:
 Opciones:
 
 ```bash
-npx deskui init --alias "~/" --css src/app.css
-npx deskui init --no-install
-npx deskui init --no-agents
-npx deskui init --overwrite
+npx @deskui/cli init --alias "~/" --css src/app.css
+npx @deskui/cli init --no-install
+npx @deskui/cli init --no-agents
+npx @deskui/cli init --overwrite
 ```
 
 ## add
 
 ```bash
-npx deskui add button input label group-box
-npx deskui add dialog --dry-run
-npx deskui add pagination --overwrite
+npx @deskui/cli add button input label group-box
+npx @deskui/cli add dialog --dry-run
+npx @deskui/cli add pagination --overwrite
 ```
 
 `add` resuelve dependencias del registry. Por ejemplo, `dialog` copia antes
@@ -1971,7 +1971,7 @@ Opciones:
 ## list
 
 ```bash
-npx deskui list
+npx @deskui/cli list
 ```
 
 Lista los 49 items del registry (47 componentes + `utils` + `i18n`).
@@ -1999,7 +1999,7 @@ import { cn } from "@/lib/utils";
 El código es tuyo. Si quieres recuperar una versión nueva:
 
 ```bash
-npx deskui add button --overwrite
+npx @deskui/cli add button --overwrite
 ```
 
 Revisa el diff: puedes haber personalizado el componente. Para cambios
@@ -2533,8 +2533,8 @@ o volver a importar.
 `generateAddCommands` recoge los items del registry usados y genera:
 
 ```bash
-npx deskui init
-npx deskui add alert badge button card status-bar
+npx @deskui/cli init
+npx @deskui/cli add alert badge button card status-bar
 ```
 
 El CLI resuelve las dependencias (`label`, `title-bar`, `status-bar`, `utils`…).

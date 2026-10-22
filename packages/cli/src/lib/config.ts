@@ -39,7 +39,7 @@ export async function readConfig(cwd: string): Promise<ComponentsConfig> {
 
   if (!existsSync(file)) {
     throw new Error(
-      "No se encontró components.json. Ejecuta primero `npx deskui init`.",
+      "No se encontró components.json. Ejecuta primero `npx @deskui/cli init`.",
     );
   }
 

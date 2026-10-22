@@ -63,7 +63,7 @@ Reglas:
 - Densidad 21–23 px en escritorio y 24 px de área táctil en móvil.
 - Todo control necesita nombre accesible y foco visible.
 
-CLI: \`npx deskui list\` y \`npx deskui add <componente>\`.
+CLI: \`npx @deskui/cli list\` y \`npx @deskui/cli add <componente>\`.
 ${AGENTS_END}`;
 }
 

@@ -60,7 +60,7 @@ interface BuilderBlock {
 
 - JSX con imports por archivo (`@/components/ui/...`).
 - JSON del documento completo.
-- Comandos `npx deskui add ...` a partir de los tipos usados.
+- Comandos `npx @deskui/cli add ...` a partir de los tipos usados.
 - El tema se aplica con `data-theme` en el preview y se reproduce al exportar.
 
 ## Pruebas

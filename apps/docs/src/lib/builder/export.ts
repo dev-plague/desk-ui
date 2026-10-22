@@ -108,9 +108,9 @@ export function collectRegistryItems(
 
 export function generateAddCommands(document: BuilderDocument): string {
   const items = collectRegistryItems(document.blocks);
-  const lines = ["npx deskui init"];
+  const lines = ["npx @deskui/cli init"];
   if (items.length > 0) {
-    lines.push(`npx deskui add ${items.join(" ")}`);
+    lines.push(`npx @deskui/cli add ${items.join(" ")}`);
   }
   return lines.join("\n");
 }

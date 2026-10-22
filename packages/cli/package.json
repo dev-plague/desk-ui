@@ -1,5 +1,5 @@
 {
-  "name": "deskui",
+  "name": "@deskui/cli",
   "version": "0.2.0",
   "description": "CLI de DeskUI: copia tokens y componentes a tu proyecto (copy & own).",
   "homepage": "https://deskui.codehive.com.co",

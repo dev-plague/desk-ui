@@ -37,9 +37,9 @@ Las cuatro skills se incluyen completas en `llms-full.txt` y viven en
 ## Instalación rápida
 
 ```bash
-npx deskui init
-npx deskui add button input label group-box checkbox textarea
-npx deskui list
+npx @deskui/cli init
+npx @deskui/cli add button input label group-box checkbox textarea
+npx @deskui/cli list
 ```
 
 En un consumidor, los componentes viven en `@/components/ui/<nombre>` y

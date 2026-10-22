@@ -115,7 +115,7 @@ en tres tamaños, exportarla y reproducirla en un proyecto nuevo.
 - [x] Revisión de licencias de fuentes, iconos y dependencias.
 - [x] Empaquetado del CLI con licencia y metadatos npm.
 - [x] Deploy del sitio y del registry en `deskui.codehive.com.co`.
-- [ ] Publicación en npm del CLI y verificación con `npx deskui`.
+- [ ] Publicación en npm del CLI y verificación con `npx @deskui/cli`.
 - [ ] Decisión sobre publicar `@deskui/ui`.
 
 ## Fuera de alcance por ahora

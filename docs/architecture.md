@@ -283,9 +283,9 @@ Paquete `deskui`, binario `deskui`. No tiene dependencias de runtime: usa
 `node:util`, `node:fs`, `node:child_process` y `fetch` nativo.
 
 ```bash
-npx deskui init
-npx deskui add button input label checkbox textarea window dialog
-npx deskui list
+npx @deskui/cli init
+npx @deskui/cli add button input label checkbox textarea window dialog
+npx @deskui/cli list
 ```
 
 `init`:
@@ -318,7 +318,7 @@ Prioridad:
 5. `packages/cli/registry` (incluido en el paquete)
 6. `https://deskui.codehive.com.co/r`
 
-La copia incluida permite `npx deskui add …` sin conexión y hace que la
+La copia incluida permite `npx @deskui/cli add …` sin conexión y hace que la
 versión del CLI y la del registry sean reproducibles. Para consumir un registry
 remoto se pasa `--registry`.
 
@@ -399,7 +399,7 @@ Las props desconocidas se descartan y los ids duplicados se regeneran. El tema y
 el fondo forman parte del documento y se aplican con `data-theme` en el preview.
 
 La exportación genera JSX con imports por archivo (`@/components/ui/...`), JSON y
-los comandos `npx deskui add`. El catálogo es la fuente única de defaults y
+los comandos `npx @deskui/cli add`. El catálogo es la fuente única de defaults y
 campos; el renderer y el exportador se mantienen en paralelo y se cubren con
 tests de exportación.
 

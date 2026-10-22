@@ -13,7 +13,7 @@ Esta guía cubre el salto de **0.1.0 a 0.2.0**, la primera versión publicada. E
 
 ## Antes de empezar
 
-1. Confirma la versión que tienes: `npx deskui --version`.
+1. Confirma la versión que tienes: `npx @deskui/cli --version`.
 2. Trabaja en una rama o copia de seguridad; el CLI escribe archivos.
 3. Anota los componentes que has editado a mano. Esos son los que requieren
    revisión manual.
@@ -21,7 +21,7 @@ Esta guía cubre el salto de **0.1.0 a 0.2.0**, la primera versión publicada. E
 
 ```bash
 export DESKUI_REGISTRY="https://deskui.codehive.com.co/r"
-npx deskui list
+npx @deskui/cli list
 ```
 
 ## Qué cambia en 0.2.0
@@ -56,7 +56,7 @@ deliberada; si encuentras una diferencia, trátala como bug y repórtala.
 ### 1. Simula la instalación
 
 ```bash
-npx deskui add button input label --dry-run
+npx @deskui/cli add button input label --dry-run
 ```
 
 `--dry-run` lista los archivos que se escribirían y los conflictos detectados,
@@ -67,7 +67,7 @@ sin tocar el proyecto.
 Copia el archivo nuevo a un directorio temporal y compáralo con el tuyo:
 
 ```bash
-npx deskui add button --dry-run
+npx @deskui/cli add button --dry-run
 diff -u src/components/ui/button.tsx /ruta/al/button.tsx
 ```
 
@@ -77,7 +77,7 @@ modificado, integra a mano los cambios del registry: el CLI no hace merge.
 ### 3. Sobrescribe solo lo que aceptas
 
 ```bash
-npx deskui add button --overwrite
+npx @deskui/cli add button --overwrite
 ```
 
 Sin `--overwrite`, el CLI se detiene ante un archivo con contenido distinto y no
@@ -87,10 +87,10 @@ instalación limpia.
 ### 4. Añade lo nuevo
 
 ```bash
-npx deskui add panel card separator toolbar
-npx deskui add desktop start-menu window-manager
-npx deskui add file-explorer wizard properties-dialog notepad terminal
-npx deskui add blue-screen screensaver minesweeper
+npx @deskui/cli add panel card separator toolbar
+npx @deskui/cli add desktop start-menu window-manager
+npx @deskui/cli add file-explorer wizard properties-dialog notepad terminal
+npx @deskui/cli add blue-screen screensaver minesweeper
 ```
 
 `add` resuelve `registryDependencies`, así que los helpers compartidos
@@ -150,7 +150,7 @@ El CLI no es transaccional: si falla a mitad, pueden quedar archivos parciales.
 Para volver atrás:
 
 1. Restaura los archivos desde tu rama o copia de seguridad.
-2. Vuelve a ejecutar `npx deskui init` solo si el CSS o los helpers quedaron
+2. Vuelve a ejecutar `npx @deskui/cli init` solo si el CSS o los helpers quedaron
    inconsistentes.
 3. Reporta el caso con la versión del CLI, el componente y el mensaje de error.
 

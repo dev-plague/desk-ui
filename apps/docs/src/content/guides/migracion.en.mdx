@@ -13,14 +13,14 @@ This guide covers the jump from **0.1.0 to 0.2.0**, the first published version.
 
 ## Before you start
 
-1. Check the version you have: `npx deskui --version`.
+1. Check the version you have: `npx @deskui/cli --version`.
 2. Work on a branch or a backup; the CLI writes files.
 3. Write down the components you edited by hand. Those need manual review.
 4. Pin the registry you want so the migration is reproducible:
 
 ```bash
 export DESKUI_REGISTRY="https://deskui.codehive.com.co/r"
-npx deskui list
+npx @deskui/cli list
 ```
 
 ## What changes in 0.2.0
@@ -55,7 +55,7 @@ it as a bug and report it.
 ### 1. Simulate the install
 
 ```bash
-npx deskui add button input label --dry-run
+npx @deskui/cli add button input label --dry-run
 ```
 
 `--dry-run` lists the files that would be written and the conflicts it detects,
@@ -66,7 +66,7 @@ without touching the project.
 Copy the new file to a temporary directory and compare it with yours:
 
 ```bash
-npx deskui add button --dry-run
+npx @deskui/cli add button --dry-run
 diff -u src/components/ui/button.tsx /path/to/button.tsx
 ```
 
@@ -76,7 +76,7 @@ merge the registry changes by hand: the CLI does not merge.
 ### 3. Overwrite only what you accept
 
 ```bash
-npx deskui add button --overwrite
+npx @deskui/cli add button --overwrite
 ```
 
 Without `--overwrite`, the CLI stops at a file with different content and does
@@ -86,10 +86,10 @@ clean install.
 ### 4. Add the new pieces
 
 ```bash
-npx deskui add panel card separator toolbar
-npx deskui add desktop start-menu window-manager
-npx deskui add file-explorer wizard properties-dialog notepad terminal
-npx deskui add blue-screen screensaver minesweeper
+npx @deskui/cli add panel card separator toolbar
+npx @deskui/cli add desktop start-menu window-manager
+npx @deskui/cli add file-explorer wizard properties-dialog notepad terminal
+npx @deskui/cli add blue-screen screensaver minesweeper
 ```
 
 `add` resolves `registryDependencies`, so shared helpers (`lib/utils.ts`,
@@ -146,7 +146,7 @@ The CLI is not transactional: if it fails midway, partial files may remain. To
 roll back:
 
 1. Restore the files from your branch or backup.
-2. Re-run `npx deskui init` only if the CSS or the helpers were left inconsistent.
+2. Re-run `npx @deskui/cli init` only if the CSS or the helpers were left inconsistent.
 3. Report the case with the CLI version, the component and the error message.
 
 <Alert variant="info" className="my-3">

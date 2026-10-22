@@ -116,7 +116,7 @@
 | NR-012 | 2026-10-22 | Rebranding a DeskUI y layout del constructor a altura completa | Done | D-033; paleta de dos columnas sin scroll permanente |
 | NR-013 | 2026-10-22 | i18n español/inglés en la documentación y en los textos internos de los componentes | Done | D-034; `apps/docs/src/i18n/`, `DeskUILocaleProvider`, selector ES/EN y `?lang=en` |
 | NR-014 | 2026-10-22 | Material para agentes IA: skills, `AGENTS.md`, `llms.txt` y copia desde el CLI | Done | D-035; `skills/`, `docs/ai.md`, `deskui init` y `--no-agents` |
-| NR-015 | 2026-10-22 | Preparar la publicación 0.2.0: versionado, registry estático en `/r`, auditoría de licencias y guías de release, despliegue y migración | Partial | D-036, D-037 y D-038; sitio y registry en producción; `deskui@0.2.0` empaquetado, publicación npm pendiente de OTP |
+| NR-015 | 2026-10-22 | Preparar la publicación 0.2.0: versionado, registry estático en `/r`, auditoría de licencias y guías de release, despliegue y migración | Partial | D-036, D-037 y D-038; sitio y registry en producción; `@deskui/cli@0.2.0` empaquetado; falta crear la organización `@deskui` y publicar con OTP |
 | NR-016 | 2026-10-22 | Hacer pública la información del proyecto: página «Acerca de» sin estado interno, botón a GitHub y README orientado a consumidores | Done | `#/acerca`, `README.md`, `packages/cli/README.md` y enlaces a `https://github.com/dev-plague/desk-ui` |
 
 ## 9. Definición de “Done” por componente

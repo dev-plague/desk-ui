@@ -441,8 +441,8 @@ test("el constructor exporta JSX, JSON y comandos del CLI", async ({ page }) => 
   await expect(dialog.locator("pre")).toContainText('"theme": "classic"');
 
   await dialog.getByRole("tab", { name: "Comandos" }).click();
-  await expect(dialog.locator("pre")).toContainText("npx deskui init");
-  await expect(dialog.locator("pre")).toContainText("npx deskui add");
+  await expect(dialog.locator("pre")).toContainText("npx @deskui/cli init");
+  await expect(dialog.locator("pre")).toContainText("npx @deskui/cli add");
   await expect(dialog.locator("pre")).toContainText("card");
 });
 

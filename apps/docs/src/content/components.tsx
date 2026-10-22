@@ -1879,7 +1879,7 @@ export const COMPONENT_DOCS: ComponentDoc[] = [
     title: "Button",
     description:
       "Botón biselado clásico con variantes, estado pulsado y foco punteado. El botón primario usa el anillo negro grueso del botón predeterminado.",
-    install: "npx deskui add button",
+    install: "npx @deskui/cli add button",
     preview: <ButtonPreview />,
     code: buttonCode,
     props: [
@@ -1925,7 +1925,7 @@ export const COMPONENT_DOCS: ComponentDoc[] = [
     title: "Input",
     description:
       "Campo de texto hundido con borde de 2 px, selección azul y foco punteado interior. Mantiene todos los atributos nativos de <input>.",
-    install: "npx deskui add input",
+    install: "npx @deskui/cli add input",
     preview: <InputPreview />,
     code: inputCode,
     props: [
@@ -1971,7 +1971,7 @@ export const COMPONENT_DOCS: ComponentDoc[] = [
     title: "Label",
     description:
       "Etiqueta de formulario compacta que conserva la tipografía y la densidad de la interfaz clásica.",
-    install: "npx deskui add label",
+    install: "npx @deskui/cli add label",
     preview: <LabelPreview />,
     code: labelCode,
     props: [
@@ -1998,7 +1998,7 @@ export const COMPONENT_DOCS: ComponentDoc[] = [
     title: "GroupBox",
     description:
       "Fieldset clásico con la leyenda sobre el borde superior. El fondo de la leyenda enmascara la línea y crea la muesca tradicional.",
-    install: "npx deskui add group-box",
+    install: "npx @deskui/cli add group-box",
     preview: <GroupBoxPreview />,
     code: groupBoxCode,
     props: [
@@ -2026,7 +2026,7 @@ export const COMPONENT_DOCS: ComponentDoc[] = [
     title: "Checkbox",
     description:
       "Checkbox nativo de 13×13 px con check pixelado. El input real sigue siendo accesible por teclado y formularios.",
-    install: "npx deskui add checkbox",
+    install: "npx @deskui/cli add checkbox",
     preview: <CheckboxPreview />,
     code: checkboxCode,
     props: [
@@ -2066,7 +2066,7 @@ export const COMPONENT_DOCS: ComponentDoc[] = [
     title: "Textarea",
     description:
       "Área de texto hundida y redimensionable en vertical, con la misma tipografía y foco que Input.",
-    install: "npx deskui add textarea",
+    install: "npx @deskui/cli add textarea",
     preview: <TextareaPreview />,
     code: textareaCode,
     props: [
@@ -2099,7 +2099,7 @@ export const COMPONENT_DOCS: ComponentDoc[] = [
     title: "Window",
     description:
       "Ventana componible con TitleBar, Body y StatusBar. Los controles sin manejador se dibujan inertes, nunca como botones rotos.",
-    install: "npx deskui add window",
+    install: "npx @deskui/cli add window",
     preview: <WindowPreview />,
     code: windowCode,
     props: [
@@ -2145,7 +2145,7 @@ export const COMPONENT_DOCS: ComponentDoc[] = [
     title: "Dialog",
     description:
       "Diálogo modal construido sobre <dialog> nativo: foco atrapado, Escape, backdrop y retorno de foco sin dependencias externas.",
-    install: "npx deskui add dialog",
+    install: "npx @deskui/cli add dialog",
     preview: <DialogPreview />,
     code: dialogCode,
     props: [
@@ -2203,7 +2203,7 @@ export const COMPONENT_DOCS: ComponentDoc[] = [
     title: "RadioGroup",
     description:
       "Grupo de radios nativos con el círculo biselado clásico de 12 px y un punto de 4 px. Mantiene las flechas del teclado y el comportamiento de formulario.",
-    install: "npx deskui add radio-group",
+    install: "npx @deskui/cli add radio-group",
     preview: <RadioGroupPreview />,
     code: radioGroupCode,
     props: [
@@ -2249,7 +2249,7 @@ export const COMPONENT_DOCS: ComponentDoc[] = [
     title: "Select",
     description:
       "Select nativo con campo hundido y botón de flecha elevado. Conserva el comportamiento nativo y evita una dependencia de Radix para un control básico.",
-    install: "npx deskui add select",
+    install: "npx @deskui/cli add select",
     preview: <SelectPreview />,
     code: selectCode,
     props: [
@@ -2283,7 +2283,7 @@ export const COMPONENT_DOCS: ComponentDoc[] = [
     title: "Switch",
     description:
       "Interruptor retro con pista hundida y perilla elevada. Es un botón nativo con role=switch, por lo que Space y Enter funcionan.",
-    install: "npx deskui add switch",
+    install: "npx @deskui/cli add switch",
     preview: <SwitchPreview />,
     code: switchCode,
     props: [
@@ -2323,7 +2323,7 @@ export const COMPONENT_DOCS: ComponentDoc[] = [
     title: "Slider",
     description:
       "Slider nativo con pista hundida de 4 px y thumb rectangular de 11×21 px, como en los paneles de control de la época.",
-    install: "npx deskui add slider",
+    install: "npx @deskui/cli add slider",
     preview: <SliderPreview />,
     code: sliderCode,
     props: [
@@ -2363,7 +2363,7 @@ export const COMPONENT_DOCS: ComponentDoc[] = [
     title: "Form",
     description:
       "Integración con React Hook Form y Zod. FormField conecta el control, FormControl propaga id/ARIA y FormMessage muestra errores accesibles.",
-    install: "npx deskui add form",
+    install: "npx @deskui/cli add form",
     preview: <FormPreview />,
     code: formCode,
     props: [
@@ -2409,7 +2409,7 @@ export const COMPONENT_DOCS: ComponentDoc[] = [
     title: "Tabs",
     description:
       "Pestañas de propiedades sobre Radix Tabs. La pestaña activa se fusiona con el panel y el teclado navega con las flechas.",
-    install: "npx deskui add tabs",
+    install: "npx @deskui/cli add tabs",
     preview: <TabsPreview />,
     code: tabsCode,
     props: [
@@ -2449,7 +2449,7 @@ export const COMPONENT_DOCS: ComponentDoc[] = [
     title: "ScrollArea",
     description:
       "Contenedor con scroll nativo y barra clásica de 16 px con flechas, pista tramada y thumb cuadrado. El viewport es focusable para que el teclado pueda desplazar el contenido.",
-    install: "npx deskui add scroll-area",
+    install: "npx @deskui/cli add scroll-area",
     preview: <ScrollAreaPreview />,
     code: scrollAreaCode,
     props: [
@@ -2484,7 +2484,7 @@ export const COMPONENT_DOCS: ComponentDoc[] = [
     title: "Badge",
     description:
       "Etiqueta biselada compacta con un punto de estado semántico. El texto siempre usa el color de tinta para mantener contraste.",
-    install: "npx deskui add badge",
+    install: "npx @deskui/cli add badge",
     preview: <BadgePreview />,
     code: badgeCode,
     props: [
@@ -2511,7 +2511,7 @@ export const COMPONENT_DOCS: ComponentDoc[] = [
     title: "Alert",
     description:
       "Aviso con marco de ventana y una franja semántica. Compón el contenido con AlertTitle y AlertDescription.",
-    install: "npx deskui add alert",
+    install: "npx @deskui/cli add alert",
     preview: <AlertPreview />,
     code: alertCode,
     props: [
@@ -2544,7 +2544,7 @@ export const COMPONENT_DOCS: ComponentDoc[] = [
     title: "Toast",
     description:
       "Notificaciones de bandeja con un proveedor global, cierre manual y auto-cierre configurable.",
-    install: "npx deskui add toast",
+    install: "npx @deskui/cli add toast",
     preview: <ToastPreview />,
     code: toastCode,
     props: [
@@ -2578,7 +2578,7 @@ export const COMPONENT_DOCS: ComponentDoc[] = [
     title: "ProgressBar",
     description:
       "Barra de progreso hundida con bloques azules separados por un píxel, como en los instaladores clásicos.",
-    install: "npx deskui add progress-bar",
+    install: "npx @deskui/cli add progress-bar",
     preview: <ProgressBarPreview />,
     code: progressCode,
     props: [
@@ -2611,7 +2611,7 @@ export const COMPONENT_DOCS: ComponentDoc[] = [
     title: "Tooltip",
     description:
       "Tooltip amarillo clásico sobre Radix Tooltip. Aparece con hover o foco y se cierra con Escape.",
-    install: "npx deskui add tooltip",
+    install: "npx @deskui/cli add tooltip",
     preview: <TooltipPreview />,
     code: tooltipCode,
     props: [
@@ -2644,7 +2644,7 @@ export const COMPONENT_DOCS: ComponentDoc[] = [
     title: "MenuBar",
     description:
       "Barra de menús de ventana sobre Radix Menubar. Soporta teclado, submenús y atajos visuales.",
-    install: "npx deskui add menu-bar",
+    install: "npx @deskui/cli add menu-bar",
     preview: <MenuBarPreview />,
     code: menuBarCode,
     props: [
@@ -2683,7 +2683,7 @@ export const COMPONENT_DOCS: ComponentDoc[] = [
     title: "DropdownMenu",
     description:
       "Menú desplegable clásico sobre Radix DropdownMenu, con etiquetas, atajos, separadores y acciones deshabilitadas.",
-    install: "npx deskui add dropdown-menu",
+    install: "npx @deskui/cli add dropdown-menu",
     preview: <DropdownMenuPreview />,
     code: dropdownCode,
     props: [
@@ -2716,7 +2716,7 @@ export const COMPONENT_DOCS: ComponentDoc[] = [
     title: "ContextMenu",
     description:
       "Menú contextual sobre Radix. Se abre con clic derecho y comparte el lenguaje visual de MenuBar y DropdownMenu.",
-    install: "npx deskui add context-menu",
+    install: "npx @deskui/cli add context-menu",
     preview: <ContextMenuPreview />,
     code: contextCode,
     props: [
@@ -2749,7 +2749,7 @@ export const COMPONENT_DOCS: ComponentDoc[] = [
     title: "Breadcrumb",
     description:
       "Migas de pan con enlaces, página actual y separadores clásicos. Útil para la navegación de la documentación o el explorador.",
-    install: "npx deskui add breadcrumb",
+    install: "npx @deskui/cli add breadcrumb",
     preview: <BreadcrumbPreview />,
     code: breadcrumbCode,
     props: [
@@ -2782,7 +2782,7 @@ export const COMPONENT_DOCS: ComponentDoc[] = [
     title: "TreeView",
     description:
       "Árbol de explorador con selección, expansión y navegación por teclado. Ideal para réplicas del explorador clásico.",
-    install: "npx deskui add tree-view",
+    install: "npx @deskui/cli add tree-view",
     preview: <TreeViewPreview />,
     code: treeCode,
     props: [
@@ -2822,7 +2822,7 @@ export const COMPONENT_DOCS: ComponentDoc[] = [
     title: "Pagination",
     description:
       "Paginación clásica con botones Anterior/Siguiente, páginas y elipsis. La página actual queda hundida.",
-    install: "npx deskui add pagination",
+    install: "npx @deskui/cli add pagination",
     preview: <PaginationPreview />,
     code: paginationCode,
     props: [
@@ -2861,7 +2861,7 @@ export const COMPONENT_DOCS: ComponentDoc[] = [
     title: "Table",
     description:
       "Tabla clásica con cabecera elevada y fija, cuerpo blanco, filas compactas y selección azul.",
-    install: "npx deskui add table",
+    install: "npx @deskui/cli add table",
     preview: <TablePreview />,
     code: tableCode,
     props: [
@@ -2901,7 +2901,7 @@ export const COMPONENT_DOCS: ComponentDoc[] = [
     title: "ListBox",
     description:
       "List box nativa con varias filas visibles, bisel hundido y selección simple o múltiple.",
-    install: "npx deskui add list-box",
+    install: "npx @deskui/cli add list-box",
     preview: <ListBoxPreview />,
     code: listBoxCode,
     props: [
@@ -2935,7 +2935,7 @@ export const COMPONENT_DOCS: ComponentDoc[] = [
     title: "StatusBar",
     description:
       "Barra de estado con campos segmentados y el bisel de estado clásico.",
-    install: "npx deskui add status-bar",
+    install: "npx @deskui/cli add status-bar",
     preview: <StatusBarPreview />,
     code: statusBarCode,
     props: [
@@ -2962,7 +2962,7 @@ export const COMPONENT_DOCS: ComponentDoc[] = [
     title: "Icon",
     description:
       "Set original de iconos pixel-art 16×16, escalables a 32×32, con nombres accesibles opcionales.",
-    install: "npx deskui add icon",
+    install: "npx @deskui/cli add icon",
     preview: <IconPreview />,
     code: iconCode,
     props: [
@@ -2996,7 +2996,7 @@ export const COMPONENT_DOCS: ComponentDoc[] = [
     title: "TitleBar",
     description:
       "Barra de título reutilizable fuera de Window, con icono, controles y estados activo/inactivo.",
-    install: "npx deskui add title-bar",
+    install: "npx @deskui/cli add title-bar",
     preview: <TitleBarPreview />,
     code: titleBarCode,
     props: [
@@ -3036,7 +3036,7 @@ export const COMPONENT_DOCS: ComponentDoc[] = [
     title: "Taskbar",
     description:
       "Barra de tareas con botón Inicio, botones de tarea, separador y bandeja del sistema.",
-    install: "npx deskui add taskbar",
+    install: "npx @deskui/cli add taskbar",
     preview: <TaskbarPreview />,
     code: taskbarCode,
     props: [
@@ -3076,7 +3076,7 @@ export const COMPONENT_DOCS: ComponentDoc[] = [
     title: "Panel",
     description:
       "Contenedor clásico con bisel configurable y estructura opcional de cabecera, cuerpo y pie.",
-    install: "npx deskui add panel",
+    install: "npx @deskui/cli add panel",
     preview: <PanelPreview />,
     code: panelCode,
     props: [
@@ -3116,7 +3116,7 @@ export const COMPONENT_DOCS: ComponentDoc[] = [
     title: "Card",
     description:
       "Tarjeta elevada para catálogos y showcases, con cabecera, título, descripción, contenido y pie.",
-    install: "npx deskui add card",
+    install: "npx @deskui/cli add card",
     preview: <CardPreview />,
     code: cardCode,
     props: [
@@ -3156,7 +3156,7 @@ export const COMPONENT_DOCS: ComponentDoc[] = [
     title: "Separator",
     description:
       "Línea horizontal o vertical con la ranura clásica de sombra y luz, sin imágenes ni bordes redondeados.",
-    install: "npx deskui add separator",
+    install: "npx @deskui/cli add separator",
     preview: <SeparatorPreview />,
     code: separatorCode,
     props: [
@@ -3184,7 +3184,7 @@ export const COMPONENT_DOCS: ComponentDoc[] = [
     title: "Toolbar",
     description:
       "Barra de herramientas con grupos, separadores, botones de alternancia y navegación por flechas.",
-    install: "npx deskui add toolbar",
+    install: "npx @deskui/cli add toolbar",
     preview: <ToolbarPreview />,
     code: toolbarCode,
     props: [
@@ -3225,7 +3225,7 @@ export const COMPONENT_DOCS: ComponentDoc[] = [
     title: "Desktop",
     description:
       "Lienzo de escritorio con iconos seleccionables, apertura por doble clic o Enter y arrastre opcional.",
-    install: "npx deskui add desktop",
+    install: "npx @deskui/cli add desktop",
     preview: <DesktopPreview />,
     code: desktopCode,
     props: [
@@ -3272,7 +3272,7 @@ export const COMPONENT_DOCS: ComponentDoc[] = [
     title: "StartMenu",
     description:
       "Menú Inicio con barra lateral, atajos y submenús en cascada sobre Radix DropdownMenu.",
-    install: "npx deskui add start-menu",
+    install: "npx @deskui/cli add start-menu",
     preview: <StartMenuPreview />,
     code: startMenuCode,
     props: [
@@ -3313,7 +3313,7 @@ export const COMPONENT_DOCS: ComponentDoc[] = [
     title: "WindowManager",
     description:
       "Gestor de ventanas con arrastre, resize, foco, z-index, minimizar, maximizar/restaurar y cerrar.",
-    install: "npx deskui add window-manager",
+    install: "npx @deskui/cli add window-manager",
     preview: <WindowManagerPreview />,
     code: windowManagerCode,
     props: [
@@ -3355,7 +3355,7 @@ export const COMPONENT_DOCS: ComponentDoc[] = [
     title: "FileExplorer",
     description:
       "Explorador de archivos con árbol de carpetas, historial, selección y vistas de iconos, lista y detalles.",
-    install: "npx deskui add file-explorer",
+    install: "npx @deskui/cli add file-explorer",
     preview: <FileExplorerPreview />,
     code: fileExplorerCode,
     props: [
@@ -3396,7 +3396,7 @@ export const COMPONENT_DOCS: ComponentDoc[] = [
     title: "Wizard",
     description:
       "Asistente por pasos con indicador de progreso, validación opcional, Atrás/Siguiente, Finalizar y Cancelar.",
-    install: "npx deskui add wizard",
+    install: "npx @deskui/cli add wizard",
     preview: <WizardPreview />,
     code: wizardCode,
     props: [
@@ -3437,7 +3437,7 @@ export const COMPONENT_DOCS: ComponentDoc[] = [
     title: "PropertiesDialog",
     description:
       "Diálogo de propiedades con pestañas, botones Aplicar/Cancelar/Aceptar y foco atrapado del Dialog nativo.",
-    install: "npx deskui add properties-dialog",
+    install: "npx @deskui/cli add properties-dialog",
     preview: <PropertiesDialogPreview />,
     code: propertiesCode,
     props: [
@@ -3478,7 +3478,7 @@ export const COMPONENT_DOCS: ComponentDoc[] = [
     title: "Notepad",
     description:
       "Editor de texto tipo Bloc de notas con menú Archivo/Edición/Formato, ajuste de línea, atajos y estado.",
-    install: "npx deskui add notepad",
+    install: "npx @deskui/cli add notepad",
     preview: <NotepadPreview />,
     code: notepadCode,
     props: [
@@ -3519,7 +3519,7 @@ export const COMPONENT_DOCS: ComponentDoc[] = [
     title: "Terminal",
     description:
       "Terminal MS-DOS con comandos internos, comandos personalizados, historial y anuncio accesible de la salida.",
-    install: "npx deskui add terminal",
+    install: "npx @deskui/cli add terminal",
     preview: <TerminalPreview />,
     code: terminalCode,
     props: [
@@ -3560,7 +3560,7 @@ export const COMPONENT_DOCS: ComponentDoc[] = [
     title: "BlueScreen",
     description:
       "Pantalla azul de error clásica con mensaje, código, pista y acción de reinicio.",
-    install: "npx deskui add blue-screen",
+    install: "npx @deskui/cli add blue-screen",
     preview: <BlueScreenPreview />,
     code: blueScreenCode,
     props: [
@@ -3601,7 +3601,7 @@ export const COMPONENT_DOCS: ComponentDoc[] = [
     title: "Screensaver",
     description:
       "Salvapantallas con campo de estrellas animado, cierre por clic o teclado y respeto de reduced motion.",
-    install: "npx deskui add screensaver",
+    install: "npx @deskui/cli add screensaver",
     preview: <ScreensaverPreview />,
     code: screensaverCode,
     props: [
@@ -3636,7 +3636,7 @@ export const COMPONENT_DOCS: ComponentDoc[] = [
     title: "Minesweeper",
     description:
       "Buscaminas jugable con minas, banderas, temporizador, contador, reinicio y tablero determinista opcional.",
-    install: "npx deskui add minesweeper",
+    install: "npx @deskui/cli add minesweeper",
     preview: <MinesweeperPreview />,
     code: minesweeperCode,
     props: [

@@ -53,7 +53,7 @@ export function HomePage({ onNavigate }: { onNavigate: (path: string) => void })
         }
       />
 
-      <InstallCommand command="npx deskui init" />
+      <InstallCommand command="npx @deskui/cli init" />
 
       <div className="mt-4 grid gap-3 sm:grid-cols-3">
         <GroupBox legend={copy.copyOwn}>
@@ -186,7 +186,7 @@ export function InstallPage({
       </DocSection>
 
       <DocSection title={copy.initTitle}>
-        <InstallCommand command="npx deskui init" />
+        <InstallCommand command="npx @deskui/cli init" />
         <p className="mt-2 text-[11px] leading-[15px] text-ink-muted">
           {copy.initNote}
         </p>
@@ -203,17 +203,17 @@ export function InstallPage({
       </DocSection>
 
       <DocSection title={copy.addTitle}>
-        <InstallCommand command="npx deskui add button input label group-box checkbox textarea radio-group select switch slider form tabs scroll-area window dialog" />
+        <InstallCommand command="npx @deskui/cli add button input label group-box checkbox textarea radio-group select switch slider form tabs scroll-area window dialog" />
         <div className="mt-2" />
-        <InstallCommand command="npx deskui add alert toast progress-bar tooltip badge menu-bar dropdown-menu context-menu breadcrumb tree-view pagination" />
+        <InstallCommand command="npx @deskui/cli add alert toast progress-bar tooltip badge menu-bar dropdown-menu context-menu breadcrumb tree-view pagination" />
         <div className="mt-2" />
-        <InstallCommand command="npx deskui add table list-box status-bar icon title-bar taskbar" />
+        <InstallCommand command="npx @deskui/cli add table list-box status-bar icon title-bar taskbar" />
         <div className="mt-2" />
-        <InstallCommand command="npx deskui add panel card separator toolbar" />
+        <InstallCommand command="npx @deskui/cli add panel card separator toolbar" />
         <div className="mt-2" />
-        <InstallCommand command="npx deskui add desktop start-menu window-manager file-explorer wizard properties-dialog" />
+        <InstallCommand command="npx @deskui/cli add desktop start-menu window-manager file-explorer wizard properties-dialog" />
         <div className="mt-2" />
-        <InstallCommand command="npx deskui add notepad terminal blue-screen screensaver minesweeper" />
+        <InstallCommand command="npx @deskui/cli add notepad terminal blue-screen screensaver minesweeper" />
         <p className="mt-2 text-[12px] leading-[16px]">
           {copy.addBody}
         </p>
@@ -251,9 +251,9 @@ import { Window } from "@/components/ui/window";`}
 
       <DocSection title={copy.commandsTitle}>
         <div className="grid gap-2">
-          <InstallCommand command="npx deskui list" />
-          <InstallCommand command="npx deskui add dialog --dry-run" />
-          <InstallCommand command="npx deskui add button --overwrite" />
+          <InstallCommand command="npx @deskui/cli list" />
+          <InstallCommand command="npx @deskui/cli add dialog --dry-run" />
+          <InstallCommand command="npx @deskui/cli add button --overwrite" />
         </div>
       </DocSection>
 

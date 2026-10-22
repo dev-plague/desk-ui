@@ -204,7 +204,7 @@ const es = {
       ],
       initTitle: "1. Inicializa el proyecto",
       initNote:
-        "Instala DeskUI con npx deskui init. Requiere Node.js 20.19+, React 18+ y Tailwind CSS 4; el registry remoto está en https://deskui.codehive.com.co/r.",
+        "Instala DeskUI con npx @deskui/cli init. Requiere Node.js 20.19+, React 18+ y Tailwind CSS 4; el registry remoto está en https://deskui.codehive.com.co/r.",
       initBody:
         "Detecta src/, el alias de imports y el CSS de entrada. Copia los tokens, las fuentes y lib/utils.ts, y escribe components.json.",
       cssComment: "# El CSS de entrada queda así:",
@@ -816,7 +816,7 @@ export const en: Messages = {
       ],
       initTitle: "1. Initialize the project",
       initNote:
-        "Install DeskUI with npx deskui init. It requires Node.js 20.19+, React 18+ and Tailwind CSS 4; the remote registry lives at https://deskui.codehive.com.co/r.",
+        "Install DeskUI with npx @deskui/cli init. It requires Node.js 20.19+, React 18+ and Tailwind CSS 4; the remote registry lives at https://deskui.codehive.com.co/r.",
       initBody:
         "Detects src/, the import alias and the entry CSS. Copies the tokens, fonts and lib/utils.ts, and writes components.json.",
       cssComment: "# The entry CSS ends up like this:",

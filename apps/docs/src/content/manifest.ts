@@ -33,7 +33,7 @@ export const COMPONENT_MANIFEST: ComponentManifestEntry[] = [
     title: "Button",
     description:
       "Botón biselado clásico con variantes, estado pulsado y foco punteado. El botón primario usa el anillo negro grueso del botón predeterminado.",
-    install: "npx deskui add button",
+    install: "npx @deskui/cli add button",
     category: "acciones",
   },
   {
@@ -41,7 +41,7 @@ export const COMPONENT_MANIFEST: ComponentManifestEntry[] = [
     title: "Input",
     description:
       "Campo de texto hundido con borde de 2 px, selección azul y foco punteado interior. Mantiene todos los atributos nativos de <input>.",
-    install: "npx deskui add input",
+    install: "npx @deskui/cli add input",
     category: "formularios",
   },
   {
@@ -49,7 +49,7 @@ export const COMPONENT_MANIFEST: ComponentManifestEntry[] = [
     title: "Label",
     description:
       "Etiqueta de formulario compacta que conserva la tipografía y la densidad de la interfaz clásica.",
-    install: "npx deskui add label",
+    install: "npx @deskui/cli add label",
     category: "formularios",
   },
   {
@@ -57,7 +57,7 @@ export const COMPONENT_MANIFEST: ComponentManifestEntry[] = [
     title: "GroupBox",
     description:
       "Fieldset clásico con la leyenda sobre el borde superior. El fondo de la leyenda enmascara la línea y crea la muesca tradicional.",
-    install: "npx deskui add group-box",
+    install: "npx @deskui/cli add group-box",
     category: "contenedores",
   },
   {
@@ -65,7 +65,7 @@ export const COMPONENT_MANIFEST: ComponentManifestEntry[] = [
     title: "Checkbox",
     description:
       "Checkbox nativo de 13×13 px con check pixelado. El input real sigue siendo accesible por teclado y formularios.",
-    install: "npx deskui add checkbox",
+    install: "npx @deskui/cli add checkbox",
     category: "formularios",
   },
   {
@@ -73,7 +73,7 @@ export const COMPONENT_MANIFEST: ComponentManifestEntry[] = [
     title: "Textarea",
     description:
       "Área de texto hundida y redimensionable en vertical, con la misma tipografía y foco que Input.",
-    install: "npx deskui add textarea",
+    install: "npx @deskui/cli add textarea",
     category: "formularios",
   },
   {
@@ -81,7 +81,7 @@ export const COMPONENT_MANIFEST: ComponentManifestEntry[] = [
     title: "Window",
     description:
       "Ventana componible con TitleBar, Body y StatusBar. Los controles sin manejador se dibujan inertes, nunca como botones rotos.",
-    install: "npx deskui add window",
+    install: "npx @deskui/cli add window",
     category: "contenedores",
   },
   {
@@ -89,7 +89,7 @@ export const COMPONENT_MANIFEST: ComponentManifestEntry[] = [
     title: "Dialog",
     description:
       "Diálogo modal construido sobre <dialog> nativo: foco atrapado, Escape, backdrop y retorno de foco sin dependencias externas.",
-    install: "npx deskui add dialog",
+    install: "npx @deskui/cli add dialog",
     category: "contenedores",
   },
   {
@@ -97,7 +97,7 @@ export const COMPONENT_MANIFEST: ComponentManifestEntry[] = [
     title: "RadioGroup",
     description:
       "Grupo de radios nativos con el círculo biselado clásico de 12 px y un punto de 4 px. Mantiene las flechas del teclado y el comportamiento de formulario.",
-    install: "npx deskui add radio-group",
+    install: "npx @deskui/cli add radio-group",
     category: "formularios",
   },
   {
@@ -105,7 +105,7 @@ export const COMPONENT_MANIFEST: ComponentManifestEntry[] = [
     title: "Select",
     description:
       "Select nativo con campo hundido y botón de flecha elevado. Conserva el comportamiento nativo y evita una dependencia de Radix para un control básico.",
-    install: "npx deskui add select",
+    install: "npx @deskui/cli add select",
     category: "formularios",
   },
   {
@@ -113,7 +113,7 @@ export const COMPONENT_MANIFEST: ComponentManifestEntry[] = [
     title: "Switch",
     description:
       "Interruptor retro con pista hundida y perilla elevada. Es un botón nativo con role=switch, por lo que Space y Enter funcionan.",
-    install: "npx deskui add switch",
+    install: "npx @deskui/cli add switch",
     category: "formularios",
   },
   {
@@ -121,7 +121,7 @@ export const COMPONENT_MANIFEST: ComponentManifestEntry[] = [
     title: "Slider",
     description:
       "Slider nativo con pista hundida de 4 px y thumb rectangular de 11×21 px, como en los paneles de control de la época.",
-    install: "npx deskui add slider",
+    install: "npx @deskui/cli add slider",
     category: "formularios",
   },
   {
@@ -129,7 +129,7 @@ export const COMPONENT_MANIFEST: ComponentManifestEntry[] = [
     title: "Form",
     description:
       "Integración con React Hook Form y Zod. FormField conecta el control, FormControl propaga id/ARIA y FormMessage muestra errores accesibles.",
-    install: "npx deskui add form",
+    install: "npx @deskui/cli add form",
     category: "formularios",
   },
   {
@@ -137,7 +137,7 @@ export const COMPONENT_MANIFEST: ComponentManifestEntry[] = [
     title: "Tabs",
     description:
       "Pestañas de propiedades sobre Radix Tabs. La pestaña activa se fusiona con el panel y el teclado navega con las flechas.",
-    install: "npx deskui add tabs",
+    install: "npx @deskui/cli add tabs",
     category: "contenedores",
   },
   {
@@ -145,7 +145,7 @@ export const COMPONENT_MANIFEST: ComponentManifestEntry[] = [
     title: "ScrollArea",
     description:
       "Contenedor con scroll nativo y barra clásica de 16 px con flechas, pista tramada y thumb cuadrado. El viewport es focusable para navegación por teclado.",
-    install: "npx deskui add scroll-area",
+    install: "npx @deskui/cli add scroll-area",
     category: "contenedores",
   },
   {
@@ -153,7 +153,7 @@ export const COMPONENT_MANIFEST: ComponentManifestEntry[] = [
     title: "Badge",
     description:
       "Etiqueta biselada compacta con un punto de estado semántico. El texto siempre usa el color de tinta para mantener contraste.",
-    install: "npx deskui add badge",
+    install: "npx @deskui/cli add badge",
     category: "feedback",
   },
   {
@@ -161,7 +161,7 @@ export const COMPONENT_MANIFEST: ComponentManifestEntry[] = [
     title: "Alert",
     description:
       "Aviso con marco de ventana y una franja semántica. Compón el contenido con AlertTitle y AlertDescription.",
-    install: "npx deskui add alert",
+    install: "npx @deskui/cli add alert",
     category: "feedback",
   },
   {
@@ -169,7 +169,7 @@ export const COMPONENT_MANIFEST: ComponentManifestEntry[] = [
     title: "Toast",
     description:
       "Notificaciones de bandeja con un proveedor global, cierre manual y auto-cierre configurable.",
-    install: "npx deskui add toast",
+    install: "npx @deskui/cli add toast",
     category: "feedback",
   },
   {
@@ -177,7 +177,7 @@ export const COMPONENT_MANIFEST: ComponentManifestEntry[] = [
     title: "ProgressBar",
     description:
       "Barra de progreso hundida con bloques azules separados por un píxel, como en los instaladores clásicos.",
-    install: "npx deskui add progress-bar",
+    install: "npx @deskui/cli add progress-bar",
     category: "feedback",
   },
   {
@@ -185,7 +185,7 @@ export const COMPONENT_MANIFEST: ComponentManifestEntry[] = [
     title: "Tooltip",
     description:
       "Tooltip amarillo clásico sobre Radix Tooltip. Aparece con hover o foco y se cierra con Escape.",
-    install: "npx deskui add tooltip",
+    install: "npx @deskui/cli add tooltip",
     category: "feedback",
   },
   {
@@ -193,7 +193,7 @@ export const COMPONENT_MANIFEST: ComponentManifestEntry[] = [
     title: "MenuBar",
     description:
       "Barra de menús de ventana sobre Radix Menubar. Soporta teclado, submenús y atajos visuales.",
-    install: "npx deskui add menu-bar",
+    install: "npx @deskui/cli add menu-bar",
     category: "navegacion",
   },
   {
@@ -201,7 +201,7 @@ export const COMPONENT_MANIFEST: ComponentManifestEntry[] = [
     title: "DropdownMenu",
     description:
       "Menú desplegable clásico sobre Radix DropdownMenu, con etiquetas, atajos, separadores y acciones deshabilitadas.",
-    install: "npx deskui add dropdown-menu",
+    install: "npx @deskui/cli add dropdown-menu",
     category: "navegacion",
   },
   {
@@ -209,7 +209,7 @@ export const COMPONENT_MANIFEST: ComponentManifestEntry[] = [
     title: "ContextMenu",
     description:
       "Menú contextual sobre Radix. Se abre con clic derecho y comparte el lenguaje visual de MenuBar y DropdownMenu.",
-    install: "npx deskui add context-menu",
+    install: "npx @deskui/cli add context-menu",
     category: "navegacion",
   },
   {
@@ -217,7 +217,7 @@ export const COMPONENT_MANIFEST: ComponentManifestEntry[] = [
     title: "Breadcrumb",
     description:
       "Migas de pan con enlaces, página actual y separadores clásicos. Útil para la navegación de la documentación o el explorador.",
-    install: "npx deskui add breadcrumb",
+    install: "npx @deskui/cli add breadcrumb",
     category: "navegacion",
   },
   {
@@ -225,7 +225,7 @@ export const COMPONENT_MANIFEST: ComponentManifestEntry[] = [
     title: "TreeView",
     description:
       "Árbol de explorador con selección, expansión y navegación por teclado. Ideal para réplicas del explorador clásico.",
-    install: "npx deskui add tree-view",
+    install: "npx @deskui/cli add tree-view",
     category: "navegacion",
   },
   {
@@ -233,7 +233,7 @@ export const COMPONENT_MANIFEST: ComponentManifestEntry[] = [
     title: "Pagination",
     description:
       "Paginación clásica con botones Anterior/Siguiente, páginas y elipsis. La página actual queda hundida.",
-    install: "npx deskui add pagination",
+    install: "npx @deskui/cli add pagination",
     category: "navegacion",
   },
   {
@@ -241,7 +241,7 @@ export const COMPONENT_MANIFEST: ComponentManifestEntry[] = [
     title: "Table",
     description:
       "Tabla clásica con cabecera elevada y fija, cuerpo blanco, filas compactas y selección azul.",
-    install: "npx deskui add table",
+    install: "npx @deskui/cli add table",
     category: "datos",
   },
   {
@@ -249,7 +249,7 @@ export const COMPONENT_MANIFEST: ComponentManifestEntry[] = [
     title: "ListBox",
     description:
       "List box nativa con varias filas visibles, bisel hundido y selección simple o múltiple.",
-    install: "npx deskui add list-box",
+    install: "npx @deskui/cli add list-box",
     category: "datos",
   },
   {
@@ -257,7 +257,7 @@ export const COMPONENT_MANIFEST: ComponentManifestEntry[] = [
     title: "StatusBar",
     description:
       "Barra de estado con campos segmentados y el bisel de estado clásico.",
-    install: "npx deskui add status-bar",
+    install: "npx @deskui/cli add status-bar",
     category: "datos",
   },
   {
@@ -265,7 +265,7 @@ export const COMPONENT_MANIFEST: ComponentManifestEntry[] = [
     title: "Icon",
     description:
       "Set original de iconos pixel-art 16×16, escalables a 32×32, con nombres accesibles opcionales.",
-    install: "npx deskui add icon",
+    install: "npx @deskui/cli add icon",
     category: "utilidades",
   },
   {
@@ -273,7 +273,7 @@ export const COMPONENT_MANIFEST: ComponentManifestEntry[] = [
     title: "TitleBar",
     description:
       "Barra de título reutilizable fuera de Window, con icono, controles y estados activo/inactivo.",
-    install: "npx deskui add title-bar",
+    install: "npx @deskui/cli add title-bar",
     category: "utilidades",
   },
   {
@@ -281,7 +281,7 @@ export const COMPONENT_MANIFEST: ComponentManifestEntry[] = [
     title: "Taskbar",
     description:
       "Barra de tareas con botón Inicio, botones de tarea, separador y bandeja del sistema.",
-    install: "npx deskui add taskbar",
+    install: "npx @deskui/cli add taskbar",
     category: "utilidades",
   },
   {
@@ -289,7 +289,7 @@ export const COMPONENT_MANIFEST: ComponentManifestEntry[] = [
     title: "Panel",
     description:
       "Contenedor clásico con bisel configurable y estructura opcional de cabecera, cuerpo y pie.",
-    install: "npx deskui add panel",
+    install: "npx @deskui/cli add panel",
     category: "contenedores",
   },
   {
@@ -297,7 +297,7 @@ export const COMPONENT_MANIFEST: ComponentManifestEntry[] = [
     title: "Card",
     description:
       "Tarjeta elevada para catálogos y showcases, con cabecera, título, descripción, contenido y pie.",
-    install: "npx deskui add card",
+    install: "npx @deskui/cli add card",
     category: "contenedores",
   },
   {
@@ -305,7 +305,7 @@ export const COMPONENT_MANIFEST: ComponentManifestEntry[] = [
     title: "Separator",
     description:
       "Línea horizontal o vertical con la ranura clásica de sombra y luz, sin imágenes ni bordes redondeados.",
-    install: "npx deskui add separator",
+    install: "npx @deskui/cli add separator",
     category: "contenedores",
   },
   {
@@ -313,7 +313,7 @@ export const COMPONENT_MANIFEST: ComponentManifestEntry[] = [
     title: "Toolbar",
     description:
       "Barra de herramientas con grupos, separadores, botones de alternancia y navegación por flechas.",
-    install: "npx deskui add toolbar",
+    install: "npx @deskui/cli add toolbar",
     category: "contenedores",
   },
   {
@@ -321,7 +321,7 @@ export const COMPONENT_MANIFEST: ComponentManifestEntry[] = [
     title: "Desktop",
     description:
       "Lienzo de escritorio con iconos seleccionables, apertura por doble clic o Enter y arrastre opcional.",
-    install: "npx deskui add desktop",
+    install: "npx @deskui/cli add desktop",
     category: "escritorio",
   },
   {
@@ -329,7 +329,7 @@ export const COMPONENT_MANIFEST: ComponentManifestEntry[] = [
     title: "StartMenu",
     description:
       "Menú Inicio con barra lateral, atajos y submenús en cascada sobre Radix DropdownMenu.",
-    install: "npx deskui add start-menu",
+    install: "npx @deskui/cli add start-menu",
     category: "escritorio",
   },
   {
@@ -337,7 +337,7 @@ export const COMPONENT_MANIFEST: ComponentManifestEntry[] = [
     title: "WindowManager",
     description:
       "Gestor de ventanas con arrastre, resize, foco, z-index, minimizar, maximizar/restaurar y cerrar.",
-    install: "npx deskui add window-manager",
+    install: "npx @deskui/cli add window-manager",
     category: "escritorio",
   },
   {
@@ -345,7 +345,7 @@ export const COMPONENT_MANIFEST: ComponentManifestEntry[] = [
     title: "FileExplorer",
     description:
       "Explorador de archivos con árbol de carpetas, historial, selección y vistas de iconos, lista y detalles.",
-    install: "npx deskui add file-explorer",
+    install: "npx @deskui/cli add file-explorer",
     category: "escritorio",
   },
   {
@@ -353,7 +353,7 @@ export const COMPONENT_MANIFEST: ComponentManifestEntry[] = [
     title: "Wizard",
     description:
       "Asistente por pasos con indicador de progreso, validación opcional, Atrás/Siguiente, Finalizar y Cancelar.",
-    install: "npx deskui add wizard",
+    install: "npx @deskui/cli add wizard",
     category: "escritorio",
   },
   {
@@ -361,7 +361,7 @@ export const COMPONENT_MANIFEST: ComponentManifestEntry[] = [
     title: "PropertiesDialog",
     description:
       "Diálogo de propiedades con pestañas, botones Aplicar/Cancelar/Aceptar y foco atrapado del Dialog nativo.",
-    install: "npx deskui add properties-dialog",
+    install: "npx @deskui/cli add properties-dialog",
     category: "escritorio",
   },
   {
@@ -369,7 +369,7 @@ export const COMPONENT_MANIFEST: ComponentManifestEntry[] = [
     title: "Notepad",
     description:
       "Editor de texto tipo Bloc de notas con menú Archivo/Edición/Formato, ajuste de línea, atajos y estado.",
-    install: "npx deskui add notepad",
+    install: "npx @deskui/cli add notepad",
     category: "escritorio",
   },
   {
@@ -377,7 +377,7 @@ export const COMPONENT_MANIFEST: ComponentManifestEntry[] = [
     title: "Terminal",
     description:
       "Terminal MS-DOS con comandos internos, comandos personalizados, historial y anuncio accesible de la salida.",
-    install: "npx deskui add terminal",
+    install: "npx @deskui/cli add terminal",
     category: "escritorio",
   },
   {
@@ -385,7 +385,7 @@ export const COMPONENT_MANIFEST: ComponentManifestEntry[] = [
     title: "BlueScreen",
     description:
       "Pantalla azul de error clásica con mensaje, código, pista y acción de reinicio.",
-    install: "npx deskui add blue-screen",
+    install: "npx @deskui/cli add blue-screen",
     category: "escritorio",
   },
   {
@@ -393,7 +393,7 @@ export const COMPONENT_MANIFEST: ComponentManifestEntry[] = [
     title: "Screensaver",
     description:
       "Salvapantallas con campo de estrellas animado, cierre por clic o teclado y respeto de reduced motion.",
-    install: "npx deskui add screensaver",
+    install: "npx @deskui/cli add screensaver",
     category: "escritorio",
   },
   {
@@ -401,7 +401,7 @@ export const COMPONENT_MANIFEST: ComponentManifestEntry[] = [
     title: "Minesweeper",
     description:
       "Buscaminas jugable con minas, banderas, temporizador, contador, reinicio y tablero determinista opcional.",
-    install: "npx deskui add minesweeper",
+    install: "npx @deskui/cli add minesweeper",
     category: "escritorio",
   },
 ];

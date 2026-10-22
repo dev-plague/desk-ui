@@ -84,8 +84,8 @@ describe("exportación del Page Builder", () => {
     ]);
 
     const commands = generateAddCommands(document);
-    expect(commands).toContain("npx deskui init");
-    expect(commands).toContain("npx deskui add card input label");
+    expect(commands).toContain("npx @deskui/cli init");
+    expect(commands).toContain("npx @deskui/cli add card input label");
   });
 
   it("no añade comandos de componentes cuando la página solo usa HTML", () => {
@@ -94,7 +94,7 @@ describe("exportación del Page Builder", () => {
       blocks: [createBlock("heading", { text: "Solo texto" })],
     };
     expect(collectRegistryItems(document.blocks)).toEqual([]);
-    expect(generateAddCommands(document)).toBe("npx deskui init");
+    expect(generateAddCommands(document)).toBe("npx @deskui/cli init");
   });
 
   it("exporta JSON que se puede volver a importar", () => {
@@ -111,7 +111,7 @@ describe("exportación del Page Builder", () => {
     const bundle = generateExportBundle(sampleDocument());
     expect(bundle.jsx).toContain("PaginaGenerada");
     expect(bundle.json).toContain('"version": 1');
-    expect(bundle.commands).toContain("npx deskui add");
+    expect(bundle.commands).toContain("npx @deskui/cli add");
   });
 
   it("importa CardHeader cuando la tarjeta solo tiene descripción", () => {
