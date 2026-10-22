@@ -1,0 +1,615 @@
+/**
+ * DeskUI — design tokens
+ * ---------------------------------
+ * Every visual decision lives here. Components never hard-code colours,
+ * bevels or fonts; they consume semantic variables so a theme can be swapped
+ * by setting `data-theme` on any ancestor.
+ *
+ * The font (W95FA) is a free recreation of the classic UI face, licensed
+ * under the SIL Open Font License. See `fonts/W95FA-OFL.txt`.
+ */
+
+@font-face {
+  font-family: "W95FA";
+  src:
+    url("./fonts/w95fa.woff2") format("woff2"),
+    url("./fonts/w95fa.woff") format("woff");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  color-scheme: light;
+
+  /* Raw palette ---------------------------------------------------------- */
+  --w95-white: #ffffff;
+  --w95-gray-100: #dfdfdf;
+  --w95-gray-200: #c0c0c0;
+  --w95-gray-300: #808080;
+  --w95-gray-400: #404040;
+  --w95-black: #000000;
+  --w95-navy: #000080;
+  --w95-blue: #1084d0;
+  --w95-teal: #008080;
+  --w95-green: #008000;
+  --w95-olive: #808000;
+  --w95-maroon: #800000;
+  --w95-red: #ff0000;
+  --w95-yellow: #ffff00;
+
+  /* Typography ----------------------------------------------------------- */
+  --w95-font-ui: "W95FA", "Tahoma", "MS Sans Serif", "Segoe UI", sans-serif;
+  --w95-font-mono: "Lucida Console", "Courier New", monospace;
+  --w95-text-ui: 11px;
+  --w95-leading-ui: 13px;
+  --w95-text-body: 12px;
+  --w95-leading-body: 16px;
+
+  /* Semantic surfaces ---------------------------------------------------- */
+  --w95-surface: var(--w95-gray-200);
+  --w95-surface-raised: var(--w95-gray-100);
+  --w95-surface-sunken: var(--w95-white);
+  --w95-surface-pressed: var(--w95-gray-100);
+  --w95-desktop: var(--w95-teal);
+
+  /* Semantic text -------------------------------------------------------- */
+  --w95-text: var(--w95-black);
+  --w95-text-muted: var(--w95-gray-400);
+  --w95-text-disabled: var(--w95-gray-300);
+  --w95-text-inverse: var(--w95-white);
+  --w95-link: #0000ff;
+
+  /* Bevel edges ---------------------------------------------------------- */
+  --w95-highlight: var(--w95-white);
+  --w95-light: var(--w95-gray-100);
+  --w95-shadow: var(--w95-gray-300);
+  --w95-dark: var(--w95-black);
+  --w95-window-frame: var(--w95-black);
+  /* 50 % dither of the classic scrollbar trough. High contrast disables it. */
+  --w95-scrollbar-dither: var(--w95-highlight);
+
+  /* Accent + selection --------------------------------------------------- */
+  --w95-accent: var(--w95-navy);
+  --w95-accent-soft: var(--w95-blue);
+  --w95-selection: var(--w95-navy);
+  --w95-selection-text: var(--w95-white);
+  --w95-focus: var(--w95-black);
+
+  /* Title bar ------------------------------------------------------------ */
+  --w95-titlebar-from: var(--w95-navy);
+  --w95-titlebar-to: var(--w95-navy);
+  --w95-titlebar-text: var(--w95-white);
+  --w95-titlebar-inactive-from: #606060;
+  --w95-titlebar-inactive-to: #707070;
+  --w95-titlebar-inactive-text: var(--w95-white);
+
+  /* Semantic status colours --------------------------------------------- */
+  --w95-success: var(--w95-green);
+  --w95-warning: var(--w95-olive);
+  --w95-danger: var(--w95-maroon);
+  --w95-info: var(--w95-navy);
+  --w95-tooltip: #ffffe1;
+
+  /* Terminal ------------------------------------------------------------- */
+  --w95-terminal-bg: #000000;
+  --w95-terminal-text: #c0c0c0;
+  --w95-terminal-prompt: #ffffff;
+  --w95-terminal-accent: #55ff55;
+
+  /* Bevel recipes -------------------------------------------------------- */
+  --w95-bevel-raised:
+    inset -1px -1px var(--w95-dark), inset 1px 1px var(--w95-highlight),
+    inset -2px -2px var(--w95-shadow), inset 2px 2px var(--w95-light);
+  --w95-bevel-sunken:
+    inset -1px -1px var(--w95-highlight), inset 1px 1px var(--w95-shadow),
+    inset -2px -2px var(--w95-light), inset 2px 2px var(--w95-dark);
+  --w95-bevel-window:
+    inset -1px -1px var(--w95-window-frame), inset 1px 1px var(--w95-light),
+    inset -2px -2px var(--w95-shadow), inset 2px 2px var(--w95-highlight);
+  --w95-bevel-field:
+    inset -1px -1px var(--w95-highlight),
+    inset 1px 1px var(--w95-shadow), inset -2px -2px var(--w95-light),
+    inset 2px 2px var(--w95-window-frame);
+  --w95-bevel-status:
+    inset -1px -1px var(--w95-surface), inset 1px 1px var(--w95-shadow);
+  --w95-bevel-group:
+    inset 1px 1px var(--w95-shadow), inset -1px -1px var(--w95-highlight);
+  --w95-bevel-tab:
+    inset -1px 0 var(--w95-dark), inset 1px 1px var(--w95-light),
+    inset -2px 0 var(--w95-shadow), inset 2px 2px var(--w95-highlight);
+  --w95-bevel-default:
+    inset -2px -2px var(--w95-dark), inset 1px 1px var(--w95-dark),
+    inset 2px 2px var(--w95-highlight), inset -3px -3px var(--w95-shadow),
+    inset 3px 3px var(--w95-light);
+  --w95-bevel-default-sunken:
+    inset 2px 2px var(--w95-dark), inset -1px -1px var(--w95-dark),
+    inset -2px -2px var(--w95-highlight), inset 3px 3px var(--w95-shadow),
+    inset -3px -3px var(--w95-light);
+
+  /* Geometry ------------------------------------------------------------- */
+  --w95-radius: 0px;
+  --w95-titlebar-height: 18px;
+  --w95-control-width: 16px;
+  --w95-control-height: 14px;
+  --w95-shadow-hard: 2px 2px 0 var(--w95-dark);
+}
+
+/* The gradient theme adds the blue-to-light-blue title bar gradient seen in the
+   reference screenshots. The base theme keeps the flat classic navy. */
+[data-theme="gradient"] {
+  --w95-titlebar-to: #1084d0;
+  --w95-titlebar-inactive-to: #707070;
+}
+
+/* High contrast: outline-driven, WCAG-friendly. */
+[data-theme="high-contrast"] {
+  color-scheme: dark;
+  --w95-surface: #000000;
+  --w95-surface-raised: #000000;
+  --w95-surface-sunken: #000000;
+  --w95-surface-pressed: #1a1a1a;
+  --w95-desktop: #000000;
+  --w95-text: #ffffff;
+  --w95-text-muted: #ffffff;
+  --w95-text-disabled: #a0a0a0;
+  --w95-text-inverse: #000000;
+  --w95-link: #00ffff;
+  --w95-highlight: #ffffff;
+  --w95-light: #ffffff;
+  --w95-shadow: #808080;
+  --w95-dark: #ffffff;
+  --w95-window-frame: #ffffff;
+  --w95-scrollbar-dither: transparent;
+  --w95-accent: #ffff00;
+  --w95-accent-soft: #ffff00;
+  --w95-selection: #ffff00;
+  --w95-selection-text: #000000;
+  --w95-focus: #ffff00;
+  --w95-titlebar-from: #000000;
+  --w95-titlebar-to: #000000;
+  --w95-titlebar-text: #ffff00;
+  --w95-titlebar-inactive-from: #000000;
+  --w95-titlebar-inactive-to: #000000;
+  --w95-titlebar-inactive-text: #a0a0a0;
+  --w95-success: #00ff00;
+  --w95-warning: #ffff00;
+  --w95-danger: #ff0000;
+  --w95-info: #00ffff;
+  --w95-tooltip: #000000;
+  --w95-terminal-bg: #000000;
+  --w95-terminal-text: #ffffff;
+  --w95-terminal-prompt: #ffff00;
+  --w95-terminal-accent: #00ff00;
+}
+
+/* Alternate historical colour schemes. They are deliberately original
+   palettes in the spirit of the era, not copies of proprietary assets. */
+[data-theme="desert"] {
+  --w95-surface: #d6c6a8;
+  --w95-surface-raised: #eadcc2;
+  --w95-surface-sunken: #fffaf0;
+  --w95-surface-pressed: #c9b795;
+  --w95-desktop: #8a6d3b;
+  --w95-text: #1e160a;
+  --w95-text-muted: #4a3b26;
+  --w95-text-disabled: #8a7a5c;
+  --w95-highlight: #fffaf0;
+  --w95-light: #eadcc2;
+  --w95-shadow: #8a7a5c;
+  --w95-dark: #3b2f1e;
+  --w95-window-frame: #3b2f1e;
+  --w95-accent: #7a4b00;
+  --w95-accent-soft: #c28a2c;
+  --w95-selection: #7a4b00;
+  --w95-titlebar-from: #7a4b00;
+  --w95-titlebar-to: #7a4b00;
+  --w95-titlebar-inactive-from: #5e5038;
+  --w95-titlebar-inactive-to: #6e5f45;
+}
+
+[data-theme="rose"] {
+  --w95-surface: #d4c0c8;
+  --w95-surface-raised: #f0dde5;
+  --w95-surface-sunken: #fff5f8;
+  --w95-surface-pressed: #c5aeb8;
+  --w95-desktop: #6d3b4e;
+  --w95-text: #2a121b;
+  --w95-text-muted: #4a2a36;
+  --w95-text-disabled: #9b7886;
+  --w95-highlight: #fff5f8;
+  --w95-light: #f0dde5;
+  --w95-shadow: #8a6a78;
+  --w95-dark: #3b1f2a;
+  --w95-window-frame: #3b1f2a;
+  --w95-accent: #7a1f3d;
+  --w95-accent-soft: #a83a62;
+  --w95-selection: #7a1f3d;
+  --w95-titlebar-from: #5c1530;
+  --w95-titlebar-to: #5c1530;
+  --w95-titlebar-inactive-from: #5e4550;
+  --w95-titlebar-inactive-to: #6e525e;
+}
+
+[data-theme="storm"] {
+  --w95-surface: #b8bcc4;
+  --w95-surface-raised: #dde1e8;
+  --w95-surface-sunken: #f4f7fa;
+  --w95-surface-pressed: #a8adb6;
+  --w95-desktop: #3b4a5a;
+  --w95-text: #14181d;
+  --w95-text-muted: #333a44;
+  --w95-text-disabled: #7e8794;
+  --w95-highlight: #f4f7fa;
+  --w95-light: #dde1e8;
+  --w95-shadow: #6e7480;
+  --w95-dark: #1e2228;
+  --w95-window-frame: #1e2228;
+  --w95-accent: #1f3d5c;
+  --w95-accent-soft: #3e6a8f;
+  --w95-selection: #1f3d5c;
+  --w95-titlebar-from: #1f2f3f;
+  --w95-titlebar-to: #1f2f3f;
+  --w95-titlebar-inactive-from: #4a5058;
+  --w95-titlebar-inactive-to: #5a606a;
+}
+
+/* Expose semantic tokens to Tailwind utilities (bg-surface, text-ink, ...). */
+@theme inline {
+  --font-ui: var(--w95-font-ui);
+  --font-mono: var(--w95-font-mono);
+
+  --text-ui: var(--w95-text-ui);
+  --text-ui--line-height: var(--w95-leading-ui);
+  --text-body: var(--w95-text-body);
+  --text-body--line-height: var(--w95-leading-body);
+
+  --color-surface: var(--w95-surface);
+  --color-surface-raised: var(--w95-surface-raised);
+  --color-surface-sunken: var(--w95-surface-sunken);
+  --color-surface-pressed: var(--w95-surface-pressed);
+  --color-desktop: var(--w95-desktop);
+
+  --color-ink: var(--w95-text);
+  --color-ink-muted: var(--w95-text-muted);
+  --color-ink-disabled: var(--w95-text-disabled);
+  --color-ink-inverse: var(--w95-text-inverse);
+  --color-link: var(--w95-link);
+
+  --color-highlight: var(--w95-highlight);
+  --color-bevel-light: var(--w95-light);
+  --color-bevel-shadow: var(--w95-shadow);
+  --color-bevel-dark: var(--w95-dark);
+  --color-window-frame: var(--w95-window-frame);
+
+  --color-accent: var(--w95-accent);
+  --color-accent-soft: var(--w95-accent-soft);
+  --color-selection: var(--w95-selection);
+  --color-selection-ink: var(--w95-selection-text);
+
+  --color-success: var(--w95-success);
+  --color-warning: var(--w95-warning);
+  --color-danger: var(--w95-danger);
+  --color-info: var(--w95-info);
+  --color-tooltip: var(--w95-tooltip);
+
+  --color-terminal: var(--w95-terminal-bg);
+  --color-terminal-ink: var(--w95-terminal-text);
+  --color-terminal-prompt: var(--w95-terminal-prompt);
+  --color-terminal-accent: var(--w95-terminal-accent);
+
+  --radius-classic: var(--w95-radius);
+}
+
+@utility bevel-raised {
+  box-shadow: var(--w95-bevel-raised);
+}
+
+@utility bevel-sunken {
+  box-shadow: var(--w95-bevel-sunken);
+}
+
+@utility bevel-window {
+  box-shadow: var(--w95-bevel-window);
+}
+
+@utility bevel-field {
+  box-shadow: var(--w95-bevel-field);
+}
+
+@utility bevel-status {
+  box-shadow: var(--w95-bevel-status);
+}
+
+@utility bevel-group {
+  box-shadow: var(--w95-bevel-group);
+}
+
+@utility bevel-tab {
+  box-shadow: var(--w95-bevel-tab);
+}
+
+@utility bevel-default {
+  box-shadow: var(--w95-bevel-default);
+}
+
+@utility bevel-default-sunken {
+  box-shadow: var(--w95-bevel-default-sunken);
+}
+
+@utility titlebar-surface {
+  background-image: linear-gradient(
+    90deg,
+    var(--w95-titlebar-from),
+    var(--w95-titlebar-to)
+  );
+  color: var(--w95-titlebar-text);
+}
+
+@utility titlebar-surface-inactive {
+  background-image: linear-gradient(
+    90deg,
+    var(--w95-titlebar-inactive-from),
+    var(--w95-titlebar-inactive-to)
+  );
+  color: var(--w95-titlebar-inactive-text);
+}
+
+@utility focus-dotted {
+  outline: 1px dotted var(--w95-focus);
+}
+
+@utility text-engraved {
+  color: var(--w95-text-disabled);
+  text-shadow: 1px 1px 0 var(--w95-highlight);
+}
+
+@layer components {
+  .w95-ui {
+    font-family: var(--w95-font-ui);
+    font-size: var(--w95-text-ui);
+    line-height: var(--w95-leading-ui);
+    color: var(--w95-text);
+    -webkit-font-smoothing: none;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  .w95-ui ::selection {
+    background: var(--w95-selection);
+    color: var(--w95-selection-text);
+  }
+
+  /* Native range input styled as the classic 4px sunken track with a
+     rectangular 11×21 thumb. Pseudo-elements cannot be expressed cleanly as
+     Tailwind utilities, so the recipe lives with the tokens. */
+  .w95-slider {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    height: 21px;
+    background: transparent;
+    cursor: default;
+  }
+
+  .w95-slider:focus {
+    outline: none;
+  }
+
+  .w95-slider:focus-visible {
+    outline: 1px dotted var(--w95-focus);
+    outline-offset: 2px;
+  }
+
+  .w95-slider::-webkit-slider-runnable-track {
+    height: 4px;
+    background-color: var(--w95-surface);
+    background-image: linear-gradient(
+      to bottom,
+      transparent 1px,
+      var(--w95-dark) 1px,
+      var(--w95-dark) 2px,
+      transparent 2px
+    );
+    box-shadow:
+      inset 1px 1px var(--w95-shadow),
+      inset -1px -1px var(--w95-highlight);
+  }
+
+  .w95-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 11px;
+    height: 21px;
+    margin-top: -9px;
+    border: 0;
+    border-radius: 0;
+    background: var(--w95-surface);
+    box-shadow: var(--w95-bevel-raised);
+  }
+
+  .w95-slider::-moz-range-track {
+    height: 4px;
+    background-color: var(--w95-surface);
+    background-image: linear-gradient(
+      to bottom,
+      transparent 1px,
+      var(--w95-dark) 1px,
+      var(--w95-dark) 2px,
+      transparent 2px
+    );
+    box-shadow:
+      inset 1px 1px var(--w95-shadow),
+      inset -1px -1px var(--w95-highlight);
+  }
+
+  .w95-slider::-moz-range-thumb {
+    width: 11px;
+    height: 21px;
+    border: 0;
+    border-radius: 0;
+    background: var(--w95-surface);
+    box-shadow: var(--w95-bevel-raised);
+  }
+
+  .w95-slider:disabled {
+    cursor: not-allowed;
+    opacity: 0.55;
+  }
+
+  /* Property-sheet tabs: raised when inactive, with the bottom edge removed
+     when active so the tab merges into the panel below. */
+  .w95-tab-trigger {
+    box-shadow: var(--w95-bevel-raised);
+  }
+
+  .w95-tab-trigger[data-state="active"] {
+    box-shadow: var(--w95-bevel-tab);
+  }
+
+  .w95-tab-trigger:disabled {
+    color: var(--w95-text-disabled);
+    text-shadow: 1px 1px 0 var(--w95-highlight);
+  }
+
+  .w95-progress-segmented {
+    background-image: repeating-linear-gradient(
+      90deg,
+      var(--w95-accent) 0 16px,
+      transparent 16px 18px
+    );
+  }
+
+  @keyframes w95-star-drift {
+    from {
+      transform: translate3d(0, 0, 0);
+    }
+    to {
+      transform: translate3d(-48px, 24px, 0);
+    }
+  }
+
+  .w95-screensaver-star {
+    animation: w95-star-drift linear infinite;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .w95-screensaver-star {
+      animation: none;
+    }
+  }
+}
+
+@layer utilities {
+  .w95-scrollbar {
+    scrollbar-color: var(--w95-surface) var(--w95-surface-raised);
+  }
+
+  .w95-scrollbar::-webkit-scrollbar {
+    width: 16px;
+    height: 16px;
+  }
+
+  .w95-scrollbar::-webkit-scrollbar-track {
+    background-color: var(--w95-surface);
+    background-image: repeating-conic-gradient(
+      var(--w95-scrollbar-dither) 0% 25%,
+      transparent 0% 50%
+    );
+    background-size: 2px 2px;
+  }
+
+  .w95-scrollbar::-webkit-scrollbar-thumb {
+    background: var(--w95-surface);
+    box-shadow: var(--w95-bevel-raised);
+  }
+
+  .w95-scrollbar::-webkit-scrollbar-corner {
+    background: var(--w95-surface);
+  }
+
+  /* 50 % dither pattern used by the classic scrollbar trough. */
+  .w95-scrollbar-dither {
+    background-color: var(--w95-surface);
+    background-image: repeating-conic-gradient(
+      var(--w95-scrollbar-dither) 0% 25%,
+      transparent 0% 50%
+    );
+    background-size: 2px 2px;
+  }
+
+  .w95-scrollbar-thumb {
+    background: var(--w95-surface);
+    box-shadow: var(--w95-bevel-raised);
+  }
+
+  /* Arrow keys of the custom ScrollArea, drawn with CSS so they keep the
+     square 16 px geometry and follow the active theme. */
+  .w95-scrollbar-arrow {
+    display: grid;
+    place-items: center;
+    flex: none;
+    width: 16px;
+    height: 16px;
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    background: var(--w95-surface);
+    box-shadow: var(--w95-bevel-raised);
+    color: var(--w95-text);
+    cursor: default;
+  }
+
+  .w95-scrollbar-arrow::before {
+    content: "";
+    display: block;
+    width: 0;
+    height: 0;
+    border: 4px solid transparent;
+  }
+
+  .w95-scrollbar-arrow[data-direction="up"]::before {
+    border-top-width: 0;
+    border-bottom: 7px solid currentColor;
+  }
+
+  .w95-scrollbar-arrow[data-direction="down"]::before {
+    border-bottom-width: 0;
+    border-top: 7px solid currentColor;
+  }
+
+  .w95-scrollbar-arrow[data-direction="left"]::before {
+    border-left-width: 0;
+    border-right: 7px solid currentColor;
+  }
+
+  .w95-scrollbar-arrow[data-direction="right"]::before {
+    border-right-width: 0;
+    border-left: 7px solid currentColor;
+  }
+
+  .w95-scrollbar-arrow:active:not(:disabled) {
+    box-shadow: var(--w95-bevel-sunken);
+  }
+
+  .w95-scrollbar-arrow:disabled {
+    color: var(--w95-text-disabled);
+  }
+
+  .w95-scrollbar-arrow:focus-visible {
+    outline: 1px dotted var(--w95-focus);
+    outline-offset: -3px;
+  }
+
+  /* The viewport keeps native scrolling but hides its own bars so the custom
+     ScrollArea controls are the only ones visible. */
+  .w95-scrollbar-hidden {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  .w95-scrollbar-hidden::-webkit-scrollbar {
+    display: none;
+    width: 0;
+    height: 0;
+  }
+}
