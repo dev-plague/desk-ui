@@ -1,5 +1,5 @@
 {
-  "name": "deskui",
+  "name": "@deskui/monorepo",
   "version": "0.2.0",
   "private": true,
   "packageManager": "pnpm@10.34.7",
@@ -8,9 +8,10 @@
   },
   "scripts": {
     "dev": "pnpm --filter @deskui/docs dev",
-    "build": "pnpm registry:build && pnpm registry:site && pnpm --filter deskui build && pnpm llms:build && pnpm --filter @deskui/docs build",
+    "build": "pnpm build:site && pnpm build:cli",
+    "build:site": "pnpm registry:build && pnpm registry:site && pnpm llms:build && pnpm --filter @deskui/docs build",
     "build:cli": "pnpm --filter deskui build",
-    "release:build": "pnpm registry:build && pnpm registry:site && pnpm build:cli && pnpm llms:build && pnpm --filter @deskui/docs build",
+    "release:build": "pnpm build:site && pnpm build:cli",
     "release:check": "node scripts/check-release.mjs",
     "release:pack": "pnpm --filter deskui pack --pack-destination artifacts",
     "release:bundle": "node scripts/bundle-site.mjs",

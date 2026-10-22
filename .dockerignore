@@ -1,0 +1,18 @@
+.git
+.gitignore
+node_modules
+**/node_modules
+**/dist
+artifacts
+test-results
+playwright-report
+.openchamber
+references
+axe-data.mjs
+axe-final.mjs
+
+# Generado durante el build de la imagen.
+apps/docs/public/r
+packages/cli/registry
+packages/cli/templates
+packages/cli/LICENSE

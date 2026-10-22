@@ -119,6 +119,8 @@ exportación a Next/Astro/HTML y plugins.
   `docs/releasing.md`.
 - [x] Guía de despliegue para el VPC con nginx, releases atómicas, caché, TLS y
   smoke tests.
+- [x] Imagen Docker para Dokploy (`Dockerfile`, `.dockerignore` y
+  `deploy/nginx.conf`) con sitio y registry en el mismo contenedor.
 - [ ] Desplegar el sitio y el registry en `deskui.codehive.com.co`.
 - [ ] Publicar `deskui@0.2.0` en npm y verificar `npx deskui`.
 - [ ] Decidir si `@deskui/ui` se publica o se mantiene privado.

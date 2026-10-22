@@ -25,6 +25,7 @@ pnpm typecheck
 pnpm test                # UI + CLI + docs
 pnpm test:e2e            # Playwright (requiere chromium)
 pnpm build               # registry + CLI + docs
+pnpm build:site          # registry + sitio (sin empaquetar el CLI)
 pnpm registry:build
 pnpm build:cli
 pnpm release:verify      # typecheck + tests + build de release + release:check

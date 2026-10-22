@@ -49,9 +49,9 @@ Publicarlo obligaría a mantener dos fuentes de verdad y a empaquetar los `.tsx`
    pnpm release:verify
    ```
 
-   Encadena `typecheck`, tests, build de release y `release:check`. El build
-   genera, en este orden: registry de la UI, copia a `apps/docs/public/r`, CLI
-   empaquetado, `llms.txt` y sitio.
+   Encadena `typecheck`, tests, build de release y `release:check`. `build:site`
+   genera el registry de la UI, su copia en `apps/docs/public/r`, los
+   `llms.txt` y el sitio; después `build:cli` empaqueta el CLI.
 
 5. **Empaquetar el CLI**:
 

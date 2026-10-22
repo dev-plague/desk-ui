@@ -7,6 +7,9 @@ Todas las versiones relevantes se documentan aquí. El proyecto sigue
 
 ### Añadido
 
+- **Despliegue**: `Dockerfile` multi-stage y `deploy/nginx.conf` listos para
+  Dokploy, con el sitio y el registry en la misma imagen, `pnpm build:site` y
+  healthcheck. Guía paso a paso en `docs/deployment.md`.
 - **Publicación**: registry estático servido por el sitio en `/r`, script
   `registry:site`, comprobación de release (`release:check`), auditoría de
   licencias (`licenses:check`) y comandos `release:build`, `release:pack`,

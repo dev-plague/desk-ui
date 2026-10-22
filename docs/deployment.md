@@ -1,8 +1,9 @@
 # Despliegue del sitio y del registry
 
-> Destino: **`https://deskui.codehive.com.co`** en el VPC, servido como sitio
-> estático. El registry vive en el mismo dominio, bajo **`/r`**, que es la URL
-> por defecto del CLI.
+> Destino: **`https://deskui.codehive.com.co`** en el VPC. El sitio y el
+> registry se sirven desde el mismo dominio, con el registry bajo **`/r`**, que
+> es la URL por defecto del CLI. Hay dos caminos: **Dokploy** (recomendado) o un
+> servidor propio con nginx.
 
 ## Qué se despliega
 
@@ -39,9 +40,106 @@ El orden importa: el registry se compila en `packages/ui/dist/registry`, se copi
 a `apps/docs/public/r` y Vite lo incluye en `dist/r`. Si `dist/r` no existe, el
 build se hizo sin `registry:site`.
 
-## Publicación atómica
+## Dokploy
 
-Mantén releases versionadas y un symlink `current`:
+Ruta recomendada para el VPC. El repositorio incluye `Dockerfile`,
+`.dockerignore` y `deploy/nginx.conf`: Dokploy construye la imagen, Traefik
+publica el dominio y nginx sirve el sitio y el registry. No hay que configurar
+TLS dentro del contenedor.
+
+### 1. Requisitos
+
+- Registro DNS `A`/`AAAA` de `deskui.codehive.com.co` apuntando al servidor de
+  Dokploy.
+- Puertos 80 y 443 abiertos para Traefik.
+- Repositorio de GitHub conectado en Dokploy (GitHub App o deploy key).
+- Al menos ~2 GB de RAM para el build (pnpm + Vite + Tailwind).
+
+### 2. Crear la aplicación
+
+1. **Project → Create Service → Application**.
+2. **Provider**: GitHub → `dev-plague/desk-ui`, rama `master`.
+3. **Build type**: `Dockerfile`.
+   - Dockerfile path: `Dockerfile`.
+   - Base directory: `/` (raíz del monorepo).
+4. **Port**: `80`.
+5. No definas variables de entorno, volúmenes ni comando de arranque.
+6. Activa **Auto Deploy** si quieres que cada push a `master` reconstruya.
+
+El Dockerfile usa `pnpm build:site`, así que genera el registry, el sitio y los
+`llms.txt` sin empaquetar el CLI. La imagen final es nginx con `dist/` dentro.
+
+### 3. Dominio y HTTPS
+
+En **Domains → Add Domain**:
+
+| Campo | Valor |
+| --- | --- |
+| Host | `deskui.codehive.com.co` |
+| Path | `/` |
+| Service port | `80` |
+| HTTPS | activado |
+| Certificate | Let's Encrypt |
+
+Dokploy y Traefik terminan TLS y redirigen HTTP a HTTPS. No añadas certificados
+ni `listen 443` a `deploy/nginx.conf`.
+
+### 4. Desplegar y verificar
+
+Lanza el deploy desde Dokploy y espera a que el contenedor esté healthy. Después:
+
+```bash
+curl -fsS https://deskui.codehive.com.co/ | grep -q "DeskUI"
+curl -fsS https://deskui.codehive.com.co/r/registry.json \
+  | node -e "let d='';process.stdin.on('data',c=>d+=c).on('end',()=>{const r=JSON.parse(d);console.log(r.items.length+' items')})"
+
+npx deskui@0.2.0 list --registry https://deskui.codehive.com.co/r
+```
+
+Comprueba también las cabeceras:
+
+```bash
+curl -sI https://deskui.codehive.com.co/r/registry.json   # max-age=300
+curl -sI https://deskui.codehive.com.co/assets/<archivo>  # immutable
+```
+
+Y en navegador: `#/`, `#/componentes/toolbar`, `#/constructor`, `#/migracion` y
+el selector ES/EN.
+
+### 5. Actualizaciones y rollback
+
+- **Actualizar**: push a `master`; el webhook reconstruye la imagen y Traefik
+  cambia el contenedor cuando pasa el healthcheck.
+- **Rollback**: **Deployments → Rollback** a un despliegue anterior. El sitio y
+  el registry vuelven juntos porque viven en la misma imagen.
+- **Healthcheck**: `/` (incluido en el Dockerfile) o `/r/registry.json` si
+  prefieres validar el registry.
+
+### 6. Si tu Dokploy tiene build type «Static»
+
+Puedes usarlo, pero pierdes el control de cabeceras de `deploy/nginx.conf`.
+Configura:
+
+```text
+Build command:    corepack enable && pnpm install --frozen-lockfile && pnpm build:site
+Publish directory: apps/docs/dist
+Port:             80
+```
+
+Para producción se recomienda Dockerfile: el registry necesita `Content-Type:
+application/json`, caché corta y CORS, y los assets necesitan caché inmutable.
+
+### Notas
+
+- El dominio es parte del contrato: `DEFAULT_REGISTRY` en el CLI apunta a
+  `https://deskui.codehive.com.co/r`. Si cambia, hay que publicar una versión
+  nueva del CLI o usar `--registry`.
+- No hay almacenamiento persistente: cada deploy es una imagen inmutable.
+- El CLI se sigue publicando aparte en npm; Dokploy solo despliega el sitio.
+
+## Servidor propio con nginx
+
+Si no usas Dokploy, mantén releases versionadas y un symlink `current`:
 
 ```bash
 RELEASE="/srv/deskui/releases/$(date +%Y%m%d-%H%M%S)"
@@ -180,10 +278,10 @@ un consumidor puede fijar una instantánea concreta mientras se corrige.
 
 - [ ] `pnpm release:verify` en verde.
 - [ ] `apps/docs/dist/r/registry.json` presente y con 49 items.
-- [ ] Release copiada y symlink actualizado.
-- [ ] HTTPS válido y redirect 80 → 443.
+- [ ] Imagen Docker construida y healthcheck `healthy` (Dokploy).
+- [ ] Dominio con HTTPS en Dokploy, o release + symlink en servidor propio.
 - [ ] Smoke tests de sitio, registry y CLI.
-- [ ] Release anterior conservada para rollback.
+- [ ] Rollback comprobado (deployment anterior en Dokploy o release previa).
 - [ ] `PROGRESS.md` refleja el despliegue.
 
 ## Enlaces
