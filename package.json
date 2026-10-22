@@ -1,0 +1,35 @@
+{
+  "name": "deskui",
+  "version": "0.2.0",
+  "private": true,
+  "packageManager": "pnpm@10.34.7",
+  "engines": {
+    "node": ">=20.19"
+  },
+  "scripts": {
+    "dev": "pnpm --filter @deskui/docs dev",
+    "build": "pnpm registry:build && pnpm registry:site && pnpm --filter deskui build && pnpm llms:build && pnpm --filter @deskui/docs build",
+    "build:cli": "pnpm --filter deskui build",
+    "release:build": "pnpm registry:build && pnpm registry:site && pnpm build:cli && pnpm llms:build && pnpm --filter @deskui/docs build",
+    "release:check": "node scripts/check-release.mjs",
+    "release:pack": "pnpm --filter deskui pack --pack-destination artifacts",
+    "release:bundle": "node scripts/bundle-site.mjs",
+    "release:verify": "pnpm typecheck && pnpm test && pnpm release:build && pnpm release:check",
+    "licenses:check": "node scripts/check-licenses.mjs",
+    "preview": "pnpm --filter @deskui/docs preview",
+    "test": "pnpm skills:check && pnpm --filter @deskui/ui test && pnpm --filter deskui test && pnpm --filter @deskui/docs test",
+    "test:e2e": "playwright test",
+    "test:e2e:update": "playwright test --update-snapshots",
+    "typecheck": "pnpm -r typecheck",
+    "registry:build": "pnpm --filter @deskui/ui registry:build",
+    "registry:site": "node scripts/build-registry-site.mjs",
+    "skills:sync": "node scripts/sync-skills.mjs",
+    "skills:check": "node scripts/sync-skills.mjs --check",
+    "llms:build": "node scripts/build-llms.mjs"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "@axe-core/playwright": "^4.14.0",
+    "@playwright/test": "^1.64.1"
+  }
+}

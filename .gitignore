@@ -1,0 +1,17 @@
+node_modules/
+dist/
+dist-ssr/
+coverage/
+.vite/
+.turbo/
+*.local
+.DS_Store
+*.log
+.openchamber/
+test-results/
+playwright-report/
+packages/cli/templates/
+packages/cli/registry/
+packages/cli/LICENSE
+apps/docs/public/r/
+artifacts/
