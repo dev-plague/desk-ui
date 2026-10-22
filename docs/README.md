@@ -63,14 +63,15 @@ cada corte.
 
 ## Instantánea actual (2026-10-22)
 
-- Fase 4 en curso: publicación 0.2.0 preparada, sin desplegar ni publicar.
+- Fase 4 casi completada: sitio y registry en producción; `deskui@0.2.0`
+  empaquetado, publicación npm pendiente de OTP.
 - 47 componentes, 49 items de registry, Page Builder e i18n es/en.
 - 171 tests unitarios (118 UI + 12 CLI + 41 docs) + 28 E2E; axe sin violaciones
-  en 26 rutas.
+  en 27 rutas.
 - Registry servido por el sitio en `/r`; `release:check` y `licenses:check` en
   verde.
-- Guías de publicación, despliegue, migración y licencias.
-- Próximo: desplegar en `deskui.codehive.com.co` y publicar el CLI en npm.
+- README público y página «Acerca de» con enlaces a GitHub y npm.
+- Próximo: post-MVP del Page Builder y decisión sobre `@deskui/ui`.
 
 ## Flujo de actualización
 

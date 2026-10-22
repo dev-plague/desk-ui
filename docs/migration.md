@@ -23,8 +23,8 @@ cambios se aceptan.
 
 ## 0.1.0 → 0.2.0
 
-0.2.0 es la primera versión preparada para publicarse. Incluye el rebranding a
-DeskUI, el catálogo de Fase 1–3 completo, i18n y las skills para agentes.
+0.2.0 es la primera versión publicada. Incluye el rebranding a DeskUI, el
+catálogo de Fase 1–3 completo, i18n y las skills para agentes.
 
 | Área | 0.1.0 | 0.2.0 | Acción |
 | --- | --- | --- | --- |

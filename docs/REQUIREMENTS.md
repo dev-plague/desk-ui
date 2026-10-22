@@ -16,7 +16,7 @@
 | RQ-004 | React + TypeScript estricto + Tailwind 4 + primitivas accesibles | Done | React 19, TS 5.9, Tailwind 4, Radix selectivo |
 | RQ-005 | Tematización solo con tokens CSS, sin colores hardcodeados | Done | `packages/ui/src/styles/tokens.css` |
 | RQ-006 | Componentes responsive y usables en móvil | Done | Alturas táctiles de 24 px, layout móvil en docs |
-| RQ-007 | Accesibilidad por defecto: teclado, roles, foco, contraste | Done | axe 0 violaciones en 26 rutas; Playwright cubre foco y teclado |
+| RQ-007 | Accesibilidad por defecto: teclado, roles, foco, contraste | Done | axe 0 violaciones en 27 rutas; Playwright cubre foco y teclado |
 | RQ-008 | Los componentes copiados no dependen de una librería opaca | Done | CLI copia fuente + utils; dependencias declaradas |
 
 ## 2. Identidad visual
@@ -116,7 +116,8 @@
 | NR-012 | 2026-10-22 | Rebranding a DeskUI y layout del constructor a altura completa | Done | D-033; paleta de dos columnas sin scroll permanente |
 | NR-013 | 2026-10-22 | i18n español/inglés en la documentación y en los textos internos de los componentes | Done | D-034; `apps/docs/src/i18n/`, `DeskUILocaleProvider`, selector ES/EN y `?lang=en` |
 | NR-014 | 2026-10-22 | Material para agentes IA: skills, `AGENTS.md`, `llms.txt` y copia desde el CLI | Done | D-035; `skills/`, `docs/ai.md`, `deskui init` y `--no-agents` |
-| NR-015 | 2026-10-22 | Preparar la publicación 0.2.0: versionado, registry estático en `/r`, auditoría de licencias y guías de release, despliegue y migración | Partial | D-036, D-037 y D-038; `release:check` y `licenses:check` en verde; falta desplegar en el VPC y publicar en npm |
+| NR-015 | 2026-10-22 | Preparar la publicación 0.2.0: versionado, registry estático en `/r`, auditoría de licencias y guías de release, despliegue y migración | Partial | D-036, D-037 y D-038; sitio y registry en producción; `deskui@0.2.0` empaquetado, publicación npm pendiente de OTP |
+| NR-016 | 2026-10-22 | Hacer pública la información del proyecto: página «Acerca de» sin estado interno, botón a GitHub y README orientado a consumidores | Done | `#/acerca`, `README.md`, `packages/cli/README.md` y enlaces a `https://github.com/dev-plague/desk-ui` |
 
 ## 9. Definición de “Done” por componente
 

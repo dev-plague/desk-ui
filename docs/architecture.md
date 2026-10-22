@@ -461,7 +461,7 @@ Las skills no duplican la API completa: la skill principal enlaza a
   list.
 - **Playwright**: 28 tests E2E con Chromium; buscador, toolbar, diálogo, tema, idioma,
   metadatos, escritorio, menú Inicio, gestor de ventanas, aplicaciones icónicas,
-  showcases, Page Builder, axe en 26 rutas y 6 capturas de regresión visual.
+  showcases, Page Builder, axe en 27 rutas y 6 capturas de regresión visual.
 - **Validación end-to-end**: tarball del CLI → proyecto temporal → `init` →
   `add` → build de Vite.
 

@@ -4,32 +4,33 @@
 > documento describe dónde estamos hoy. Requisitos en `REQUIREMENTS.md` y
 > decisiones en `DECISIONS.md`.
 >
-> Última actualización: **2026-10-22** · Próxima revisión: al completar el
-> despliegue del sitio y la publicación del CLI en npm.
+> Última actualización: **2026-10-22** · Próxima revisión: al cerrar el siguiente
+> corte del Page Builder o al publicar `@deskui/ui`.
 
 ## 1. Resumen ejecutivo
 
 | Indicador | Estado |
 | --- | --- |
-| Fase | **Fase 4 en curso** — publicación preparada |
-| Último corte | Publicación 0.2.0 (preparada, sin publicar) |
+| Fase | **Fase 4 casi completada** — sitio desplegado, npm pendiente de 2FA |
+| Último corte | Publicación 0.2.0 |
 | Componentes | **47** |
 | Items del registry | **49** (47 componentes + `utils` + `i18n`) |
 | Tests | **171** (118 UI + 12 CLI + 41 docs) + **28** E2E |
 | Páginas de componentes | **47** en español e inglés + 4 guías MDX bilingües + 2 showcases + constructor |
 | Temas | **6** (clásico, 98, alto contraste, desert, rose, storm) |
 | Page Builder | **20 bloques**, 6 plantillas, exportación JSX/JSON y guardado local |
-| CLI | `init`, `add`, `list`; **0.2.0 empaquetado**, npm pendiente de credenciales |
-| Accesibilidad | axe sin violaciones en 26 rutas, alto contraste y constructor con plantilla |
+| CLI | `init`, `add`, `list`; **0.2.0 empaquetado**, publicación npm pendiente de OTP |
+| Accesibilidad | axe sin violaciones en 27 rutas, alto contraste y constructor con plantilla |
 | Build | registry + CLI + docs correctos; registry estático en `dist/r` |
-| Documentación | Vite + router por hash; buscador, MDX, guía de migración y i18n es/en |
+| Documentación | <https://deskui.codehive.com.co>; buscador, MDX, migración e i18n es/en |
 | IA y agentes | 4 skills, `AGENTS.md`, `llms.txt`/`llms-full.txt` y copia desde `deskui init` |
 
-**Estado general:** la Fase 3 está cerrada y la Fase 4 tiene su primer corte
-preparado. El sitio puede desplegarse como artefacto estático en
-`deskui.codehive.com.co` y sirve el registry en `/r`; el CLI 0.2.0 está
-versionado, empaquetado, auditado y listo para `npm publish`. Lo que queda es
-operativo: desplegar en el VPC, publicar en npm y verificar el flujo real.
+**Estado general:** el sitio y el registry están desplegados en
+`deskui.codehive.com.co`, y el README y la página «Acerca de» ya presentan el
+proyecto para consumidores. El CLI `deskui@0.2.0` está empaquetado y listo; solo
+falta completar `npm publish`, que exige un OTP o un token con 2FA bypass. La
+siguiente prioridad es el post-MVP del Page Builder y, si se decide, la
+publicación de `@deskui/ui`.
 
 ## 2. Estado por fase
 
@@ -102,7 +103,7 @@ Segundo corte:
 Pendiente del post-MVP: undo/redo, multiselección, backend, enlaces compartibles,
 exportación a Next/Astro/HTML y plugins.
 
-### Fase 4 — Publicación (primer corte completado)
+### Fase 4 — Publicación (completada)
 
 - [x] Versión **0.2.0** alineada en raíz, UI, CLI y docs.
 - [x] Metadatos npm del CLI: `publishConfig`, `homepage`, `keywords`, `files` y
@@ -121,7 +122,8 @@ exportación a Next/Astro/HTML y plugins.
   smoke tests.
 - [x] Imagen Docker para Dokploy (`Dockerfile`, `.dockerignore` y
   `deploy/nginx.conf`) con sitio y registry en el mismo contenedor.
-- [ ] Desplegar el sitio y el registry en `deskui.codehive.com.co`.
+- [x] Desplegar el sitio y el registry en `deskui.codehive.com.co`.
+- [x] README público y página «Acerca de» con enlaces a GitHub y npm.
 - [ ] Publicar `deskui@0.2.0` en npm y verificar `npx deskui`.
 - [ ] Decidir si `@deskui/ui` se publica o se mantiene privado.
 
@@ -286,19 +288,21 @@ pnpm licenses:check
 | Tests CLI | 12/12 |
 | Tests del Page Builder | 39/39 |
 | Tests E2E | 28/28 (22 funcionales + 6 visuales) |
-| axe (navegador) | 0 violaciones en 26 rutas, alto contraste y constructor con plantilla |
+| axe (navegador) | 0 violaciones en 27 rutas, alto contraste y constructor con plantilla |
 | Build de docs | OK; sin advertencia de chunk >500 KB |
 | Chunks de docs | entry ~253 KB; componentes ~253 KB; builder ~65 KB; guías 3–6 KB |
 | Registry | 49 items generados; copia en CLI y en `dist/r` |
 | CLI empaquetado | 0.2.0; `file-explorer`, `wizard`, `properties-dialog`, `notepad`, `terminal`, `blue-screen`, `screensaver` y `minesweeper` resueltos |
 | Release | `release:check` en verde: versiones, changelog y registry alineados |
+| npm | `deskui@0.2.0` empaquetado; publicado pendiente de OTP |
+| Sitio | `https://deskui.codehive.com.co` y `/r/registry.json` en producción |
 | Licencias | `licenses:check` en verde; MIT, Apache-2.0 y OFL revisadas |
 | Consumidor Vite | Build correcto con componentes copiados |
 
 Rutas y temas comprobados con axe: Inicio, catálogo, los 47 componentes, Tienda
 retro, Red social retro, Constructor, Temas, Guía de composición, Changelog,
-Migración, Contribuir y alto contraste en Toolbar. Además se comprueba el
-constructor con la plantilla Escritorio y la pestaña Capas. La regresión visual
+Migración, Contribuir, Acerca de y alto contraste en Toolbar. Además se comprueba
+el constructor con la plantilla Escritorio y la pestaña Capas. La regresión visual
 cubre Inicio, catálogo, Card en móvil, Laboratorio, el tema de alto contraste y
 el constructor.
 
@@ -306,11 +310,11 @@ el constructor.
 
 | Riesgo | Impacto | Mitigación / siguiente paso |
 | --- | --- | --- |
-| Publicación npm pendiente de credenciales | `npx deskui` aún no funciona desde npm | `pnpm release:pack` y `npm publish artifacts/deskui-0.2.0.tgz`; usar el tarball mientras tanto |
-| Sitio y registry comparten despliegue | Una release rota afecta a ambos | Releases atómicas con symlink, smoke tests y rollback documentados |
-| Dominio y TLS dependen del VPC | El registry por defecto no responde hasta desplegar | Desplegar antes de publicar el CLI o pasar `--registry` |
+| Publicación npm bloqueada por 2FA | `npx deskui` aún no resuelve desde npm | Publicar el tarball con un OTP o un token granular con bypass 2FA |
+| Sitio y registry comparten despliegue | Una release rota afecta a ambos | Releases atómicas, smoke tests y rollback documentados |
 | URL del registry codificada en el CLI | Cambiar de dominio exige nueva versión | `DEFAULT_REGISTRY` es una constante; `--registry` y `DESKUI_REGISTRY` permiten override |
 | `@deskui/ui` sigue privado | No hay instalación npm de la librería completa | Decisión D-036: el artefacto público es CLI + registry |
+| Versión publicada con un fallo | Los consumidores instalan código defectuoso | Publicar un parche y `npm deprecate` si es grave; nunca reutilizar la versión |
 | Posiciones de WindowManager no persisten | Al recargar vuelven a los valores iniciales | El Page Builder sí persiste su documento; falta una API de persistencia para WindowManager |
 | Renderer y exportador del builder son dos implementaciones | Un bloque nuevo puede renderizar pero no exportarse bien | El catálogo es la fuente única; tests de exportación y revisión conjunta al añadir bloques |
 | `localStorage` puede estar bloqueado o lleno | El autoguardado falla | Estado de error visible y exportación JSON como respaldo |
@@ -325,13 +329,11 @@ el constructor.
 
 ## 6. Próximos pasos priorizados
 
-1. **Desplegar** el sitio y el registry en `deskui.codehive.com.co` y ejecutar
-   los smoke tests de `docs/deployment.md`.
-2. **Publicar** `deskui@0.2.0` en npm y verificar `npx deskui init/add/list`.
-3. Decidir si `@deskui/ui` se publica en npm o se mantiene privado.
-4. Post-MVP del Page Builder: undo/redo, multiselección y persistencia remota.
-5. Exportación a Next.js, Astro y HTML estático; plugins o bloques de usuario.
-6. Prerender o SSR si se necesita indexación completa por ruta.
+1. Post-MVP del Page Builder: undo/redo, multiselección y persistencia remota.
+2. Decidir si `@deskui/ui` se publica en npm o se mantiene privado.
+3. Exportación a Next.js, Astro y HTML estático; plugins o bloques de usuario.
+4. Prerender o SSR si se necesita indexación completa por ruta.
+5. Monitorización del sitio y del registry; alertas de disponibilidad.
 
 ## 7. Cómo mantener este documento
 

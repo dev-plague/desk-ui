@@ -35,8 +35,9 @@ npx deskui list
 si no se pasa `--no-agents`, instala las skills de DeskUI y una sección en
 `AGENTS.md` para que los agentes del proyecto conozcan la librería.
 
-Requisitos: Node.js 20.19+, React 18+ y Tailwind CSS 4. El paquete todavía no
-está publicado en npm; en el monorepo usa `node packages/cli/dist/index.js init`.
+Requisitos: Node.js 20.19+, React 18+ y Tailwind CSS 4. Instala con
+`npx deskui init`; en el monorepo también puedes usar
+`node packages/cli/dist/index.js init` tras `pnpm build:cli`.
 
 ## Reglas duras
 

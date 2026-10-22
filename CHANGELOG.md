@@ -7,13 +7,16 @@ Todas las versiones relevantes se documentan aquí. El proyecto sigue
 
 ### Añadido
 
-- **Despliegue**: `Dockerfile` multi-stage y `deploy/nginx.conf` listos para
-  Dokploy, con el sitio y el registry en la misma imagen, `pnpm build:site` y
-  healthcheck. Guía paso a paso en `docs/deployment.md`.
-- **Publicación**: registry estático servido por el sitio en `/r`, script
-  `registry:site`, comprobación de release (`release:check`), auditoría de
+- **Publicación y despliegue público**: sitio y registry en
+  <https://deskui.codehive.com.co>, README orientado a consumidores y página
+  «Acerca de» con enlaces a GitHub y npm. El CLI `deskui@0.2.0` queda empaquetado
+  para publicarse en npm.
+- **Pipeline de publicación**: registry estático servido por el sitio en `/r`,
+  script `registry:site`, comprobación de release (`release:check`), auditoría de
   licencias (`licenses:check`) y comandos `release:build`, `release:pack`,
   `release:bundle` y `release:verify`.
+- **Imagen Docker** para Dokploy (`Dockerfile`, `.dockerignore` y
+  `deploy/nginx.conf`) con sitio y registry en el mismo contenedor.
 - Guía de migración entre versiones en `#/migracion`, `docs/migration.md` y
   `docs/releasing.md`; guía de despliegue en `docs/deployment.md`.
 - **i18n español/inglés**: sitio de documentación bilingüe con selector en la
@@ -56,7 +59,7 @@ Todas las versiones relevantes se documentan aquí. El proyecto sigue
 - Guías en MDX: `#/guia`, `#/cambios` y `#/contribuir`.
 - Metadatos por ruta: título, descripción, robots, canonical y Open Graph.
 - Persistencia de tema en `localStorage` y soporte de `prefers-color-scheme`.
-- Suite Playwright: teclado, foco, diálogos, axe en 26 rutas y 6 capturas de
+- Suite Playwright: teclado, foco, diálogos, axe en 27 rutas y 6 capturas de
   regresión visual.
 - Scripts `pnpm test:e2e` y `pnpm test:e2e:update`.
 
