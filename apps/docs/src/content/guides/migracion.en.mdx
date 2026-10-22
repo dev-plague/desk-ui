@@ -1,0 +1,161 @@
+import { Alert, AlertDescription, AlertTitle, Badge } from "@deskui/ui";
+
+## How to migrate between versions
+
+<Badge variant="info" className="my-3">Copy & own</Badge>
+
+DeskUI does not upgrade like an npm dependency: the CLI copies code into your
+project, and from that moment the file is yours. Migrating means **fetching the
+new registry version, comparing it with your copy and deciding what to accept**,
+not running an `upgrade`.
+
+This guide covers the jump from **0.1.0 to 0.2.0**, the first version prepared
+for publication. The same procedure applies to any future version.
+
+## Before you start
+
+1. Check the version you have: `npx deskui --version`.
+2. Work on a branch or a backup; the CLI writes files.
+3. Write down the components you edited by hand. Those need manual review.
+4. Pin the registry you want so the migration is reproducible:
+
+```bash
+export DESKUI_REGISTRY="https://deskui.codehive.com.co/r"
+npx deskui list
+```
+
+## What changes in 0.2.0
+
+| Area | 0.1.0 | 0.2.0 |
+| --- | --- | --- |
+| Product name | Previous brand | **DeskUI** |
+| Package and CLI | `deskui` | `deskui` |
+| Import scope | `@deskui/*` | `@deskui/*` |
+| Base theme | Old identifiers | `classic` |
+| Gradient theme | Old identifiers | `gradient` |
+| CSS template | Previous name | `deskui.css` |
+| `localStorage` keys (site and builder) | Previous prefix | `deskui-*` |
+| Page Builder MIME | Previous prefix | `application/x-deskui-builder` |
+| Registry items | 33 | **49** |
+| Component i18n | Did not exist | `DeskUILocaleProvider` and the `i18n` item |
+
+<Alert variant="warning" className="my-3">
+  <AlertTitle>{"Renames without a compatibility layer"}</AlertTitle>
+  <AlertDescription>
+    {"Old theme identifiers, storage keys and the builder MIME are not kept as aliases. If you stored a theme or a document under the previous names, select the theme again or re-import the JSON with the current version."}
+  </AlertDescription>
+</Alert>
+
+The rest of 0.2.0 is additive: Page Builder, iconic applications, showcases,
+`Panel`, `Card`, `Separator`, `Toolbar`, search, site i18n and agent skills. No
+existing component deliberately changed its API; if you find a difference, treat
+it as a bug and report it.
+
+## Migrating copied components
+
+### 1. Simulate the install
+
+```bash
+npx deskui add button input label --dry-run
+```
+
+`--dry-run` lists the files that would be written and the conflicts it detects,
+without touching the project.
+
+### 2. Review the diff
+
+Copy the new file to a temporary directory and compare it with yours:
+
+```bash
+npx deskui add button --dry-run
+diff -u src/components/ui/button.tsx /path/to/button.tsx
+```
+
+If you have not modified the file, you can overwrite it directly. If you have,
+merge the registry changes by hand: the CLI does not merge.
+
+### 3. Overwrite only what you accept
+
+```bash
+npx deskui add button --overwrite
+```
+
+Without `--overwrite`, the CLI stops at a file with different content and does
+not replace it. `--force` also replaces `components.json`; use it only for a
+clean install.
+
+### 4. Add the new pieces
+
+```bash
+npx deskui add panel card separator toolbar
+npx deskui add desktop start-menu window-manager
+npx deskui add file-explorer wizard properties-dialog notepad terminal
+npx deskui add blue-screen screensaver minesweeper
+```
+
+`add` resolves `registryDependencies`, so shared helpers (`lib/utils.ts`,
+`lib/i18n.tsx`) are copied automatically when needed.
+
+### 5. Review npm dependencies
+
+`add` installs the dependencies declared by each item. If you use
+`--no-install`, run your package manager and check that `package.json` includes
+Radix, `class-variance-authority`, `clsx` and `tailwind-merge` for the components
+that need them. The i18n version adds no runtime dependencies.
+
+## Migrating the theme and CSS
+
+1. Compare `styles/deskui.css` with yours. The file contains the tokens and bevel
+   utilities; if you only copied it, replace it.
+2. Re-apply `data-theme="classic"` or `data-theme="gradient"` on the right
+   ancestor.
+3. The theme is applied with `data-theme`. The documentation site stores its
+   preference under `deskui-theme`; in your project, if you persist the choice,
+   apply `classic` or `gradient` again.
+4. The W95FA fonts and their OFL license travel with the template; if you moved
+   them, keep the license file next to the `.woff2` files.
+
+## Migrating the Page Builder
+
+The builder document is versioned (`version: 1`). A JSON file with another
+version is rejected with a visible error: schema migration is not automatic yet.
+Unknown theme identifiers resolve to `classic` when the document is normalized.
+
+- Export the JSON before updating the site.
+- Re-import the JSON afterwards and check the theme.
+- 0.2.0 blocks and templates are compatible with the current versioned document.
+
+## Verification
+
+```bash
+pnpm typecheck
+pnpm test
+pnpm build
+pnpm test:e2e   # if your project uses Playwright
+```
+
+Also check:
+
+- Imports point at the copied files, not `@deskui/ui`, in a CLI project.
+- Routes with windows, dialogs and menus still work with the keyboard.
+- The active theme and contrast look right after the token change.
+- axe reports no new violations on the screens you touched.
+
+## If something goes wrong
+
+The CLI is not transactional: if it fails midway, partial files may remain. To
+roll back:
+
+1. Restore the files from your branch or backup.
+2. Re-run `npx deskui init` only if the CSS or the helpers were left inconsistent.
+3. Report the case with the CLI version, the component and the error message.
+
+<Alert variant="info" className="my-3">
+  <AlertTitle>{"Pinned version"}</AlertTitle>
+  <AlertDescription>
+    {"The registry bundled with the package matches the CLI version. To update components you must update the CLI or point `--registry` at a specific copy of the registry. That way two people on the same team install exactly the same code."}
+  </AlertDescription>
+</Alert>
+
+The full technical guide, with the version policy and the publication procedure,
+lives in `docs/migration.md` and `docs/releasing.md`.

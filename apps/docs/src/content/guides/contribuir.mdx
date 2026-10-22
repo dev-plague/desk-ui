@@ -1,0 +1,62 @@
+import { Alert, AlertDescription, AlertTitle, Button } from "@deskui/ui";
+
+## Preparación
+
+```bash
+pnpm install
+pnpm dev
+pnpm typecheck
+pnpm test
+pnpm build
+pnpm test:e2e
+```
+
+La suite E2E necesita Chromium: `pnpm exec playwright install chromium`.
+
+## Convenciones
+
+- Código y API en inglés; documentación e interfaz en español e inglés.
+- TypeScript estricto y componentes con `forwardRef`, `className` y
+  `data-slot`.
+- Estilos solo con tokens semánticos y utilidades de Tailwind.
+- Sin animaciones con blur; la estética es instantánea.
+- Nada de assets propietarios de terceros.
+
+## Checklist de un componente
+
+1. Fuente en `packages/ui/src/components/<name>.tsx`.
+2. Export en `packages/ui/src/index.ts` y `package.json`.
+3. Item en `packages/ui/scripts/build-registry.mjs`.
+4. Test de comportamiento con Testing Library.
+5. Página de documentación con preview, código, props, notas de a11y y textos
+   bilingües en `apps/docs/src/i18n/`.
+6. Revisión en `classic`, `gradient` y `high-contrast`.
+7. `pnpm typecheck`, `pnpm test`, `pnpm build` y `pnpm test:e2e`.
+
+## Checklist del Page Builder
+
+1. Modelo en `apps/docs/src/lib/builder/`; no importes React ni toques el DOM.
+2. UI en `apps/docs/src/components/builder/`; orquestación en `pages/builder.tsx`.
+3. Un bloque nuevo exige catálogo, renderer, exportador y tests de exportación.
+4. Mantén la validación de JSON, los límites y las alternativas de teclado al DnD.
+5. Prueba `pnpm --filter @deskui/docs test` y `pnpm test:e2e`.
+6. El builder no se añade al registry ni a `packages/ui`.
+
+<Alert variant="info" className="my-3">
+  <AlertTitle>{"Antes de abrir un cambio"}</AlertTitle>
+  <AlertDescription>
+    {"Actualiza PROGRESS.md, REQUIREMENTS.md, DECISIONS.md y el CHANGELOG.md cuando el corte cambie el alcance, las métricas o una decisión de diseño."}
+  </AlertDescription>
+</Alert>
+
+<div className="my-3 flex flex-wrap gap-2">
+  <Button asChild variant="primary">
+    <a href="#/componentes">Ver componentes</a>
+  </Button>
+  <Button asChild>
+    <a href="#/constructor">Abrir el constructor</a>
+  </Button>
+  <Button asChild>
+    <a href="#/guia">Leer la guía de composición</a>
+  </Button>
+</div>

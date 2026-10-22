@@ -1,0 +1,122 @@
+import {
+  Alert,
+  AlertDescription,
+  AlertTitle,
+  Badge,
+  Button,
+  Checkbox,
+  GroupBox,
+  Input,
+  Label,
+  Panel,
+  PanelBody,
+  PanelHeader,
+  PanelTitle,
+  Separator,
+  Toolbar,
+  ToolbarButton,
+  ToolbarGroup,
+  ToolbarSeparator,
+} from "@deskui/ui";
+
+## Hierarchy before decoration
+
+A classic screen reads from top to bottom: title bar, menu, content and status
+bar. Bevels never replace hierarchy. Use **a single main window** per screen and
+reserve dialogs for decisions that block the flow.
+
+<Alert variant="info" className="my-3">
+  <AlertTitle>{"Rule of thumb"}</AlertTitle>
+  <AlertDescription>
+    {"If you need three levels of frames to explain a section, the problem is the structure, not the CSS."}
+  </AlertDescription>
+</Alert>
+
+### Windows and panels
+
+- `Window` for the application window, with `TitleBar` and `StatusBar`.
+- `Panel` for inner regions with their own bevel.
+- `GroupBox` to group form controls under a legend.
+- `Card` to repeat catalog items; do not use it as the main layout of an
+  application.
+
+<Panel className="my-3">
+  <PanelHeader>
+    <PanelTitle>Network preferences</PanelTitle>
+    <Badge variant="success">Connected</Badge>
+  </PanelHeader>
+  <PanelBody>
+    <div className="grid gap-2">
+      <div className="grid gap-1">
+        <Label htmlFor="guide-computer">Computer name</Label>
+        <Input id="guide-computer" defaultValue="PC-01" />
+      </div>
+      <Checkbox defaultChecked>Share printers</Checkbox>
+    </div>
+  </PanelBody>
+</Panel>
+
+<Separator className="my-3" />
+
+## Forms
+
+1. Label every control with `Label` and `htmlFor`/`id`.
+2. Group with `GroupBox` when more than four related controls appear together.
+3. Use `Button variant="primary"` only once per form.
+4. Keep the Cancel button to the left of the primary button.
+5. Save helper text for `FormDescription`; errors belong in `FormMessage`.
+
+<div className="my-3 flex flex-wrap gap-2">
+  <Button>Cancel</Button>
+  <Button variant="primary">OK</Button>
+  <Button disabled>Not available</Button>
+</div>
+
+## Toolbars
+
+`Toolbar` keeps buttons grouped and keyboard accessible. Use
+`ToolbarSeparator` to split groups and `pressed` for toggles such as bold or
+italic. A button that only shows an icon needs an `aria-label`.
+
+<Toolbar aria-label="Toolbar example" className="my-3">
+  <ToolbarGroup aria-label="Style">
+    <ToolbarButton pressed>N</ToolbarButton>
+    <ToolbarButton>K</ToolbarButton>
+    <ToolbarButton>S</ToolbarButton>
+  </ToolbarGroup>
+  <ToolbarSeparator />
+  <ToolbarGroup aria-label="File">
+    <ToolbarButton>Open</ToolbarButton>
+    <ToolbarButton>Save</ToolbarButton>
+  </ToolbarGroup>
+</Toolbar>
+
+## Density and space
+
+| Context | Comfortable height | Notes |
+| --- | --- | --- |
+| Desktop | 21–23 px | Classic density; do not add extra padding |
+| Mobile | 24 px minimum | Keep the touch target even if text stays at 11 px |
+| Spacing | 4–8 px | Use Tailwind scales, not one-off values |
+| Window | 3 px frame | The bevel already provides depth |
+
+## Do & Don't
+
+<div className="my-3 grid gap-3 sm:grid-cols-2">
+  <GroupBox legend="Do">
+    <ul className="grid list-disc gap-1 pl-4 text-[11px] leading-[15px]">
+      <li>Use selection blue only for focus or real selection.</li>
+      <li>Keep the dotted focus visible in every theme.</li>
+      <li>Test the screen with a keyboard before calling it done.</li>
+      <li>Prefer native controls when the pattern already exists.</li>
+    </ul>
+  </GroupBox>
+  <GroupBox legend="Don't">
+    <ul className="grid list-disc gap-1 pl-4 text-[11px] leading-[15px]">
+      <li>Do not mix modern radii, blur or soft shadows.</li>
+      <li>Do not use more than one primary button per form.</li>
+      <li>Do not nest windows inside windows without a reason.</li>
+      <li>Do not replace text with icons that have no accessible name.</li>
+    </ul>
+  </GroupBox>
+</div>

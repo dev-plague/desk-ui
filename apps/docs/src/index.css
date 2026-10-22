@@ -1,0 +1,45 @@
+@import "tailwindcss";
+@import "@deskui/ui/styles.css";
+@source "../../../packages/ui/src/**/*.{ts,tsx}";
+@source "./content/**/*.mdx";
+
+@layer base {
+  html {
+    background: var(--w95-desktop);
+    -webkit-font-smoothing: none;
+    -moz-osx-font-smoothing: grayscale;
+    scrollbar-color: var(--w95-surface) var(--w95-surface-raised);
+  }
+
+  body {
+    min-width: 320px;
+    margin: 0;
+    font-family: var(--w95-font-ui);
+    font-size: var(--w95-text-ui);
+    line-height: var(--w95-leading-ui);
+    color: var(--w95-text);
+  }
+
+  *::-webkit-scrollbar {
+    width: 16px;
+    height: 16px;
+  }
+
+  *::-webkit-scrollbar-track {
+    background-color: var(--w95-surface);
+    background-image: repeating-conic-gradient(
+      var(--w95-scrollbar-dither) 0% 25%,
+      transparent 0% 50%
+    );
+    background-size: 2px 2px;
+  }
+
+  *::-webkit-scrollbar-thumb {
+    background: var(--w95-surface);
+    box-shadow: var(--w95-bevel-raised);
+  }
+
+  *::-webkit-scrollbar-corner {
+    background: var(--w95-surface);
+  }
+}

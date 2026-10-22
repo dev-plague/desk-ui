@@ -1,0 +1,124 @@
+import {
+  Alert,
+  AlertDescription,
+  AlertTitle,
+  Badge,
+  Button,
+  Checkbox,
+  GroupBox,
+  Input,
+  Label,
+  Panel,
+  PanelBody,
+  PanelHeader,
+  PanelTitle,
+  Separator,
+  Toolbar,
+  ToolbarButton,
+  ToolbarGroup,
+  ToolbarSeparator,
+} from "@deskui/ui";
+
+## Jerarquía antes que decoración
+
+Una pantalla clásica se lee de arriba abajo: barra de título, menú,
+contenido y barra de estado. El bisel no sustituye a la jerarquía. Usa **una
+sola ventana principal** por pantalla y reserva los diálogos para decisiones
+que bloquean el flujo.
+
+<Alert variant="info" className="my-3">
+  <AlertTitle>{"Regla práctica"}</AlertTitle>
+  <AlertDescription>
+    {"Si necesitas tres niveles de marcos para explicar una sección, el problema es la estructura, no el CSS."}
+  </AlertDescription>
+</Alert>
+
+### Ventanas y paneles
+
+- `Window` para la ventana de la aplicación, con `TitleBar` y `StatusBar`.
+- `Panel` para regiones internas con bisel propio.
+- `GroupBox` para agrupar controles de formulario con una leyenda.
+- `Card` para repetir elementos de un catálogo; no la uses como layout
+  principal de una aplicación.
+
+<Panel className="my-3">
+  <PanelHeader>
+    <PanelTitle>Preferencias de red</PanelTitle>
+    <Badge variant="success">Conectado</Badge>
+  </PanelHeader>
+  <PanelBody>
+    <div className="grid gap-2">
+      <div className="grid gap-1">
+        <Label htmlFor="guia-equipo">Nombre del equipo</Label>
+        <Input id="guia-equipo" defaultValue="PC-01" />
+      </div>
+      <Checkbox defaultChecked>Compartir impresoras</Checkbox>
+    </div>
+  </PanelBody>
+</Panel>
+
+<Separator className="my-3" />
+
+## Formularios
+
+1. Etiqueta cada control con `Label` y `htmlFor`/`id`.
+2. Agrupa con `GroupBox` cuando haya más de cuatro controles relacionados.
+3. Usa `Button variant="primary"` una sola vez por formulario.
+4. Deja el botón Cancelar a la izquierda del botón principal.
+5. Reserva el texto de ayuda para `FormDescription`; los errores van en
+   `FormMessage`.
+
+<div className="my-3 flex flex-wrap gap-2">
+  <Button>Cancelar</Button>
+  <Button variant="primary">Aceptar</Button>
+  <Button disabled>No disponible</Button>
+</div>
+
+## Barras de herramientas
+
+`Toolbar` mantiene los botones agrupados y accesibles por teclado. Usa
+`ToolbarSeparator` para separar grupos y `pressed` para alternancias como
+negrita o cursiva. Un botón que solo muestra un icono necesita `aria-label`.
+
+<Toolbar aria-label="Ejemplo de herramientas" className="my-3">
+  <ToolbarGroup aria-label="Estilo">
+    <ToolbarButton pressed>N</ToolbarButton>
+    <ToolbarButton>K</ToolbarButton>
+    <ToolbarButton>S</ToolbarButton>
+  </ToolbarGroup>
+  <ToolbarSeparator />
+  <ToolbarGroup aria-label="Archivo">
+    <ToolbarButton>Abrir</ToolbarButton>
+    <ToolbarButton>Guardar</ToolbarButton>
+  </ToolbarGroup>
+</Toolbar>
+
+## Densidad y espacio
+
+| Contexto | Altura cómoda | Notas |
+| --- | --- | --- |
+| Escritorio | 21–23 px | Densidad clásica; no añadas padding extra |
+| Móvil | 24 px mínimo | Mantén el área táctil aunque el texto siga a 11 px |
+| Separación | 4–8 px | Usa las escalas de Tailwind, no valores sueltos |
+| Ventana | 3 px de marco | El bisel ya aporta profundidad |
+
+## Do & Don't
+
+<div className="my-3 grid gap-3 sm:grid-cols-2">
+  <GroupBox legend="Do">
+    <ul className="grid list-disc gap-1 pl-4 text-[11px] leading-[15px]">
+      <li>Usa el azul de selección solo para foco o selección real.</li>
+      <li>Mantén el foco punteado visible en todos los temas.</li>
+      <li>Prueba la pantalla con teclado antes de darla por terminada.</li>
+      <li>Prefiere controles nativos cuando el patrón ya existe.</li>
+    </ul>
+  </GroupBox>
+  <GroupBox legend="Don't">
+    <ul className="grid list-disc gap-1 pl-4 text-[11px] leading-[15px]">
+      <li>No mezcles radios, blur o sombras difusas modernas.</li>
+      <li>No uses más de un botón primario por formulario.</li>
+      <li>No anides ventanas dentro de ventanas sin necesidad.</li>
+      <li>No sustituyas el texto por iconos sin nombre accesible.</li>
+    </ul>
+  </GroupBox>
+</div>

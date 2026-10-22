@@ -1,0 +1,58 @@
+import { Alert, AlertDescription, AlertTitle, Badge } from "@deskui/ui";
+
+## Version 0.2.0 — October 22, 2026
+
+<Badge variant="info" className="my-3">Phase 4 · Publication</Badge>
+
+### Added
+
+- **Page Builder** at `#/constructor`: 20 blocks, layer tree, six templates,
+  live theme, responsive preview, JSX/JSON export and `localStorage` saving.
+- Iconic applications: `FileExplorer`, `Wizard`, `PropertiesDialog`, `Notepad`,
+  `Terminal`, `BlueScreen`, `Screensaver` and `Minesweeper`.
+- `Desktop`, `StartMenu` and `WindowManager` with drag, resize, focus and z-index.
+- Retro store and social network showcases.
+- `Panel`, `Card`, `Separator` and `Toolbar` containers.
+- **Spanish/English i18n** for the site and component built-in strings, with
+  `DeskUILocaleProvider`, an ES/EN switcher and `?lang=en`.
+- **Agent skills** in `skills/`, `AGENTS.md`, `llms.txt` and copying from
+  `deskui init`.
+- Search with `Ctrl+K`, per-route metadata, MDX content and code-splitting.
+- **Publication**: registry served by the site at `/r`, license audit, release
+  check and a migration guide between versions.
+
+### Changed
+
+- The product is now **DeskUI**, with the `deskui` CLI, `@deskui/*` packages, the
+  `deskui.css` template and the `classic` base theme. The gradient theme becomes
+  `gradient`.
+- The registry grows from 33 to **49 items** and includes `i18n` as a dependency
+  of components that use built-in strings.
+- The builder uses the full available height and the site hides the sidebar on
+  that route.
+- `ScrollArea` draws its own classic scrollbar with arrows and dragging.
+- The site loads catalog, laboratory, guides and builder on separate routes.
+
+### Fixed
+
+- The dialog keeps focus inside even when the browser returns it to the document.
+- Escape closes the search even when the input contains text.
+- MDX guides no longer nest paragraphs inside `AlertDescription`.
+- The builder `ProgressBar` and the templates use headings in order.
+
+<Alert variant="warning" className="my-3">
+  <AlertTitle>{"Publication ready"}</AlertTitle>
+  <AlertDescription>
+    {"Version 0.2.0 is ready to pack and deploy at deskui.codehive.com.co. Until it is published on npm, use the local tarball or the site registry with "}
+    <code className="font-mono">--registry</code>
+    {"."}
+  </AlertDescription>
+</Alert>
+
+### Migrating from 0.1.0
+
+The rename and the theme identifiers affect projects that copied components with
+the previous version. See the migration guide to compare files, keep your edits
+and pin the right registry.
+
+The full history lives in `CHANGELOG.md`, at the repository root.

@@ -1,0 +1,62 @@
+import { Alert, AlertDescription, AlertTitle, Button } from "@deskui/ui";
+
+## Setup
+
+```bash
+pnpm install
+pnpm dev
+pnpm typecheck
+pnpm test
+pnpm build
+pnpm test:e2e
+```
+
+The E2E suite needs Chromium: `pnpm exec playwright install chromium`.
+
+## Conventions
+
+- Code and API in English; documentation and interface in Spanish and English.
+- Strict TypeScript and components with `forwardRef`, `className` and
+  `data-slot`.
+- Styles only with semantic tokens and Tailwind utilities.
+- No blur animations; the aesthetic is instant.
+- No third-party proprietary assets.
+
+## Component checklist
+
+1. Source in `packages/ui/src/components/<name>.tsx`.
+2. Export in `packages/ui/src/index.ts` and `package.json`.
+3. Item in `packages/ui/scripts/build-registry.mjs`.
+4. Behavior test with Testing Library.
+5. Documentation page with preview, code, props, a11y notes and bilingual
+   strings in `apps/docs/src/i18n/`.
+6. Review in `classic`, `gradient` and `high-contrast`.
+7. `pnpm typecheck`, `pnpm test`, `pnpm build` and `pnpm test:e2e`.
+
+## Page Builder checklist
+
+1. Model in `apps/docs/src/lib/builder/`; do not import React or touch the DOM.
+2. UI in `apps/docs/src/components/builder/`; orchestration in `pages/builder.tsx`.
+3. A new block requires catalog, renderer, exporter and export tests.
+4. Keep JSON validation, limits and keyboard alternatives to DnD.
+5. Run `pnpm --filter @deskui/docs test` and `pnpm test:e2e`.
+6. The builder is not added to the registry or to `packages/ui`.
+
+<Alert variant="info" className="my-3">
+  <AlertTitle>{"Before opening a change"}</AlertTitle>
+  <AlertDescription>
+    {"Update PROGRESS.md, REQUIREMENTS.md, DECISIONS.md and CHANGELOG.md when the milestone changes scope, metrics or a design decision."}
+  </AlertDescription>
+</Alert>
+
+<div className="my-3 flex flex-wrap gap-2">
+  <Button asChild variant="primary">
+    <a href="#/componentes">View components</a>
+  </Button>
+  <Button asChild>
+    <a href="#/constructor">Open the builder</a>
+  </Button>
+  <Button asChild>
+    <a href="#/guia">Read the composition guide</a>
+  </Button>
+</div>

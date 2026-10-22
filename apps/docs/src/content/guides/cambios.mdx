@@ -1,0 +1,60 @@
+import { Alert, AlertDescription, AlertTitle, Badge } from "@deskui/ui";
+
+## Versión 0.2.0 — 22 de octubre de 2026
+
+<Badge variant="info" className="my-3">Fase 4 · Publicación</Badge>
+
+### Añadido
+
+- **Page Builder** en `#/constructor`: 20 bloques, árbol de capas, seis
+  plantillas, tema en vivo, preview responsive, exportación JSX/JSON y guardado
+  en `localStorage`.
+- Aplicaciones icónicas: `FileExplorer`, `Wizard`, `PropertiesDialog`,
+  `Notepad`, `Terminal`, `BlueScreen`, `Screensaver` y `Minesweeper`.
+- `Desktop`, `StartMenu` y `WindowManager` con drag, resize, foco y z-index.
+- Showcases de tienda retro y red social.
+- Contenedores `Panel`, `Card`, `Separator` y `Toolbar`.
+- **i18n español/inglés** del sitio y de los textos internos de los componentes,
+  con `DeskUILocaleProvider`, selector ES/EN y `?lang=en`.
+- **Skills para agentes** en `skills/`, `AGENTS.md`, `llms.txt` y copia desde
+  `deskui init`.
+- Buscador con `Ctrl+K`, metadatos por ruta, contenido MDX y code-splitting.
+- **Publicación**: registry servido por el sitio en `/r`, auditoría de
+  licencias, comprobación de release y guía de migración entre versiones.
+
+### Cambiado
+
+- El producto pasa a llamarse **DeskUI**, con CLI `deskui`, paquetes
+  `@deskui/*`, plantilla `deskui.css` y tema base `classic`. El tema con
+  degradado pasa a `gradient`.
+- El registry crece de 33 a **49 items** e incluye `i18n` como dependencia de los
+  componentes que usan textos internos.
+- El constructor ocupa toda la altura disponible y el sitio oculta el sidebar en
+  esa ruta.
+- `ScrollArea` dibuja su propia barra clásica con flechas y arrastre.
+- El sitio carga catálogo, laboratorio, guías y constructor por rutas separadas.
+
+### Corregido
+
+- El diálogo mantiene el foco dentro incluso cuando el navegador lo devuelve al
+  documento.
+- Escape cierra el buscador aunque el campo de búsqueda tenga texto.
+- Las guías MDX no anidan párrafos dentro de `AlertDescription`.
+- El `ProgressBar` del constructor y las plantillas usan encabezados en orden.
+
+<Alert variant="warning" className="my-3">
+  <AlertTitle>{"Publicación preparada"}</AlertTitle>
+  <AlertDescription>
+    {"La versión 0.2.0 está lista para empaquetar y desplegar en deskui.codehive.com.co. Mientras no esté publicada en npm, usa el tarball local o el registry del sitio con "}
+    <code className="font-mono">--registry</code>
+    {"."}
+  </AlertDescription>
+</Alert>
+
+### Migrar desde 0.1.0
+
+El cambio de nombre y de identificadores de tema afecta a los proyectos que
+copiaron componentes con la versión anterior. Consulta la guía de migración para
+comparar archivos, conservar tus ediciones y fijar el registry correcto.
+
+El historial completo está en `CHANGELOG.md`, en la raíz del repositorio.

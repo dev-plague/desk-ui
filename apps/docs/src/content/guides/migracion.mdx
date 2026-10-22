@@ -1,0 +1,166 @@
+import { Alert, AlertDescription, AlertTitle, Badge } from "@deskui/ui";
+
+## Cómo migrar entre versiones
+
+<Badge variant="info" className="my-3">Copy & own</Badge>
+
+DeskUI no se actualiza como una dependencia npm: el CLI copia el código a tu
+proyecto y desde ese momento el archivo es tuyo. Migrar significa **traer la
+versión nueva del registry, compararla con la tuya y decidir qué aceptas**, no
+ejecutar un `upgrade`.
+
+Esta guía cubre el salto de **0.1.0 a 0.2.0**, la primera versión preparada
+para publicarse. El mismo procedimiento sirve para cualquier versión futura.
+
+## Antes de empezar
+
+1. Confirma la versión que tienes: `npx deskui --version`.
+2. Trabaja en una rama o copia de seguridad; el CLI escribe archivos.
+3. Anota los componentes que has editado a mano. Esos son los que requieren
+   revisión manual.
+4. Fija el registry que quieres usar para que la migración sea reproducible:
+
+```bash
+export DESKUI_REGISTRY="https://deskui.codehive.com.co/r"
+npx deskui list
+```
+
+## Qué cambia en 0.2.0
+
+| Área | 0.1.0 | 0.2.0 |
+| --- | --- | --- |
+| Nombre del producto | Marca anterior | **DeskUI** |
+| Paquete y CLI | `deskui` | `deskui` |
+| Scope de imports | `@deskui/*` | `@deskui/*` |
+| Tema base | Identificadores antiguos | `classic` |
+| Tema con degradado | Identificadores antiguos | `gradient` |
+| Plantilla CSS | Nombre anterior | `deskui.css` |
+| Claves de `localStorage` (sitio y builder) | Prefijo anterior | `deskui-*` |
+| MIME del Page Builder | Prefijo anterior | `application/x-deskui-builder` |
+| Items del registry | 33 | **49** |
+| i18n de componentes | No existía | `DeskUILocaleProvider` y item `i18n` |
+
+<Alert variant="warning" className="my-3">
+  <AlertTitle>{"Renombrados sin capa de compatibilidad"}</AlertTitle>
+  <AlertDescription>
+    {"Los identificadores antiguos de tema, las claves de almacenamiento y el MIME del builder no se mantienen como alias. Si guardaste un tema o un documento con los nombres anteriores, vuelve a seleccionarlo o reimporta el JSON con la versión actual."}
+  </AlertDescription>
+</Alert>
+
+El resto de cambios de 0.2.0 son aditivos: Page Builder, aplicaciones icónicas,
+showcases, `Panel`, `Card`, `Separator`, `Toolbar`, búsqueda, i18n del sitio y
+skills para agentes. Ningún componente existente cambió de API de forma
+deliberada; si encuentras una diferencia, trátala como bug y repórtala.
+
+## Migrar componentes copiados
+
+### 1. Simula la instalación
+
+```bash
+npx deskui add button input label --dry-run
+```
+
+`--dry-run` lista los archivos que se escribirían y los conflictos detectados,
+sin tocar el proyecto.
+
+### 2. Revisa el diff
+
+Copia el archivo nuevo a un directorio temporal y compáralo con el tuyo:
+
+```bash
+npx deskui add button --dry-run
+diff -u src/components/ui/button.tsx /ruta/al/button.tsx
+```
+
+Si no has modificado el archivo, puedes sobrescribirlo directamente. Si lo has
+modificado, integra a mano los cambios del registry: el CLI no hace merge.
+
+### 3. Sobrescribe solo lo que aceptas
+
+```bash
+npx deskui add button --overwrite
+```
+
+Sin `--overwrite`, el CLI se detiene ante un archivo con contenido distinto y no
+lo reemplaza. `--force` también reemplaza `components.json`; úsalo solo en una
+instalación limpia.
+
+### 4. Añade lo nuevo
+
+```bash
+npx deskui add panel card separator toolbar
+npx deskui add desktop start-menu window-manager
+npx deskui add file-explorer wizard properties-dialog notepad terminal
+npx deskui add blue-screen screensaver minesweeper
+```
+
+`add` resuelve `registryDependencies`, así que los helpers compartidos
+(`lib/utils.ts`, `lib/i18n.tsx`) se copian solos cuando hacen falta.
+
+### 5. Revisa las dependencias npm
+
+`add` instala las dependencias que declara cada item. Si usas `--no-install`,
+ejecuta tu gestor de paquetes y comprueba que `package.json` incluye Radix,
+`class-variance-authority`, `clsx` y `tailwind-merge` en los componentes que los
+necesitan. La versión i18n no añade dependencias de runtime.
+
+## Migrar el tema y el CSS
+
+1. Compara `styles/deskui.css` con el tuyo. El archivo contiene los tokens y las
+   utilidades de bisel; si solo lo habías copiado, reemplázalo.
+2. Vuelve a aplicar `data-theme="classic"` o `data-theme="gradient"` en el
+   ancestro que corresponda.
+3. El tema se aplica con `data-theme`. El sitio de documentación guarda su
+   preferencia en `deskui-theme`; en tu proyecto, si persistes la elección, vuelve
+   a aplicar `classic` o `gradient`.
+4. Las fuentes W95FA y su licencia OFL viajan con el template; si las habías
+   movido, mantén el archivo de licencia junto a los `.woff2`.
+
+## Migrar el Page Builder
+
+El documento del constructor está versionado (`version: 1`). Un JSON con otra
+versión se rechaza con un error visible: todavía no hay migración automática de
+esquema. Los identificadores de tema desconocidos se resuelven a `classic` al
+normalizar el documento.
+
+- Exporta el JSON antes de actualizar el sitio.
+- Reimporta el JSON después y comprueba el tema.
+- Los bloques y las plantillas de 0.2.0 son compatibles con el documento
+  versionado actual.
+
+## Verificación
+
+```bash
+pnpm typecheck
+pnpm test
+pnpm build
+pnpm test:e2e   # si tu proyecto tiene Playwright
+```
+
+Comprueba además:
+
+- Que los imports apuntan a los archivos copiados y no a `@deskui/ui` en un
+  proyecto con CLI.
+- Que las rutas con ventanas, diálogos y menús siguen funcionando con teclado.
+- Que el tema activo y el contraste se ven como antes tras el cambio de tokens.
+- Que axe no reporta violaciones nuevas en las pantallas que tocaste.
+
+## Si algo sale mal
+
+El CLI no es transaccional: si falla a mitad, pueden quedar archivos parciales.
+Para volver atrás:
+
+1. Restaura los archivos desde tu rama o copia de seguridad.
+2. Vuelve a ejecutar `npx deskui init` solo si el CSS o los helpers quedaron
+   inconsistentes.
+3. Reporta el caso con la versión del CLI, el componente y el mensaje de error.
+
+<Alert variant="info" className="my-3">
+  <AlertTitle>{"Versión fijada"}</AlertTitle>
+  <AlertDescription>
+    {"El registry incluido en el paquete corresponde a la versión del CLI. Para actualizar componentes hay que actualizar el CLI o apuntar `--registry` a una copia concreta del registry. Así dos personas del mismo equipo instalan exactamente lo mismo."}
+  </AlertDescription>
+</Alert>
+
+La guía técnica completa, con la política de versiones y el procedimiento de
+publicación, está en `docs/migration.md` y `docs/releasing.md`.
