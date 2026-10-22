@@ -15,3 +15,8 @@ packages/cli/registry/
 packages/cli/LICENSE
 apps/docs/public/r/
 artifacts/
+
+# Material local: imágenes de referencia de terceros y auditorías ad-hoc.
+references/
+axe-data.mjs
+axe-final.mjs
