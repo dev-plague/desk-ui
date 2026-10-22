@@ -1,0 +1,50 @@
+{
+  "name": "deskui",
+  "version": "0.2.0",
+  "description": "CLI de DeskUI: copia tokens y componentes a tu proyecto (copy & own).",
+  "homepage": "https://deskui.codehive.com.co",
+  "keywords": [
+    "deskui",
+    "react",
+    "components",
+    "ui",
+    "tailwind",
+    "retro",
+    "desktop",
+    "registry",
+    "cli",
+    "copy-and-own"
+  ],
+  "type": "module",
+  "bin": {
+    "deskui": "./dist/index.js"
+  },
+  "files": [
+    "dist",
+    "templates",
+    "registry",
+    "LICENSE",
+    "README.md"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "engines": {
+    "node": ">=20.19"
+  },
+  "scripts": {
+    "build": "node scripts/sync-templates.mjs && node scripts/copy-license.mjs && tsup src/index.ts --format esm --target node20 --clean --sourcemap",
+    "dev": "tsx src/index.ts",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "prepack": "pnpm --filter @deskui/ui registry:build && pnpm build"
+  },
+  "devDependencies": {
+    "@types/node": "^24.10.0",
+    "tsup": "^9.0.0",
+    "tsx": "^4.23.15",
+    "typescript": "^5.9.3",
+    "vitest": "^5.0.5"
+  },
+  "license": "MIT"
+}
