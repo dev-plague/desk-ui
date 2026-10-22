@@ -23,6 +23,7 @@ import {
 } from "../components/icons";
 import { useI18n } from "../i18n/provider";
 import { themeHint, themeLabel } from "../i18n/theme";
+import { GITHUB_URL, NPM_URL, REGISTRY_URL } from "../lib/site";
 import { THEMES, type ThemeId } from "../lib/theme";
 import { getComponentManifest } from "./manifest";
 import type { ComponentDoc } from "./components";
@@ -497,6 +498,13 @@ export function AboutPage({
         eyebrow={copy.eyebrow}
         title={copy.title}
         description={copy.description}
+        actions={
+          <Button asChild variant="primary" size="sm">
+            <a href={GITHUB_URL} target="_blank" rel="noreferrer">
+              {copy.github}
+            </a>
+          </Button>
+        }
       />
 
       <div className="grid gap-3 sm:grid-cols-2">
@@ -530,12 +538,27 @@ export function AboutPage({
         </GroupBox>
       </div>
 
-      <DocSection title={copy.next}>
-        <ul className="grid list-disc gap-1 pl-4 text-[11px] leading-[15px]">
-          {copy.nextItems.map((item) => (
-            <li key={item}>{item}</li>
-          ))}
-        </ul>
+      <DocSection title={copy.resources}>
+        <p className="max-w-2xl text-[11px] leading-[15px]">
+          {copy.resourcesBody}
+        </p>
+        <div className="mt-2 flex flex-wrap gap-2">
+          <Button asChild size="sm">
+            <a href={GITHUB_URL} target="_blank" rel="noreferrer">
+              {copy.githubRepo}
+            </a>
+          </Button>
+          <Button asChild size="sm">
+            <a href={NPM_URL} target="_blank" rel="noreferrer">
+              {copy.npmPackage}
+            </a>
+          </Button>
+          <Button asChild size="sm">
+            <a href={REGISTRY_URL} target="_blank" rel="noreferrer">
+              {copy.registry}
+            </a>
+          </Button>
+        </div>
       </DocSection>
 
       <DocSection title={copy.aiTitle}>

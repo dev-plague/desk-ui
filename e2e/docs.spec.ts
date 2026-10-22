@@ -644,6 +644,7 @@ const AXE_ROUTES = [
   "/cambios",
   "/migracion",
   "/contribuir",
+  "/acerca",
 ];
 
 test("axe no detecta violaciones en las rutas principales", async ({

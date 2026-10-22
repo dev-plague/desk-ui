@@ -2,7 +2,7 @@ import { Alert, AlertDescription, AlertTitle, Badge } from "@deskui/ui";
 
 ## Version 0.2.0 — October 22, 2026
 
-<Badge variant="info" className="my-3">Phase 4 · Publication</Badge>
+<Badge variant="info" className="my-3">v0.2.0 · Published</Badge>
 
 ### Added
 
@@ -40,11 +40,15 @@ import { Alert, AlertDescription, AlertTitle, Badge } from "@deskui/ui";
 - MDX guides no longer nest paragraphs inside `AlertDescription`.
 - The builder `ProgressBar` and the templates use headings in order.
 
-<Alert variant="warning" className="my-3">
-  <AlertTitle>{"Publication ready"}</AlertTitle>
+<Alert variant="info" className="my-3">
+  <AlertTitle>{"Available on the site"}</AlertTitle>
   <AlertDescription>
-    {"Version 0.2.0 is ready to pack and deploy at deskui.codehive.com.co. Until it is published on npm, use the local tarball or the site registry with "}
-    <code className="font-mono">--registry</code>
+    {"The site and registry live at "}
+    <a href="https://deskui.codehive.com.co">deskui.codehive.com.co</a>
+    {". Install with "}
+    <code className="font-mono">npx deskui init</code>
+    {" and browse the code on "}
+    <a href="https://github.com/dev-plague/desk-ui">GitHub</a>
     {"."}
   </AlertDescription>
 </Alert>
