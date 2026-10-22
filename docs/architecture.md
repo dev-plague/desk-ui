@@ -369,7 +369,8 @@ Estructura:
 - El laboratorio sigue disponible en `#/laboratorio`; el Page Builder en
   `#/constructor`.
 - El tema se sincroniza con `?theme=` y se persiste en `localStorage`; si no
-  hay preferencia, se respeta `prefers-color-scheme`.
+  hay preferencia, se usa `classic`. El alto contraste es una elección explícita
+  y no depende de `prefers-color-scheme` (D-039).
 - `Ctrl/Cmd+K` abre el buscador de componentes desde cualquier ruta.
 
 La separación contenido/página permite migrar a Next.js o a un generador

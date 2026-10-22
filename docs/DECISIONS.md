@@ -36,7 +36,7 @@
 | D-017 | Publicación npm del CLI diferida | Superseded | 2026-10-21 |
 | D-018 | Code-splitting del sitio de docs | Accepted | 2026-10-21 |
 | D-019 | ScrollArea con flechas propias | Accepted | 2026-10-21 |
-| D-020 | Persistencia de tema local | Accepted | 2026-10-21 |
+| D-020 | Persistencia de tema local | Superseded | 2026-10-21 |
 | D-021 | Buscador de componentes con Ctrl+K | Accepted | 2026-10-21 |
 | D-022 | MDX para guías y metadatos por ruta | Accepted | 2026-10-21 |
 | D-023 | Playwright para teclado, foco, axe y regresión visual | Accepted | 2026-10-21 |
@@ -55,6 +55,7 @@
 | D-036 | Publicar `deskui` 0.2.0 y mantener `@deskui/ui` privado | Accepted | 2026-10-22 |
 | D-037 | Registry servido por el sitio en `/r` | Accepted | 2026-10-22 |
 | D-038 | Despliegue estático en el VPC con nginx | Accepted | 2026-10-22 |
+| D-039 | Tema clásico por defecto; alto contraste solo explícito | Accepted | 2026-10-22 |
 
 ---
 
@@ -476,7 +477,7 @@ que siguen usando scroll nativo mantienen el estilo de 16 px sin flechas.
 
 ## D-020 — Persistencia de tema local
 
-**Estado:** Accepted · **Contexto:** el tema se guardaba solo en la URL.
+**Estado:** Superseded por D-039 · **Contexto:** el tema se guardaba solo en la URL.
 
 **Decisión:** prioridad URL → `localStorage` → `prefers-color-scheme`. La URL
 sigue ganando para compartir capturas. La preferencia del sistema oscura usa el
@@ -999,6 +1000,37 @@ con Next.js (fuera de alcance y mayor coste operativo).
 
 **Enlaces:** `docs/deployment.md`, `apps/docs/vite.config.ts`,
 `apps/docs/src/lib/router.ts`.
+
+---
+
+---
+
+## D-039 — Tema clásico por defecto; alto contraste solo explícito
+
+**Estado:** Accepted · **Contexto:** el sitio aplicaba `prefers-color-scheme` y
+usaba el tema de alto contraste cuando el sistema operativo estaba en modo
+oscuro. El tema clásico es la identidad visual del producto y el alto contraste
+debe ser una ayuda elegida, no un efecto colateral del sistema.
+
+**Decisión:** el tema inicial se resuelve con URL → `localStorage` → `classic`.
+Se elimina la detección automática de `prefers-color-scheme` y el listener que
+cambiaba el tema al cambiar el sistema. El alto contraste sigue disponible en el
+selector de temas y se conserva si el usuario lo elige.
+
+**Consecuencias:**
+
+- Un visitante nuevo ve siempre el tema clásico, también con el sistema en modo
+  oscuro.
+- La elección explícita sigue ganando y se persiste en `localStorage`.
+- Un enlace con `?theme=high-contrast` mantiene prioridad para compartir.
+- Ya no hay cambios automáticos de tema mientras la página está abierta.
+
+**Alternativas:** mantener la detección del sistema (rechazada: el alto contraste
+no es un tema oscuro); añadir un tema oscuro propio (fuera de alcance); recordar
+el tema del sistema como preferencia implícita (más complejo y menos predecible).
+
+**Enlaces:** `apps/docs/src/lib/theme.ts`, `docs/architecture.md`,
+`docs/design-tokens.md`.
 
 ---
 

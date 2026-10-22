@@ -101,6 +101,8 @@ Todas las versiones relevantes se documentan aquí. El proyecto sigue
 - Las guías MDX ya no anidan párrafos dentro de `AlertDescription`.
 - Las tablas Markdown de las guías se renderizan como tablas reales
   (`remark-gfm`).
+- El sitio abre siempre en el tema `classic`; el alto contraste solo se activa
+  al elegirlo, no por el modo oscuro del sistema (D-039).
 - El `ProgressBar` del Page Builder recibe un nombre accesible y las plantillas
   incluyen un `h2` antes de las tarjetas `h3` para no saltar niveles de
   encabezado.

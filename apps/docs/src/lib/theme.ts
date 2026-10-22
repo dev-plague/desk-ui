@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 export type ThemeId =
   | "classic"
@@ -41,19 +41,14 @@ function readStoredTheme(): ThemeId | null {
   }
 }
 
-function readSystemTheme(): ThemeId {
-  return window.matchMedia?.("(prefers-color-scheme: dark)").matches
-    ? "high-contrast"
-    : "classic";
-}
-
 /**
  * Prioridad del tema: URL (`?theme=gradient`, para compartir capturas),
- * preferencia guardada en `localStorage` y, si no hay ninguna, la
- * preferencia del sistema. El tema oscuro del sistema usa alto contraste.
+ * preferencia guardada en `localStorage` y, si no hay ninguna, el tema clásico.
+ * El alto contraste es una elección explícita, no se activa por el tema del
+ * sistema.
  */
 function readInitialTheme(): ThemeId {
-  return readUrlTheme() ?? readStoredTheme() ?? readSystemTheme();
+  return readUrlTheme() ?? readStoredTheme() ?? "classic";
 }
 
 function storeTheme(theme: ThemeId) {
@@ -71,12 +66,8 @@ function storeTheme(theme: ThemeId) {
  */
 export function useTheme() {
   const [theme, setThemeState] = useState<ThemeId>(readInitialTheme);
-  const explicitPreference = useRef(
-    readUrlTheme() !== null || readStoredTheme() !== null,
-  );
 
   const setTheme = useCallback((next: ThemeId) => {
-    explicitPreference.current = true;
     setThemeState(next);
     storeTheme(next);
   }, []);
@@ -104,23 +95,6 @@ export function useTheme() {
       }
     }
   }, [theme]);
-
-  useEffect(() => {
-    const media = window.matchMedia?.("(prefers-color-scheme: dark)");
-    if (!media) {
-      return;
-    }
-
-    function onChange(event: MediaQueryListEvent) {
-      if (explicitPreference.current) {
-        return;
-      }
-      setThemeState(event.matches ? "high-contrast" : "classic");
-    }
-
-    media.addEventListener("change", onChange);
-    return () => media.removeEventListener("change", onChange);
-  }, []);
 
   return [theme, setTheme] as const;
 }

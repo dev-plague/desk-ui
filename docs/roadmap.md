@@ -49,7 +49,7 @@ sin dependencias ocultas.
 - [x] Buscador de componentes (`Ctrl+K`) y contenido MDX para guías.
 - [x] Metadatos por ruta y code-splitting del sitio.
 - [x] Playwright para teclado, foco, diálogos, axe y regresión visual.
-- [x] Persistencia de tema y `prefers-color-scheme`.
+- [x] Persistencia de tema y tema clásico por defecto.
 - [x] Guía de composición y Do & Don't ampliados.
 - [x] Páginas de Changelog y Contribuir en el sitio.
 - [ ] Publicación del CLI en npm (Fase 4).

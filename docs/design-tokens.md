@@ -160,6 +160,9 @@ Temas disponibles en tokens:
 - `high-contrast`: fondo negro, texto blanco, acentos amarillos, `color-scheme: dark`.
 - `desert`, `rose`, `storm`: paletas originales inspiradas en esquemas de la época.
 
+El tema inicial del sitio es `classic`. `high-contrast` es una elección explícita
+del selector y no se activa por el modo oscuro del sistema (D-039).
+
 Para crear un tema:
 
 ```css

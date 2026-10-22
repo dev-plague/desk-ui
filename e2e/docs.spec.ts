@@ -121,6 +121,12 @@ test("el Dialog atrapa el foco, cierra con Escape y lo restaura", async ({
 test("el tema se conserva al recargar y en la URL", async ({ page }) => {
   await open(page, "/temas");
 
+  // El modo oscuro del sistema ya no activa alto contraste (D-039).
+  await page.emulateMedia({ colorScheme: "dark" });
+  await page.reload();
+  await expect(page.locator("html")).toHaveAttribute("data-theme", "classic");
+  await expect(page).not.toHaveURL(/theme=/);
+
   await page.getByRole("button", { name: "Alto contraste" }).click();
   await expect(page.locator("html")).toHaveAttribute(
     "data-theme",
